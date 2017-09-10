@@ -1,2 +1,5 @@
-# conky
-in develop (maybe)
+# Conky
+## Installation
+
+	- 
+    - 

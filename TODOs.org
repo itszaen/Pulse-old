@@ -1,0 +1,55 @@
+* Conky Information
+** Computer name
+** Uptime
+** CPU
+*** Frequency MHz/GHz
+*** Usage
+*** Temperature
+** RAM
+*** Usage
+** Networking
+* Conky Display
+** Text
+** Graphical stuff
+*** lines
+*** boxes
+*** bars
+*** circles
+***
+***
+***
+* TODOs
+** TODO Finish the tutorial
+*** DONE display hello world
+    CLOSED: [2017-08-03 Thu 20:45]
+*** DONE display lines
+    CLOSED: [2017-08-05 Sat 13:40]
+*** TODO circle
+** TODO Installation Guide
+*** TODO KDE
+*** TODO GNOME
+    -- From the almighty ArchWiki
+    Some have experienced problems with conky showing up under GNOME.
+    Add these lines to conky.conf:
+    	own_window yes
+      own_window_type conky
+      own_window_transparent yes
+      own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+    If you still experience problems with transparency. You could add these lines.
+    	own_window_argb_visual yes
+      own_window_argb_value 255
+*** TODO Xfce
+    background = true
+*** TODO Cinnamon
+    own_window = true,
+    own_window_type = 'normal',
+    own_window_transparent = false,
+    own_window_hints = 'undecorated,sticky,below,skip_taskbar,skip_pager',
+    own_window_argb_visual = true,
+    own_window_argb_value = 192,
+    double_buffer = true,
+*** TODO Unity
+*** TODO Awesome
+    own_window = true,
+    own_window_type = 'override',
+** TODO
