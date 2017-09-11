@@ -18,13 +18,37 @@
 ***
 ***
 ***
+
 * TODOs
-** TODO Finish the tutorial
+** TODO Finish the tutorial [%]
 *** DONE display hello world
     CLOSED: [2017-08-03 Thu 20:45]
 *** DONE display lines
     CLOSED: [2017-08-05 Sat 13:40]
 *** TODO circle
+*** TODO
+
+** Implement [%]
+*** TODO Systemlog
+    journalctl
+*** TODO Internet Info
+    connections, speed
+*** TODO System info
+    CPU, RAM, ...
+*** TODO Ricing
+    Arch Linux Icon
+*** TODO Calendar
+    ISO date, ...
+    clickable button to change year-view, month-view, week-view, day-view
+*** TODO Weather
+    climate, temperature, air-pressure, percipitation probability, wind direction, sunrise-time, sunset-time, forecast
+*** TODO Event & Notifications
+
+*** Clock design
+**** TODO Clock faces
+    black oriented, digital, sci-fi
+
+
 ** TODO Installation Guide
 *** TODO KDE
 *** TODO GNOME
