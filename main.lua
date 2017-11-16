@@ -24,10 +24,13 @@ function conky_main()
     memory  =tonumber(conky_parse("${memperc}"))
     internet_connected = tonumber(conky_parse("${if_up wlan0}1${else}0${endif}"))
 
+  -- Screen --
+    screen_x = 1920
+    screen_y = 1080
   -- Object --
-    --- Hello World ---
+   --- Hello World ---
     ---- Property ----
-    font_hw="Noto Sans"
+    --[[font_hw="Noto Sans"
     font_size_hw=64
     text1_hw="hello world"
     xpos_hw,ypos_hw=100,100
@@ -41,6 +44,8 @@ function conky_main()
     cairo_move_to (cr,xpos_hw,ypos_hw)
     cairo_show_text (cr,text1_hw)
     cairo_stroke(cr)
+    ]]
+
     --- CPU Usage Bar ---
     ---- Property ----
     line_width=3
@@ -57,11 +62,12 @@ function conky_main()
     cairo_move_to (cr,startx,starty)
     cairo_line_to (cr,endx,endy)
     cairo_stroke (cr)
+
     --- Circle ---
     ---- Property ----
     center_x_c = 960
     center_y_c = 540
-    radius_c = 200
+    radius_c = 250
     width_c = 5
     start_angle_c = 0
     end_angle_c = 2*math.pi
@@ -76,6 +82,29 @@ function conky_main()
     cairo_close_path (cr)
     cairo_stroke (cr)
 
+    --- Date & Time ---
+    ---- Property ----
+    local extents=cairo_text_extents_t:create()
+    tolua.takeownership(extents)
+    dtcenter_font="Noto Sans"
+    dtcenter_font_slant = CAIRO_FONT_SLANT_NORMAL
+    dtcenter_font_face = CAIRO_FONT_WEIGHT_NORMAL
+    dtcenter_font_size=96
+    dtcenter_seconds=tonumber(os.date("%S"))
+    dtcenter_minutes=tonumber(os.date("%M"))
+    dtcenter_hours=tonumber(os.date("%H"))
+    dtcenter_text = dtcenter_hours .. ":" .. dtcenter_minutes .. ":" .. dtcenter_seconds
+
+    ---- Drawing ----
+    cairo_select_font_face (cr, dtcenter_font, dtcenter_font_slant, dtcenter_font_face)
+    cairo_set_font_size (cr, dtcenter_font_size)
+    cairo_set_source_rgba (cr,1,1,1,1)
+    cairo_text_extents (cr, dtcenter_text, extents)
+    dtcenter_xpos = screen_x/2 - (extents.width/2 + extents.x_bearing)
+    dtcenter_ypos = screen_y/2 - (extents.height/2 + extents.y_bearing)
+    cairo_move_to (cr, dtcenter_xpos, dtcenter_ypos)
+    cairo_show_text (cr, dtcenter_text)
+    cairo_stroke(cr)
   end
 
 
