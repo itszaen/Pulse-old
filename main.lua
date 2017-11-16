@@ -90,11 +90,12 @@ function conky_main()
     dtcenter_font_slant = CAIRO_FONT_SLANT_NORMAL
     dtcenter_font_face = CAIRO_FONT_WEIGHT_NORMAL
     dtcenter_font_size=96
-    dtcenter_seconds=tonumber(os.date("%S"))
-    dtcenter_minutes=tonumber(os.date("%M"))
-    dtcenter_hours=tonumber(os.date("%H"))
+    dtcenter_seconds=os.date("%S")
+    dtcenter_minutes=os.date("%M")
+    dtcenter_hours=os.date("%H")
     dtcenter_text = dtcenter_hours .. ":" .. dtcenter_minutes .. ":" .. dtcenter_seconds
-
+    --dtcenter_time = tonumber(os.date("%X"))
+    --dtcenter_text = dtcenter_time .. ":"
     ---- Drawing ----
     cairo_select_font_face (cr, dtcenter_font, dtcenter_font_slant, dtcenter_font_face)
     cairo_set_font_size (cr, dtcenter_font_size)
