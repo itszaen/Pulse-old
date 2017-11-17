@@ -108,6 +108,10 @@ function conky_main()
     cairo_stroke(cr)
   end
 
+  --- System Log ---
+  ---- Property ----
+  local file = io.open()
+  ---- Drawing ----
 
   cairo_destroy(cr)
   cairo_surface_destroy(cs)
