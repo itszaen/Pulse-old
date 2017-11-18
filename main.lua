@@ -1,5 +1,7 @@
 require 'cairo'
 
+conky_start = 1
+
 function conky_main()
   if conky_window == nil then return end
   local cs = cairo_xlib_surface_create(
@@ -83,9 +85,9 @@ function conky_main()
     cairo_stroke (cr)
 
     --- Date & Time ---
-    ---- Property ----
     local extents=cairo_text_extents_t:create()
     tolua.takeownership(extents)
+    ---- Property ----
     dtcenter_font="Noto Sans"
     dtcenter_font_slant = CAIRO_FONT_SLANT_NORMAL
     dtcenter_font_face = CAIRO_FONT_WEIGHT_NORMAL
@@ -110,9 +112,42 @@ function conky_main()
 
   --- System Log ---
   ---- Property ----
-  local file = io.open()
+  --local file = io.open()
   ---- Drawing ----
 
+  --- System Storage Information ---
+  info_ss_interval = 10
+  info_ss_timer = (updates % info_ss_interval)
+  if info_ss_timer == 0 or conky_start == 1 then
+    used_table = {}
+    local file = io.popen("df -h")
+    --[[for line in file:lines() do
+      print ("yeah")
+      s,f,used=string.find(line,"[%d%p]*%u%s*([%d%p%a]*)%s")
+      table.insert(used_table,used)
+      end ]]
+    df_output = file:read ("*a")
+    file:close()
+    conky_start = nil
+  end
+  -- print (used_table[2])
+  ---- Property ----
+  info_ss_font="Noto Sans"
+  info_ss_font_slant = CAIRO_FONT_SLANT_NORMAL
+  info_ss_font_face = CAIRO_FONT_WEIGHT_NORMAL
+  info_ss_font_size = 20
+  info_ss_xpos = 20
+  info_ss_ypos = 400
+  ---- Drawing ----
+  cairo_select_font_face (cr, info_ss_font, info_ss_font_slant, info_ss_font_face)
+  cairo_set_font_size (cr, info_ss_font_size)
+  cairo_set_source_rgba(cr,1,1,1,1)
+  cairo_move_to (cr, info_ss_xpos, info_ss_ypos)
+  cairo_show_text (cr, df_output)
+  cairo_stroke(cr)
+
+
+  -----------
   cairo_destroy(cr)
   cairo_surface_destroy(cs)
   cr = nil
