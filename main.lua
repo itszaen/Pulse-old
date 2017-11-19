@@ -19,7 +19,7 @@ function conky_main()
 
   -- Info to terminal --
   --- 'Conky is running' 1/s ---
-    print ("conky is running!")
+    --print ("conky is running!")
 
   -- Parsing --
     cpu     =tonumber(conky_parse("${cpu}"))
@@ -108,46 +108,48 @@ function conky_main()
     cairo_move_to (cr, dtcenter_xpos, dtcenter_ypos)
     cairo_show_text (cr, dtcenter_text)
     cairo_stroke(cr)
-  end
+    --- System Log ---
+    ---- Property ----
+    --local file = io.open()
+    ---- Drawing ----
 
-  --- System Log ---
-  ---- Property ----
-  --local file = io.open()
-  ---- Drawing ----
+    --- System Storage Information ---
+    cairo_select_font_face (cr, info_ss_font, info_ss_font_slant, info_ss_font_face)
+    cairo_set_font_size (cr, info_ss_font_size)
+    cairo_set_source_rgba(cr,1,1,1,1)
+    info_ss_interval = 10
+    info_ss_timer = (updates % info_ss_interval)
+    ---- Property ----
+    info_ss_font="Inconsolata"
+    info_ss_font_slant = CAIRO_FONT_SLANT_NORMAL
+    info_ss_font_face = CAIRO_FONT_WEIGHT_NORMAL
+    info_ss_font_size = 20
+    info_ss_xpos = 20
+    info_ss_ypos = 400
 
-  --- System Storage Information ---
-  info_ss_interval = 10
-  info_ss_timer = (updates % info_ss_interval)
-  if info_ss_timer == 0 or conky_start == 1 then
-    used_table = {}
-    local file = io.popen("df -h")
-    --[[for line in file:lines() do
-      print ("yeah")
-      s,f,used=string.find(line,"[%d%p]*%u%s*([%d%p%a]*)%s")
-      table.insert(used_table,used)
-      end ]]
-    df_output = file:read ("*a")
-    file:close()
+
+    if info_ss_timer == 0 or conky_start == 1 then
+    v_content = {}
+      ss_file = io.popen("df -h")
+      for line in ss_file:lines() do
+        df_output = line
+        table.insert(v_content, df_output)
+      end
+      ss_file:close()
+    end
+    n = 1
+    for i, line in ipairs(v_content) do
+      df_output = line
+      info_ss_ypos = info_ss_ypos + info_ss_font_size*2.4
+      cairo_move_to (cr,info_ss_xpos ,info_ss_ypos)
+      cairo_show_text (cr, df_output)
+      n = n + 1
+    end
     conky_start = nil
+    cairo_stroke (cr)
+
   end
-  -- print (used_table[2])
-  ---- Property ----
-  info_ss_font="Noto Sans"
-  info_ss_font_slant = CAIRO_FONT_SLANT_NORMAL
-  info_ss_font_face = CAIRO_FONT_WEIGHT_NORMAL
-  info_ss_font_size = 20
-  info_ss_xpos = 20
-  info_ss_ypos = 400
-  ---- Drawing ----
-  cairo_select_font_face (cr, info_ss_font, info_ss_font_slant, info_ss_font_face)
-  cairo_set_font_size (cr, info_ss_font_size)
-  cairo_set_source_rgba(cr,1,1,1,1)
-  cairo_move_to (cr, info_ss_xpos, info_ss_ypos)
-  cairo_show_text (cr, df_output)
-  cairo_stroke(cr)
 
-
-  -----------
   cairo_destroy(cr)
   cairo_surface_destroy(cs)
   cr = nil
@@ -157,4 +159,11 @@ end
 --- converts color in hexa to decimal ---
 function rgb_to_r_g_b(colour, alpha)
   return ((colour / 0x10000) % 0x100) / 255., ((colour / 0x100) % 0x100) / 255., (colour % 0x100) / 255., alpha
+end
+function magiclines(str)
+  local s = tostring(str)
+  a = type(s)
+  print (a)
+  if s:sub(-1)~="\n" then s=s.."\n" end
+  return s:gmatch("(.-)\n")
 end
