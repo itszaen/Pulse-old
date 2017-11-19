@@ -30,41 +30,6 @@ function conky_main()
     screen_x = 1920
     screen_y = 1080
   -- Object --
-   --- Hello World ---
-    ---- Property ----
-    --[[font_hw="Noto Sans"
-    font_size_hw=64
-    text1_hw="hello world"
-    xpos_hw,ypos_hw=100,100
-    red_hw,green_hw,blue_hw,alpha_hw=1,1,1,1
-    font_slant_hw=CAIRO_FONT_SLANT_NORMAL
-    font_face_hw=CAIRO_FONT_WEIGHT_NORMAL
-    ---- Drawing ----
-    cairo_select_font_face (cr, font_hw, font_slant_hw, font_face_hw)
-    cairo_set_font_size (cr, font_size_hw)
-    cairo_set_source_rgba (cr,red_hw,green_hw,blue_hw,alpha_hw)
-    cairo_move_to (cr,xpos_hw,ypos_hw)
-    cairo_show_text (cr,text1_hw)
-    cairo_stroke(cr)
-    ]]
-
-    --- CPU Usage Bar ---
-    ---- Property ----
-    line_width=3
-    line_cap=CAIRO_LINE_CAP_BUTT
-    red,green,blue,alpha=1,1,1,1
-    startx=200
-    starty=200
-    endx=startx+(cpu*20)
-    endy=starty
-    ---- Drawing ----
-    cairo_set_line_width (cr,line_width)
-    cairo_set_line_cap  (cr, line_cap)
-    cairo_set_source_rgba (cr,red,green,blue,alpha)
-    cairo_move_to (cr,startx,starty)
-    cairo_line_to (cr,endx,endy)
-    cairo_stroke (cr)
-
     --- Circle ---
     ---- Property ----
     center_x_c = 960
@@ -76,7 +41,7 @@ function conky_main()
     bg_red_c = 1
     bg_green_c = 1
     bg_blue_c = 1
-    bg_alpha_c = 1
+    bg_alpha_c = 0.7
     ---- Draw ----
     cairo_set_line_width (cr, width_c)
     cairo_set_source_rgba (cr, bg_red_c, bg_green_c, bg_blue_c, bg_alpha_c)
@@ -101,7 +66,7 @@ function conky_main()
     ---- Drawing ----
     cairo_select_font_face (cr, dtcenter_font, dtcenter_font_slant, dtcenter_font_face)
     cairo_set_font_size (cr, dtcenter_font_size)
-    cairo_set_source_rgba (cr,1,1,1,1)
+    cairo_set_source_rgba (cr,1,1,1,0.6)
     cairo_text_extents (cr, dtcenter_text, extents)
     dtcenter_xpos = screen_x/2 - (extents.width/2 + extents.x_bearing)
     dtcenter_ypos = screen_y/2 - (extents.height/2 + extents.y_bearing)
@@ -109,14 +74,44 @@ function conky_main()
     cairo_show_text (cr, dtcenter_text)
     cairo_stroke(cr)
     --- System Log ---
+    cairo_select_font_face (cr, info_sl_font, info_sl_font_slant, info_sl_font_face)
+    cairo_set_font_size (cr, info_sl_font_size)
+    cairo_set_source_rgba(cr,1,1,1,0.7)
+    info_sl_interval = 5
+    info_sl_timer = (updates % info_sl_interval)
     ---- Property ----
-    --local file = io.open()
+    info_sl_font="Inconsolata"
+    info_sl_font_slant = CAIRO_FONT_SLANT_NORMAL
+    info_sl_font_face = CAIRO_FONT_WEIGHT_NORMAL
+    info_sl_font_size = 15
+    info_sl_xpos = 40
+    info_sl_ypos = 700
+
+
+    if info_sl_timer == 0 or conky_start == 1 then
+      info_sl_content_table = {}
+      sl_file = io.open("/home/zaen/.journal", "r")
+      for line in sl_file:lines() do
+        info_sl_content = line
+        table.insert(info_sl_content_table, info_sl_content)
+      end
+      sl_file:close()
+    end
+    n = 1
+    for i, line in ipairs (info_sl_content_table) do
+      info_sl_content = line
+      info_sl_ypos = info_sl_ypos + info_sl_font_size*1.3
+      cairo_move_to (cr,info_sl_xpos , info_sl_ypos)
+      cairo_show_text (cr, info_sl_content)
+      n = n+1
+    end
+
     ---- Drawing ----
 
     --- System Storage Information ---
     cairo_select_font_face (cr, info_ss_font, info_ss_font_slant, info_ss_font_face)
     cairo_set_font_size (cr, info_ss_font_size)
-    cairo_set_source_rgba(cr,1,1,1,1)
+    cairo_set_source_rgba(cr,1,1,1,0.7)
     info_ss_interval = 10
     info_ss_timer = (updates % info_ss_interval)
     ---- Property ----
@@ -124,30 +119,30 @@ function conky_main()
     info_ss_font_slant = CAIRO_FONT_SLANT_NORMAL
     info_ss_font_face = CAIRO_FONT_WEIGHT_NORMAL
     info_ss_font_size = 20
-    info_ss_xpos = 20
+    info_ss_xpos = 40
     info_ss_ypos = 400
 
 
     if info_ss_timer == 0 or conky_start == 1 then
-    v_content = {}
+    info_ss_content_table = {}
       ss_file = io.popen("df -h")
       for line in ss_file:lines() do
-        df_output = line
-        table.insert(v_content, df_output)
+        info_ss_content = line
+        table.insert(info_ss_content_table, info_ss_content)
       end
       ss_file:close()
     end
     n = 1
-    for i, line in ipairs(v_content) do
-      df_output = line
-      info_ss_ypos = info_ss_ypos + info_ss_font_size*2.4
+    for i, line in ipairs(info_ss_content_table) do
+      info_ss_content = line
+      info_ss_ypos = info_ss_ypos + info_ss_font_size*1.4
       cairo_move_to (cr,info_ss_xpos ,info_ss_ypos)
-      cairo_show_text (cr, df_output)
+      cairo_show_text (cr, info_ss_content)
       n = n + 1
     end
-    conky_start = nil
     cairo_stroke (cr)
 
+    conky_start = nil
   end
 
   cairo_destroy(cr)
