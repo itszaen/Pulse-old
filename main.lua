@@ -74,68 +74,68 @@ function conky_main()
     cairo_show_text (cr, dtcenter_text)
     cairo_stroke(cr)
     --- System Log ---
-    cairo_select_font_face (cr, info_sl_font, info_sl_font_slant, info_sl_font_face)
-    cairo_set_font_size (cr, info_sl_font_size)
+    cairo_select_font_face (cr, sl_font, sl_font_slant, sl_font_face)
+    cairo_set_font_size (cr, sl_font_size)
     cairo_set_source_rgba(cr,1,1,1,0.7)
-    info_sl_interval = 5
-    info_sl_timer = (updates % info_sl_interval)
+    sl_interval = 5
+    sl_timer = (updates % sl_interval)
     ---- Property ----
-    info_sl_font="Inconsolata"
-    info_sl_font_slant = CAIRO_FONT_SLANT_NORMAL
-    info_sl_font_face = CAIRO_FONT_WEIGHT_NORMAL
-    info_sl_font_size = 15
-    info_sl_xpos = 40
-    info_sl_ypos = 700
+    sl_font="Inconsolata"
+    sl_font_slant = CAIRO_FONT_SLANT_NORMAL
+    sl_font_face = CAIRO_FONT_WEIGHT_NORMAL
+    sl_font_size = 15
+    sl_xpos = 40
+    sl_ypos = 700
 
 
-    if info_sl_timer == 0 or conky_start == 1 then
-      info_sl_content_table = {}
+    if sl_timer == 0 or conky_start == 1 then
+      sl_content_table = {}
       sl_file = io.open("/home/zaen/.journal", "r")
       for line in sl_file:lines() do
-        info_sl_content = line
-        table.insert(info_sl_content_table, info_sl_content)
+        sl_content = line
+        table.insert(sl_content_table, sl_content)
       end
       sl_file:close()
     end
     n = 1
-    for i, line in ipairs (info_sl_content_table) do
-      info_sl_content = line
-      info_sl_ypos = info_sl_ypos + info_sl_font_size*1.3
-      cairo_move_to (cr,info_sl_xpos , info_sl_ypos)
-      cairo_show_text (cr, info_sl_content)
+    for i, line in ipairs (sl_content_table) do
+      sl_content = line
+      sl_ypos = sl_ypos + sl_font_size*1.3
+      cairo_move_to (cr,sl_xpos , sl_ypos)
+      cairo_show_text (cr, sl_content)
       n = n+1
     end
 
     --- System Storage Information ---
-    cairo_select_font_face (cr, info_ss_font, info_ss_font_slant, info_ss_font_face)
-    cairo_set_font_size (cr, info_ss_font_size)
+    cairo_select_font_face (cr, ss_font, ss_font_slant, ss_font_face)
+    cairo_set_font_size (cr, ss_font_size)
     cairo_set_source_rgba(cr,1,1,1,0.7)
-    info_ss_interval = 10
-    info_ss_timer = (updates % info_ss_interval)
+    ss_interval = 10
+    ss_timer = (updates % ss_interval)
     ---- Property ----
-    info_ss_font="Inconsolata"
-    info_ss_font_slant = CAIRO_FONT_SLANT_NORMAL
-    info_ss_font_face = CAIRO_FONT_WEIGHT_NORMAL
-    info_ss_font_size = 18
-    info_ss_xpos = 40
-    info_ss_ypos = 400
+    ss_font="Inconsolata"
+    ss_font_slant = CAIRO_FONT_SLANT_NORMAL
+    ss_font_face = CAIRO_FONT_WEIGHT_NORMAL
+    ss_font_size = 18
+    ss_xpos = 40
+    ss_ypos = 400
 
 
-    if info_ss_timer == 0 or conky_start == 1 then
-    info_ss_content_table = {}
+    if ss_timer == 0 or conky_start == 1 then
+    ss_content_table = {}
       ss_file = io.popen("df -h")
       for line in ss_file:lines() do
-        info_ss_content = line
-        table.insert(info_ss_content_table, info_ss_content)
+        ss_content = line
+        table.insert(ss_content_table, ss_content)
       end
       ss_file:close()
     end
     n = 1
-    for i, line in ipairs(info_ss_content_table) do
-      info_ss_content = line
-      info_ss_ypos = info_ss_ypos + info_ss_font_size*1.4
-      cairo_move_to (cr,info_ss_xpos ,info_ss_ypos)
-      cairo_show_text (cr, info_ss_content)
+    for i, line in ipairs(ss_content_table) do
+      ss_content = line
+      ss_ypos = ss_ypos + ss_font_size*1.4
+      cairo_move_to (cr,ss_xpos ,ss_ypos)
+      cairo_show_text (cr, ss_content)
       n = n + 1
     end
     cairo_stroke (cr)
