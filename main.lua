@@ -35,7 +35,7 @@ function conky_main()
     center_x_c = 960
     center_y_c = 540
     radius_c = 250
-    width_c = 5
+    width_c = 4
     start_angle_c = 0
     end_angle_c = 2*math.pi
     bg_red_c = 1
@@ -119,8 +119,7 @@ function conky_main()
     ss_font_size = 18
     ss_xpos = 40
     ss_ypos = 400
-
-
+    ---- Function ----
     if ss_timer == 0 or conky_start == 1 then
     ss_content_table = {}
       ss_file = io.popen("df -h")
@@ -140,13 +139,33 @@ function conky_main()
     end
     cairo_stroke (cr)
 
-    conky_start = nil
-  end
+    --- CPU Indicator Arc ---
+    ---- Property ----
+    ci_interval = 10
+    ci_timer = (updates % ci_interval)
+    ci_gap = 300 -- between this and the r=250 circle
+    ci_radius = 500
+    ci_width = 1
+    ci_height = radius_c * 2
+    ci_range =  (math.asin(ci_height / (ci_radius*2)))*180/math.pi   -- perfect range to cover from bottom to top of the adjacent ring
+    ci_start_angle = (180 - ci_range)*math.pi/180
+    ci_end_angle   = (180 + ci_range)*math.pi/180
+    ci_center_xpos = screen_x / 2 + ci_radius - ci_gap
+    ci_center_ypos = screen_y / 2
+    ---- Drawing ----
+    cairo_set_line_width (cr,ci_width)
+    cairo_set_source_rgba (cr,1,1,1,1)
+    cairo_arc (cr, ci_center_xpos, ci_center_ypos, ci_radius, ci_start_angle, ci_end_angle)
+    cairo_stroke (cr)
+
+    conky_start = nil -- 1st time flag
+
+  end -- if updates > 1
 
   cairo_destroy(cr)
   cairo_surface_destroy(cs)
   cr = nil
-end
+end -- conky_main()
 
 -- Functions --
 --- converts color in hexa to decimal ---
