@@ -106,8 +106,6 @@ function conky_main()
       n = n+1
     end
 
-    ---- Drawing ----
-
     --- System Storage Information ---
     cairo_select_font_face (cr, info_ss_font, info_ss_font_slant, info_ss_font_face)
     cairo_set_font_size (cr, info_ss_font_size)
@@ -118,7 +116,7 @@ function conky_main()
     info_ss_font="Inconsolata"
     info_ss_font_slant = CAIRO_FONT_SLANT_NORMAL
     info_ss_font_face = CAIRO_FONT_WEIGHT_NORMAL
-    info_ss_font_size = 20
+    info_ss_font_size = 18
     info_ss_xpos = 40
     info_ss_ypos = 400
 
