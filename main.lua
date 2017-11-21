@@ -30,6 +30,15 @@ function conky_main()
     screen_x = 1920
     screen_y = 1080
   -- Object --
+    --- Arch Linux Image ---
+--[[
+    ali_surface = cairo_image_surface_create_from_png ("~/.config/conky/image/ArchLinux.png")
+    ali_width = cairo_image_surface_get_width(ali_image)
+    ali_height = cairo_image_surface_get_height(ali_image)
+
+    cairo_scale (cr, 1, 1)
+    cairo_set_source_surface (ali_surface, ali_image, 0, 0)
+  cairo_paint (cr) ]]
     --- Circle ---
     ---- Property ----
     center_x_c = 960
@@ -76,20 +85,21 @@ function conky_main()
     cairo_select_font_face (cr, sl_font, sl_font_slant, sl_font_face)
     cairo_set_font_size (cr, sl_font_size)
     cairo_set_source_rgba(cr,1,1,1,0.7)
-    sl_interval = 5
+    sl_interval = 1
     sl_timer = (updates % sl_interval)
     ---- Property ----
     sl_font="Inconsolata"
     sl_font_slant = CAIRO_FONT_SLANT_NORMAL
     sl_font_face = CAIRO_FONT_WEIGHT_NORMAL
-    sl_font_size = 15
+    sl_font_size = 13
     sl_xpos = 40
-    sl_ypos = 700
+    sl_ypos = 650
 
 
     if sl_timer == 0 or conky_start == 1 then
       sl_content_table = {}
-      sl_file = io.open("/home/zaen/.journal", "r")
+      os.execute("~/.config/conky/journal_dump.sh")
+      sl_file = io.open("/home/zaen/.journal.txt", "r")
       for line in sl_file:lines() do
         sl_content = line
         table.insert(sl_content_table, sl_content)
@@ -144,8 +154,8 @@ function conky_main()
     ci_width = 1
     ci_height = radius_c * 2
     ---- Left x Left ----
-    ci_ll_gap = 300 -- between this and the r=250 circle
-    ci_ll_radius = 500
+    ci_ll_gap = 280 -- between this and the r=250 circle
+    ci_ll_radius = 350
     ci_ll_range =  (math.asin(ci_height / (ci_ll_radius*2)))*180/math.pi   -- perfect range to cover from bottom to top of the adjacent ring
     ci_ll_start_angle = (180 - ci_ll_range)*math.pi/180
     ci_ll_end_angle   = (180 + ci_ll_range)*math.pi/180
@@ -156,8 +166,8 @@ function conky_main()
     cairo_arc (cr, ci_ll_center_xpos, ci_ll_center_ypos, ci_ll_radius, ci_ll_start_angle, ci_ll_end_angle)
     cairo_stroke (cr)
     ---- Left x Right ----
-    ci_lr_gap = 270
-    ci_lr_radius = 350
+    ci_lr_gap = 250
+    ci_lr_radius = 280
     ci_lr_range =  (math.asin(ci_height / (ci_lr_radius*2)))*180/math.pi
     ci_lr_start_angle = (180 - ci_lr_range)*math.pi/180
     ci_lr_end_angle   = (180 + ci_lr_range)*math.pi/180
@@ -168,8 +178,8 @@ function conky_main()
     cairo_arc(cr, ci_lr_center_xpos, ci_lr_center_ypos, ci_lr_radius, ci_lr_start_angle, ci_lr_end_angle)
     cairo_stroke (cr)
     ---- Right x Left ----
-    ci_rl_gap = 270
-    ci_rl_radius = 350
+    ci_rl_gap = 250
+    ci_rl_radius = 280
     ci_rl_range =  (math.asin(ci_height / (ci_rl_radius*2)))*180/math.pi
     ci_rl_start_angle = (0 - ci_rl_range)*math.pi/180
     ci_rl_end_angle   = (0 + ci_rl_range)*math.pi/180
@@ -180,8 +190,8 @@ function conky_main()
     cairo_arc(cr, ci_rl_center_xpos, ci_rl_center_ypos, ci_rl_radius, ci_rl_start_angle, ci_rl_end_angle)
     cairo_stroke (cr)
     ---- Right x Right ----
-    ci_rr_gap = 300
-    ci_rr_radius = 500
+    ci_rr_gap = 280
+    ci_rr_radius = 350
     ci_rr_range =  (math.asin(ci_height / (ci_rr_radius*2)))*180/math.pi
     ci_rr_start_angle = (0 - ci_rr_range)*math.pi/180
     ci_rr_end_angle   = (0 + ci_rr_range)*math.pi/180
@@ -196,7 +206,7 @@ function conky_main()
     conky_start = nil -- 1st time flag
 
   end -- if updates > 1
-
+  -- cairo_surface_destroy(ali_image)
   cairo_destroy(cr)
   cairo_surface_destroy(cs)
   cr = nil
