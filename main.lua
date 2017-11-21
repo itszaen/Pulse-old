@@ -61,8 +61,6 @@ function conky_main()
     dtcenter_minutes=os.date("%M")
     dtcenter_hours=os.date("%H")
     dtcenter_text = dtcenter_hours .. ":" .. dtcenter_minutes .. ":" .. dtcenter_seconds
-    --dtcenter_time = tonumber(os.date("%X"))
-    --dtcenter_text = dtcenter_time .. ":"
     ---- Drawing ----
     cairo_select_font_face (cr, dtcenter_font, dtcenter_font_slant, dtcenter_font_face)
     cairo_set_font_size (cr, dtcenter_font_size)
@@ -73,6 +71,7 @@ function conky_main()
     cairo_move_to (cr, dtcenter_xpos, dtcenter_ypos)
     cairo_show_text (cr, dtcenter_text)
     cairo_stroke(cr)
+
     --- System Log ---
     cairo_select_font_face (cr, sl_font, sl_font_slant, sl_font_face)
     cairo_set_font_size (cr, sl_font_size)
@@ -140,23 +139,59 @@ function conky_main()
     cairo_stroke (cr)
 
     --- CPU Indicator Arc ---
-    ---- Property ----
     ci_interval = 10
     ci_timer = (updates % ci_interval)
-    ci_gap = 300 -- between this and the r=250 circle
-    ci_radius = 500
     ci_width = 1
     ci_height = radius_c * 2
-    ci_range =  (math.asin(ci_height / (ci_radius*2)))*180/math.pi   -- perfect range to cover from bottom to top of the adjacent ring
-    ci_start_angle = (180 - ci_range)*math.pi/180
-    ci_end_angle   = (180 + ci_range)*math.pi/180
-    ci_center_xpos = screen_x / 2 + ci_radius - ci_gap
-    ci_center_ypos = screen_y / 2
-    ---- Drawing ----
+    ---- Left x Left ----
+    ci_ll_gap = 300 -- between this and the r=250 circle
+    ci_ll_radius = 500
+    ci_ll_range =  (math.asin(ci_height / (ci_ll_radius*2)))*180/math.pi   -- perfect range to cover from bottom to top of the adjacent ring
+    ci_ll_start_angle = (180 - ci_ll_range)*math.pi/180
+    ci_ll_end_angle   = (180 + ci_ll_range)*math.pi/180
+    ci_ll_center_xpos = screen_x / 2 + ci_ll_radius - ci_ll_gap
+    ci_ll_center_ypos = screen_y / 2
     cairo_set_line_width (cr,ci_width)
     cairo_set_source_rgba (cr,1,1,1,1)
-    cairo_arc (cr, ci_center_xpos, ci_center_ypos, ci_radius, ci_start_angle, ci_end_angle)
+    cairo_arc (cr, ci_ll_center_xpos, ci_ll_center_ypos, ci_ll_radius, ci_ll_start_angle, ci_ll_end_angle)
     cairo_stroke (cr)
+    ---- Left x Right ----
+    ci_lr_gap = 270
+    ci_lr_radius = 350
+    ci_lr_range =  (math.asin(ci_height / (ci_lr_radius*2)))*180/math.pi
+    ci_lr_start_angle = (180 - ci_lr_range)*math.pi/180
+    ci_lr_end_angle   = (180 + ci_lr_range)*math.pi/180
+    ci_lr_center_xpos = screen_x / 2 + ci_lr_radius - ci_lr_gap
+    ci_lr_center_ypos = screen_y / 2
+    cairo_set_line_width (cr, ci_width)
+    cairo_set_source_rgba (cr,1,1,1,1)
+    cairo_arc(cr, ci_lr_center_xpos, ci_lr_center_ypos, ci_lr_radius, ci_lr_start_angle, ci_lr_end_angle)
+    cairo_stroke (cr)
+    ---- Right x Left ----
+    ci_rl_gap = 270
+    ci_rl_radius = 350
+    ci_rl_range =  (math.asin(ci_height / (ci_rl_radius*2)))*180/math.pi
+    ci_rl_start_angle = (0 - ci_rl_range)*math.pi/180
+    ci_rl_end_angle   = (0 + ci_rl_range)*math.pi/180
+    ci_rl_center_xpos = screen_x / 2 - ci_rl_radius + ci_rl_gap
+    ci_rl_center_ypos = screen_y / 2
+    cairo_set_line_width (cr, ci_width)
+    cairo_set_source_rgba (cr,1,1,1,1)
+    cairo_arc(cr, ci_rl_center_xpos, ci_rl_center_ypos, ci_rl_radius, ci_rl_start_angle, ci_rl_end_angle)
+    cairo_stroke (cr)
+    ---- Right x Right ----
+    ci_rr_gap = 300
+    ci_rr_radius = 500
+    ci_rr_range =  (math.asin(ci_height / (ci_rr_radius*2)))*180/math.pi
+    ci_rr_start_angle = (0 - ci_rr_range)*math.pi/180
+    ci_rr_end_angle   = (0 + ci_rr_range)*math.pi/180
+    ci_rr_center_xpos = screen_x / 2 - ci_rr_radius + ci_rr_gap
+    ci_rr_center_ypos = screen_y / 2
+    cairo_set_line_width (cr, ci_width)
+    cairo_set_source_rgba (cr,1,1,1,1)
+    cairo_arc(cr, ci_rr_center_xpos, ci_rr_center_ypos, ci_rr_radius, ci_rr_start_angle, ci_rr_end_angle)
+    cairo_stroke (cr)
+
 
     conky_start = nil -- 1st time flag
 
