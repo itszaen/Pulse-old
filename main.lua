@@ -17,20 +17,20 @@ function conky_main()
   local updates = tonumber(conky_parse('${updates}'))
   if updates>1 then
 
-  -- Info to terminal --
-  --- 'Conky is running' 1/s ---
+  -- Info to terminal
+  --- 'Conky is running' 1/s
     --print ("conky is running!")
 
-  -- Parsing --
+  -- Parsing
     cpu     =tonumber(conky_parse("${cpu}"))
     memory  =tonumber(conky_parse("${memperc}"))
     internet_connected = tonumber(conky_parse("${if_up wlan0}1${else}0${endif}"))
 
-  -- Screen --
+  -- Screen
     screen_x = 1920
     screen_y = 1080
-  -- Object --
-    --- Arch Linux Image ---
+  -- Object
+    --- Arch Linux Image
 --[[
     ali_surface = cairo_image_surface_create_from_png ("~/.config/conky/image/ArchLinux.png")
     ali_width = cairo_image_surface_get_width(ali_image)
@@ -39,8 +39,8 @@ function conky_main()
     cairo_scale (cr, 1, 1)
     cairo_set_source_surface (ali_surface, ali_image, 0, 0)
   cairo_paint (cr) ]]
-    --- Circle ---
-    ---- Property ----
+    --- Circle
+    ---- Property
     center_x_c = 960
     center_y_c = 540
     radius_c = 250
@@ -51,17 +51,17 @@ function conky_main()
     bg_green_c = 1
     bg_blue_c = 1
     bg_alpha_c = 0.7
-    ---- Draw ----
+    ---- Draw
     cairo_set_line_width (cr, width_c)
     cairo_set_source_rgba (cr, bg_red_c, bg_green_c, bg_blue_c, bg_alpha_c)
     cairo_arc (cr, center_x_c, center_y_c, radius_c, start_angle_c, end_angle_c)
     cairo_close_path (cr)
     cairo_stroke (cr)
 
-    --- Date & Time ---
+    --- Date & Time
     local extents=cairo_text_extents_t:create()
     tolua.takeownership(extents)
-    ---- Property ----
+    ---- Property
     dtcenter_font="Noto Sans"
     dtcenter_font_slant = CAIRO_FONT_SLANT_NORMAL
     dtcenter_font_face = CAIRO_FONT_WEIGHT_NORMAL
@@ -70,7 +70,7 @@ function conky_main()
     dtcenter_minutes=os.date("%M")
     dtcenter_hours=os.date("%H")
     dtcenter_text = dtcenter_hours .. ":" .. dtcenter_minutes .. ":" .. dtcenter_seconds
-    ---- Drawing ----
+    ---- Drawing
     cairo_select_font_face (cr, dtcenter_font, dtcenter_font_slant, dtcenter_font_face)
     cairo_set_font_size (cr, dtcenter_font_size)
     cairo_set_source_rgba (cr,1,1,1,0.6)
@@ -81,13 +81,13 @@ function conky_main()
     cairo_show_text (cr, dtcenter_text)
     cairo_stroke(cr)
 
-    --- System Log ---
+    --- System Log
     cairo_select_font_face (cr, sl_font, sl_font_slant, sl_font_face)
     cairo_set_font_size (cr, sl_font_size)
     cairo_set_source_rgba(cr,1,1,1,0.7)
     sl_interval = 1
     sl_timer = (updates % sl_interval)
-    ---- Property ----
+    ---- Property
     sl_font="Inconsolata"
     sl_font_slant = CAIRO_FONT_SLANT_NORMAL
     sl_font_face = CAIRO_FONT_WEIGHT_NORMAL
@@ -115,20 +115,20 @@ function conky_main()
       n = n+1
     end
 
-    --- System Storage Information ---
+    --- System Storage Information
     cairo_select_font_face (cr, ss_font, ss_font_slant, ss_font_face)
     cairo_set_font_size (cr, ss_font_size)
     cairo_set_source_rgba(cr,1,1,1,0.7)
     ss_interval = 10
     ss_timer = (updates % ss_interval)
-    ---- Property ----
+    ---- Property
     ss_font="Inconsolata"
     ss_font_slant = CAIRO_FONT_SLANT_NORMAL
     ss_font_face = CAIRO_FONT_WEIGHT_NORMAL
     ss_font_size = 18
     ss_xpos = 40
     ss_ypos = 400
-    ---- Function ----
+    ---- Function
     if ss_timer == 0 or conky_start == 1 then
     ss_content_table = {}
       ss_file = io.popen("df -h")
@@ -148,12 +148,13 @@ function conky_main()
     end
     cairo_stroke (cr)
 
-    --- CPU Indicator Arc ---
+    --- CPU Indicator Arc
     ci_interval = 10
     ci_timer = (updates % ci_interval)
     ci_width = 1
     ci_height = radius_c * 2
-    ---- Left x Left ----
+
+    ---- Left x Left
     ci_ll_gap = 280 -- between this and the r=250 circle
     ci_ll_radius = 350
     ci_ll_range =  (math.asin(ci_height / (ci_ll_radius*2)))*180/math.pi   -- perfect range to cover from bottom to top of the adjacent ring
@@ -165,7 +166,7 @@ function conky_main()
     cairo_set_source_rgba (cr,1,1,1,1)
     cairo_arc (cr, ci_ll_center_xpos, ci_ll_center_ypos, ci_ll_radius, ci_ll_start_angle, ci_ll_end_angle)
     cairo_stroke (cr)
-    ---- Left x Right ----
+    ---- Left x Right
     ci_lr_gap = 250
     ci_lr_radius = 280
     ci_lr_range =  (math.asin(ci_height / (ci_lr_radius*2)))*180/math.pi
@@ -177,7 +178,7 @@ function conky_main()
     cairo_set_source_rgba (cr,1,1,1,1)
     cairo_arc(cr, ci_lr_center_xpos, ci_lr_center_ypos, ci_lr_radius, ci_lr_start_angle, ci_lr_end_angle)
     cairo_stroke (cr)
-    ---- Right x Left ----
+    ---- Right x Left
     ci_rl_gap = 250
     ci_rl_radius = 280
     ci_rl_range =  (math.asin(ci_height / (ci_rl_radius*2)))*180/math.pi
@@ -189,7 +190,7 @@ function conky_main()
     cairo_set_source_rgba (cr,1,1,1,1)
     cairo_arc(cr, ci_rl_center_xpos, ci_rl_center_ypos, ci_rl_radius, ci_rl_start_angle, ci_rl_end_angle)
     cairo_stroke (cr)
-    ---- Right x Right ----
+    ---- Right x Right
     ci_rr_gap = 280
     ci_rr_radius = 350
     ci_rr_range =  (math.asin(ci_height / (ci_rr_radius*2)))*180/math.pi
@@ -212,15 +213,8 @@ function conky_main()
   cr = nil
 end -- conky_main()
 
--- Functions --
---- converts color in hexa to decimal ---
+-- Functions
+--- converts color in hexa to decimal
 function rgb_to_r_g_b(colour, alpha)
   return ((colour / 0x10000) % 0x100) / 255., ((colour / 0x100) % 0x100) / 255., (colour % 0x100) / 255., alpha
-end
-function magiclines(str)
-  local s = tostring(str)
-  a = type(s)
-  print (a)
-  if s:sub(-1)~="\n" then s=s.."\n" end
-  return s:gmatch("(.-)\n")
 end
