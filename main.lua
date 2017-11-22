@@ -153,11 +153,50 @@ function conky_main()
     ci_timer = (updates % ci_interval)
     ci_width = 1
     ci_height = radius_c * 2
+--[[rb = right bottom
+    rt = right top
+    lb = left bottom
+    lt = left top
+    ra = right arc
+    la = left arc
+]]
+    ci_cpu = cpu
+print(ci_cpu)
+ci_rt_ypos = 790 - ci_cpu * (290/100)
+    ci_rt_xpos = 865
 
-    ---- Left x Left
-    ci_ll_gap = 280 -- between this and the r=250 circle
+    ci_lt_ypos = 790 - ci_cpu*290/100
+    ci_lt_xpos = ci_rt_xpos - 45
+
+    ci_ra_ypos = 540
+    ci_ra_xpos = 720
+    ci_la_xpos, ci_la_ypos = ci_ra_xpos - 20, 540
+
+    ci_rb_xpos, ci_rb_ypos = 865,790
+    ci_lb_xpos, ci_lb_ypos = 820,790
+
+    cairo_move_to (cr,ci_rb_xpos, ci_rb_ypos)
+    cairo_curve_to (cr,ci_ra_xpos, ci_ra_ypos, ci_ra_xpos, ci_ra_ypos, ci_rt_xpos,ci_rt_ypos)
+    --cairo_move_to (cr,ci_rt_xpos, ci_rt_ypos)
+    cairo_line_to (cr,ci_lt_xpos, ci_lt_ypos)
+    --cairo_move_to (cr,ci_lt_xpos, ci_lt_ypos)
+    cairo_curve_to (cr, ci_la_xpos, ci_la_ypos, ci_la_xpos, ci_la_ypos,ci_lb_xpos, ci_lb_ypos)
+    --cairo_move_to (cr,ci_lb_xpos, ci_lb_ypos)
+    cairo_line_to (cr,ci_rb_xpos, ci_rb_ypos)
+    cairo_set_line_join (cr,CAIRO_LINE_JOIN_MITER)
+    cairo_set_line_width(cr, 1)
+    cairo_set_source_rgba(cr, 1,1,1,1)
+    cairo_fill_preserve(cr)
+    cairo_set_source_rgba(cr, 1,1,1,1)
+    cairo_stroke (cr)
+
+----------
+
+-----------
+      ---- Left x Left
+    ci_ll_gap    = 280   -- between this and the r250 circle
     ci_ll_radius = 350
-    ci_ll_range =  (math.asin(ci_height / (ci_ll_radius*2)))*180/math.pi   -- perfect range to cover from bottom to top of the adjacent ring
+    ci_ll_range  =  (math.asin(ci_height / (ci_ll_radius*2)))*180/math.pi   -- perfect range to cover from bottom to top of the adjacent ring
     ci_ll_start_angle = (180 - ci_ll_range)*math.pi/180
     ci_ll_end_angle   = (180 + ci_ll_range)*math.pi/180
     ci_ll_center_xpos = screen_x / 2 + ci_ll_radius - ci_ll_gap
@@ -202,7 +241,16 @@ function conky_main()
     cairo_set_source_rgba (cr,1,1,1,1)
     cairo_arc(cr, ci_rr_center_xpos, ci_rr_center_ypos, ci_rr_radius, ci_rr_start_angle, ci_rr_end_angle)
     cairo_stroke (cr)
-
+    ----
+    cairo_move_to (cr, 500, ci_rt_ypos)
+    cairo_line_to (cr, 1000, ci_rt_ypos)
+    cairo_move_to (cr, 500, 790)
+    cairo_line_to (cr, 1000,790)
+    cairo_set_line_width (cr, 1)
+    cairo_set_source_rgba(cr, 1,1,1,1)
+    cairo_fill_preserve(cr)
+    cairo_stroke(cr)
+    ----
 
     conky_start = nil -- 1st time flag
 
