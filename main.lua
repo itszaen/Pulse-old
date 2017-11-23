@@ -149,109 +149,140 @@ function conky_main()
     cairo_stroke (cr)
 
     --- CPU Indicator Arc
-    ci_interval = 10
+    ci_interval = 1
     ci_timer = (updates % ci_interval)
     ci_width = 1
-    ci_height = radius_c * 2
---[[rb = right bottom
-    rt = right top
-    lb = left bottom
-    lt = left top
-    ra = right arc
-    la = left arc
-]]
+    ci_height = radius_c * 2 --500
     ci_cpu = cpu
-print(ci_cpu)
-ci_rt_ypos = 790 - ci_cpu * (290/100)
-    ci_rt_xpos = 865
+    ci_cpu_height = ci_cpu * (ci_height/100.0)
 
-    ci_lt_ypos = 790 - ci_cpu*290/100
-    ci_lt_xpos = ci_rt_xpos - 45
+    ---- Left
+    ci_l_gap    = 280.0   -- between this and the r250 circle
+    ci_l_radius = 350.0
 
-    ci_ra_ypos = 540
-    ci_ra_xpos = 720
-    ci_la_xpos, ci_la_ypos = ci_ra_xpos - 20, 540
+    ci_l_range  =  2.0*((math.asin(ci_height / (ci_l_radius*2.0)))*180.0/math.pi) --91.1693 when radius is 350.0
+    ci_l_bottom = 180.0 - ci_l_range/2.0 -- 134.4153 when radius is 350.0
+    ci_l_degree = 90 + math.acos((radius_c-ci_cpu_height)/ci_l_radius)*180.0/math.pi
 
-    ci_rb_xpos, ci_rb_ypos = 865,790
-    ci_lb_xpos, ci_lb_ypos = 820,790
+    ci_l_center_xpos = screen_x / 2 + ci_l_radius - ci_l_gap
+    ci_l_center_ypos = screen_y / 2
 
-    cairo_move_to (cr,ci_rb_xpos, ci_rb_ypos)
-    cairo_curve_to (cr,ci_ra_xpos, ci_ra_ypos, ci_ra_xpos, ci_ra_ypos, ci_rt_xpos,ci_rt_ypos)
-    --cairo_move_to (cr,ci_rt_xpos, ci_rt_ypos)
-    cairo_line_to (cr,ci_lt_xpos, ci_lt_ypos)
-    --cairo_move_to (cr,ci_lt_xpos, ci_lt_ypos)
-    cairo_curve_to (cr, ci_la_xpos, ci_la_ypos, ci_la_xpos, ci_la_ypos,ci_lb_xpos, ci_lb_ypos)
-    --cairo_move_to (cr,ci_lb_xpos, ci_lb_ypos)
-    cairo_line_to (cr,ci_rb_xpos, ci_rb_ypos)
-    cairo_set_line_join (cr,CAIRO_LINE_JOIN_MITER)
-    cairo_set_line_width(cr, 1)
-    cairo_set_source_rgba(cr, 1,1,1,1)
-    cairo_fill_preserve(cr)
-    cairo_set_source_rgba(cr, 1,1,1,1)
-    cairo_stroke (cr)
+    ci_l_start_angle = ci_l_bottom * math.pi/180.0
+    ci_l_end_angle   = ci_l_degree * math.pi/180.0
 
-----------
-
------------
-      ---- Left x Left
-    ci_ll_gap    = 280   -- between this and the r250 circle
-    ci_ll_radius = 350
-    ci_ll_range  =  (math.asin(ci_height / (ci_ll_radius*2)))*180/math.pi   -- perfect range to cover from bottom to top of the adjacent ring
-    ci_ll_start_angle = (180 - ci_ll_range)*math.pi/180
-    ci_ll_end_angle   = (180 + ci_ll_range)*math.pi/180
-    ci_ll_center_xpos = screen_x / 2 + ci_ll_radius - ci_ll_gap
-    ci_ll_center_ypos = screen_y / 2
     cairo_set_line_width (cr,ci_width)
     cairo_set_source_rgba (cr,1,1,1,1)
-    cairo_arc (cr, ci_ll_center_xpos, ci_ll_center_ypos, ci_ll_radius, ci_ll_start_angle, ci_ll_end_angle)
-    cairo_stroke (cr)
-    ---- Left x Right
-    ci_lr_gap = 250
-    ci_lr_radius = 280
-    ci_lr_range =  (math.asin(ci_height / (ci_lr_radius*2)))*180/math.pi
-    ci_lr_start_angle = (180 - ci_lr_range)*math.pi/180
-    ci_lr_end_angle   = (180 + ci_lr_range)*math.pi/180
-    ci_lr_center_xpos = screen_x / 2 + ci_lr_radius - ci_lr_gap
-    ci_lr_center_ypos = screen_y / 2
+    cairo_arc (cr, ci_l_center_xpos, ci_l_center_ypos, ci_l_radius, ci_l_start_angle, ci_l_end_angle)
+
+    --cairo_stroke (cr)
+
+    ---- Right
+    ci_r_gap = 250
+    ci_r_radius = 300
+    ci_r_range =  2*(math.asin(ci_height / (ci_r_radius*2)))*180/math.pi
+    ci_r_bottom = 180.0 - ci_r_range/2.0
+    ci_r_degree = 90 + math.acos((radius_c-ci_cpu_height)/ci_r_radius)*180.0/math.pi
+
+    ci_r_center_xpos = screen_x / 2 + ci_r_radius - ci_r_gap
+    ci_r_center_ypos = screen_y / 2
+
+    ci_r_start_angle = ci_r_degree * math.pi/180
+    ci_r_end_angle   = ci_r_bottom * math.pi/180
+    -- the order here is important for filling to work properly
     cairo_set_line_width (cr, ci_width)
     cairo_set_source_rgba (cr,1,1,1,1)
-    cairo_arc(cr, ci_lr_center_xpos, ci_lr_center_ypos, ci_lr_radius, ci_lr_start_angle, ci_lr_end_angle)
-    cairo_stroke (cr)
-    ---- Right x Left
-    ci_rl_gap = 250
-    ci_rl_radius = 280
-    ci_rl_range =  (math.asin(ci_height / (ci_rl_radius*2)))*180/math.pi
-    ci_rl_start_angle = (0 - ci_rl_range)*math.pi/180
-    ci_rl_end_angle   = (0 + ci_rl_range)*math.pi/180
-    ci_rl_center_xpos = screen_x / 2 - ci_rl_radius + ci_rl_gap
-    ci_rl_center_ypos = screen_y / 2
-    cairo_set_line_width (cr, ci_width)
-    cairo_set_source_rgba (cr,1,1,1,1)
-    cairo_arc(cr, ci_rl_center_xpos, ci_rl_center_ypos, ci_rl_radius, ci_rl_start_angle, ci_rl_end_angle)
-    cairo_stroke (cr)
-    ---- Right x Right
-    ci_rr_gap = 280
-    ci_rr_radius = 350
-    ci_rr_range =  (math.asin(ci_height / (ci_rr_radius*2)))*180/math.pi
-    ci_rr_start_angle = (0 - ci_rr_range)*math.pi/180
-    ci_rr_end_angle   = (0 + ci_rr_range)*math.pi/180
-    ci_rr_center_xpos = screen_x / 2 - ci_rr_radius + ci_rr_gap
-    ci_rr_center_ypos = screen_y / 2
-    cairo_set_line_width (cr, ci_width)
-    cairo_set_source_rgba (cr,1,1,1,1)
-    cairo_arc(cr, ci_rr_center_xpos, ci_rr_center_ypos, ci_rr_radius, ci_rr_start_angle, ci_rr_end_angle)
-    cairo_stroke (cr)
-    ----
-    cairo_move_to (cr, 500, ci_rt_ypos)
-    cairo_line_to (cr, 1000, ci_rt_ypos)
-    cairo_move_to (cr, 500, 790)
-    cairo_line_to (cr, 1000,790)
+    cairo_arc_negative(cr, ci_r_center_xpos, ci_r_center_ypos, ci_r_radius, ci_r_start_angle, ci_r_end_angle) --negative arc
+    --cairo_stroke (cr)
+
+    ---- Top & Bottom Line
+    ci_top = 790.0 - ci_cpu_height
+
+    ci_line_top_start_xpos = ci_l_center_xpos - ci_l_radius
+    ci_line_top_start_ypos = ci_top
+    ci_line_top_end_xpos = ci_r_center_xpos - (math.sqrt(ci_r_radius^2 - (ci_height/2)^2))
+    ci_line_top_end_ypos = ci_top
+    ci_line_bottom_start_xpos = ci_line_top_start_xpos
+    ci_line_bottom_start_ypos = ci_r_center_ypos + ci_height/2
+    ci_line_bottom_end_xpos = ci_line_top_end_xpos
+    ci_line_bottom_end_ypos = ci_line_bottom_start_ypos
+    cairo_move_to (cr, ci_line_top_start_xpos, ci_line_top_start_ypos)
+    cairo_line_to (cr, ci_line_top_end_xpos, ci_line_top_end_ypos)
+    cairo_move_to (cr, ci_line_bottom_start_xpos, ci_line_bottom_start_ypos)
+    cairo_line_to (cr, ci_line_bottom_end_xpos,ci_line_bottom_end_ypos)
+
+    ---- Drawing(filling)
     cairo_set_line_width (cr, 1)
     cairo_set_source_rgba(cr, 1,1,1,1)
-    cairo_fill_preserve(cr)
-    cairo_stroke(cr)
-    ----
+    cairo_fill(cr)
 
+    --- RAM Indicator Arc
+    -- Starts from the top --
+    ri_interval = 1
+    ri_timer    = (updates % ri_interval)
+    ri_width    = 1
+    ri_height   = radius_c * 2 --500
+    ri_ram      = memory
+    ri_ram_height = ri_ram * (ri_height/100.0)
+
+    ---- Left
+    ri_l_gap    = 250
+    ri_l_radius = 300
+
+    ri_l_range  =  (math.asin(ri_height / (ri_l_radius*2)))*180/math.pi
+    ri_l_top    = 360.0 - ri_l_range
+    ri_l_degree = 270.0 + math.acos((radius_c - ri_ram_height)/ri_l_radius)*180.0/math.pi
+
+    ri_l_center_xpos = screen_x / 2 - ri_l_radius + ri_l_gap
+    ri_l_center_ypos = screen_y / 2
+
+    ri_l_start_angle = ri_l_top    *math.pi/180
+    ri_l_end_angle   = ri_l_degree *math.pi/180
+
+    cairo_set_line_width (cr, ri_width)
+    cairo_set_source_rgba (cr,1,1,1,1)
+    cairo_arc(cr, ri_l_center_xpos, ri_l_center_ypos, ri_l_radius, ri_l_start_angle, ri_l_end_angle)
+    --cairo_stroke (cr)
+    ---- Right
+    ri_r_gap    = 280
+    ri_r_radius = 350
+
+    ri_r_range  =  (math.asin(ri_height / (ri_r_radius*2)))*180/math.pi
+    ri_r_top    = 360.0 - ri_r_range
+    ri_r_degree = 270.0 + math.acos((radius_c - ri_ram_height)/ri_r_radius)*180.0/math.pi
+
+    ri_r_start_angle = ri_r_degree    *math.pi/180
+    ri_r_end_angle   = ri_r_top *math.pi/180
+
+    ri_r_center_xpos = screen_x / 2 - ri_r_radius + ri_r_gap
+    ri_r_center_ypos = screen_y / 2
+
+    cairo_set_line_width (cr, ri_width)
+    cairo_set_source_rgba (cr,1,1,1,1)
+    cairo_arc_negative(cr, ri_r_center_xpos, ri_r_center_ypos, ri_r_radius, ri_r_start_angle, ri_r_end_angle)
+    --cairo_stroke (cr)
+
+    ---- Top & Bottom Line
+    ri_bottom = 290 + ri_ram_height
+    ri_line_top_start_xpos = ri_l_center_xpos + (math.sqrt(ri_l_radius^2 - (ri_height/2)^2))
+    ri_line_top_start_ypos = ri_l_center_ypos - ri_height/2
+    ri_line_top_end_xpos =ri_r_center_xpos + ri_r_radius
+    ri_line_top_end_ypos = ri_line_top_start_ypos
+    ri_line_bottom_start_xpos = ri_line_top_start_xpos
+    ri_line_bottom_start_ypos = ri_bottom
+    ri_line_bottom_end_xpos = ri_line_top_end_xpos
+    ri_line_bottom_end_ypos = ri_line_bottom_start_ypos
+    cairo_move_to (cr, ri_line_top_start_xpos , ri_line_top_start_ypos)
+    cairo_line_to (cr, ri_line_top_end_xpos   , ri_line_top_end_ypos)
+    cairo_move_to (cr, ri_line_bottom_start_xpos , ri_line_bottom_start_ypos)
+    cairo_line_to (cr, ri_line_bottom_end_xpos   , ri_line_bottom_end_ypos)
+    --cairo_stroke(cr)
+
+    ---- Drawing(filling)
+    cairo_set_line_width (cr,1)
+    cairo_set_source_rgba(cr,1,1,1,1)
+    cairo_fill(cr)
+
+    ----
     conky_start = nil -- 1st time flag
 
   end -- if updates > 1
