@@ -164,7 +164,7 @@ function conky_main()
 
     ---- Left
     ci_l_gap    = 280.0   -- between this and the r250 circle
-    ci_l_radius = 320.0
+    ci_l_radius = 300.0
 
     ci_l_range  =  2.0*((math.asin(ci_height / (ci_l_radius*2.0)))*180.0/math.pi) --91.1693 when radius is 350.0
     ci_l_bottom = 180.0 - ci_l_range/2.0 -- 134.4153 when radius is 350.0
@@ -181,7 +181,7 @@ function conky_main()
 
     ---- Right
     ci_r_gap = 265
-    ci_r_radius = 300
+    ci_r_radius = 280
     ci_r_range =  2*(math.asin(ci_height / (ci_r_radius*2)))*180/math.pi
     ci_r_bottom = 180.0 - ci_r_range/2.0
     ci_r_degree = 90 + math.acos((radius_c-ci_cpu_height)/ci_r_radius)*180.0/math.pi
@@ -240,7 +240,7 @@ function conky_main()
 
     ---- Left
     ri_l_gap    = 265
-    ri_l_radius = 300
+    ri_l_radius = 280
 
     ri_l_range  =  (math.asin(ri_height / (ri_l_radius*2)))*180/math.pi
     ri_l_top    = 360.0 - ri_l_range
@@ -257,7 +257,7 @@ function conky_main()
 
     ---- Right
     ri_r_gap    = 280
-    ri_r_radius = 320
+    ri_r_radius = 300
 
     ri_r_range  =  (math.asin(ri_height / (ri_r_radius*2)))*180/math.pi
     ri_r_top    = 360.0 - ri_r_range
