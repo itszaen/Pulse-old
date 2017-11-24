@@ -43,7 +43,7 @@ function conky_main()
     ---- Property
     center_x_c = 960
     center_y_c = 540
-    radius_c = 250
+    radius_c = 220
     width_c = 4
     start_angle_c = 0
     end_angle_c = 2*math.pi
@@ -82,19 +82,22 @@ function conky_main()
     cairo_stroke(cr)
 
     --- System Log
-    cairo_select_font_face (cr, sl_font, sl_font_slant, sl_font_face)
-    cairo_set_font_size (cr, sl_font_size)
-    cairo_set_source_rgba(cr,1,1,1,0.7)
+
+    sl_xpos = 40
+    sl_ypos = 700
     sl_interval = 1
-    sl_timer = (updates % sl_interval)
-    ---- Property
     sl_font="Inconsolata"
     sl_font_slant = CAIRO_FONT_SLANT_NORMAL
     sl_font_face = CAIRO_FONT_WEIGHT_NORMAL
     sl_font_size = 13
-    sl_xpos = 40
-    sl_ypos = 700
+    sl_spacing = 1.2
+    sl_red, sl_green, sl_blue = 0.5, 0.1, 1
+    sl_alpha = 0.8
 
+    sl_timer = (updates % sl_interval)
+    cairo_select_font_face (cr, sl_font, sl_font_slant, sl_font_face)
+    cairo_set_font_size (cr, sl_font_size)
+    cairo_set_source_rgba(cr,sl_red,sl_green,sl_blue,sl_alpha)
 
     if sl_timer == 0 or conky_start == 1 then
       sl_content_table = {}
@@ -109,26 +112,30 @@ function conky_main()
     n = 1
     for i, line in ipairs (sl_content_table) do
       sl_content = line
-      sl_ypos = sl_ypos + sl_font_size*1.3
+      sl_ypos = sl_ypos + sl_font_size*sl_spacing
       cairo_move_to (cr,sl_xpos , sl_ypos)
       cairo_show_text (cr, sl_content)
       n = n+1
     end
 
     --- System Storage Information
-    cairo_select_font_face (cr, ss_font, ss_font_slant, ss_font_face)
-    cairo_set_font_size (cr, ss_font_size)
-    cairo_set_source_rgba(cr,1,1,1,0.7)
+
+    ss_xpos = 40
+    ss_ypos = 400
     ss_interval = 10
-    ss_timer = (updates % ss_interval)
-    ---- Property
     ss_font="Inconsolata"
     ss_font_slant = CAIRO_FONT_SLANT_NORMAL
     ss_font_face = CAIRO_FONT_WEIGHT_NORMAL
     ss_font_size = 18
-    ss_xpos = 40
-    ss_ypos = 400
-    ---- Function
+    ss_spacing = 1.4
+    ss_red, ss_green, ss_blue = 0.3 ,0.3 ,1
+    ss_alpha = 0.7
+
+    ss_timer = (updates % ss_interval)
+    cairo_select_font_face (cr, ss_font, ss_font_slant, ss_font_face)
+    cairo_set_font_size (cr, ss_font_size)
+    cairo_set_source_rgba(cr,ss_red,ss_green,ss_blue,ss_alpha)
+
     if ss_timer == 0 or conky_start == 1 then
     ss_content_table = {}
       ss_file = io.popen("df -h")
@@ -141,7 +148,7 @@ function conky_main()
     n = 1
     for i, line in ipairs(ss_content_table) do
       ss_content = line
-      ss_ypos = ss_ypos + ss_font_size*1.4
+      ss_ypos = ss_ypos + ss_font_size*ss_spacing
       cairo_move_to (cr,ss_xpos ,ss_ypos)
       cairo_show_text (cr, ss_content)
       n = n + 1
@@ -151,7 +158,6 @@ function conky_main()
     --- CPU Indicator Arc
     ci_interval = 1
     ci_timer = (updates % ci_interval)
-    ci_width = 1
     ci_height = radius_c * 2 --500
     ci_cpu = cpu
     ci_cpu_height = ci_cpu * (ci_height/100.0)
@@ -170,11 +176,8 @@ function conky_main()
     ci_l_start_angle = ci_l_bottom * math.pi/180.0
     ci_l_end_angle   = ci_l_degree * math.pi/180.0
 
-    cairo_set_line_width (cr,ci_width)
     cairo_set_source_rgba (cr,1,1,1,1)
     cairo_arc (cr, ci_l_center_xpos, ci_l_center_ypos, ci_l_radius, ci_l_start_angle, ci_l_end_angle)
-
-    --cairo_stroke (cr)
 
     ---- Right
     ci_r_gap = 265
@@ -189,10 +192,9 @@ function conky_main()
     ci_r_start_angle = ci_r_degree * math.pi/180
     ci_r_end_angle   = ci_r_bottom * math.pi/180
     -- the order here is important for filling to work properly
-    cairo_set_line_width (cr, ci_width)
+
     cairo_set_source_rgba (cr,1,1,1,1)
     cairo_arc_negative(cr, ci_r_center_xpos, ci_r_center_ypos, ci_r_radius, ci_r_start_angle, ci_r_end_angle) --negative arc
-    --cairo_stroke (cr)
 
     ---- Top & Bottom Line
     ci_top = 790.0 - ci_cpu_height
@@ -211,16 +213,27 @@ function conky_main()
     cairo_line_to (cr, ci_line_bottom_end_xpos,ci_line_bottom_end_ypos)
 
     ---- Drawing(filling)
-    --ci_pattern = cairo_pattern_create_linear ()
-    cairo_set_line_width (cr, 1)
-    cairo_set_source_rgba(cr, 1,1,1,1)
+    ci_pattern = cairo_pattern_create_linear (ci_line_top_start_xpos , 290.0, ci_line_top_start_xpos , 790.0)
+    ci_pattern1_red, ci_pattern1_green, ci_pattern1_blue = 1,0,0 --red
+    ci_pattern1_alpha = 1
+    ci_pattern2_red, ci_pattern2_green, ci_pattern2_blue = 0,0,1 --blue
+    ci_pattern2_alpha = 0.2
+    ci_pattern3_red, ci_pattern3_green, ci_pattern3_blue = 0,1,0 --green
+    ci_pattern3_alpha = 0.3
+    ci_pattern4_red, ci_pattern4_green, ci_pattern4_blue = 1,1,0 --yellow
+    ci_pattern4_alpha = 0.5
+
+    cairo_pattern_add_color_stop_rgba (ci_pattern, 0,   ci_pattern1_red,ci_pattern1_green,ci_pattern1_blue,ci_pattern1_alpha)
+    cairo_pattern_add_color_stop_rgba (ci_pattern, 0.5, ci_pattern4_red,ci_pattern4_green,ci_pattern4_blue,ci_pattern4_alpha)
+    cairo_pattern_add_color_stop_rgba (ci_pattern, 0.8, ci_pattern3_red,ci_pattern3_green,ci_pattern3_blue,ci_pattern3_alpha)
+    cairo_pattern_add_color_stop_rgba (ci_pattern, 1,   ci_pattern2_red,ci_pattern2_green,ci_pattern2_blue,ci_pattern2_alpha)
+    cairo_set_source(cr, ci_pattern)
     cairo_fill(cr)
 
     --- RAM Indicator Arc
     -- Starts from the top --
     ri_interval = 1
     ri_timer    = (updates % ri_interval)
-    ri_width    = 1
     ri_height   = radius_c * 2 --500
     ri_ram      = memory
     ri_ram_height = ri_ram * (ri_height/100.0)
@@ -239,10 +252,9 @@ function conky_main()
     ri_l_start_angle = ri_l_top    *math.pi/180
     ri_l_end_angle   = ri_l_degree *math.pi/180
 
-    cairo_set_line_width (cr, ri_width)
     cairo_set_source_rgba (cr,1,1,1,1)
     cairo_arc(cr, ri_l_center_xpos, ri_l_center_ypos, ri_l_radius, ri_l_start_angle, ri_l_end_angle)
-    --cairo_stroke (cr)
+
     ---- Right
     ri_r_gap    = 280
     ri_r_radius = 320
@@ -257,10 +269,8 @@ function conky_main()
     ri_r_center_xpos = screen_x / 2 - ri_r_radius + ri_r_gap
     ri_r_center_ypos = screen_y / 2
 
-    cairo_set_line_width (cr, ri_width)
     cairo_set_source_rgba (cr,1,1,1,1)
     cairo_arc_negative(cr, ri_r_center_xpos, ri_r_center_ypos, ri_r_radius, ri_r_start_angle, ri_r_end_angle)
-    --cairo_stroke (cr)
 
     ---- Top & Bottom Line
     ri_bottom = 290 + ri_ram_height
@@ -276,18 +286,32 @@ function conky_main()
     cairo_line_to (cr, ri_line_top_end_xpos   , ri_line_top_end_ypos)
     cairo_move_to (cr, ri_line_bottom_start_xpos , ri_line_bottom_start_ypos)
     cairo_line_to (cr, ri_line_bottom_end_xpos   , ri_line_bottom_end_ypos)
-    --cairo_stroke(cr)
 
     ---- Drawing(filling)
-    cairo_set_line_width (cr,1)
-    cairo_set_source_rgba(cr,1,1,1,1)
+    ri_pattern = cairo_pattern_create_linear (ri_line_bottom_start_xpos , 290.0, ri_line_bottom_start_xpos , 790.0)
+
+    ri_pattern1_red, ri_pattern1_green, ri_pattern1_blue = 1,0,0 --red
+    ri_pattern1_alpha = 1
+    ri_pattern2_red, ri_pattern2_green, ri_pattern2_blue = 0,0,1 --blue
+    ri_pattern2_alpha = 0.5
+    ri_pattern3_red, ri_pattern3_green, ri_pattern3_blue = 0,1,0 --green
+    ri_pattern3_alpha = 0.6
+    ri_pattern4_red, ri_pattern4_green, ri_pattern4_blue = 1,1,0 --yellow
+    ri_pattern4_alpha = 0.7
+
+    cairo_pattern_add_color_stop_rgba (ri_pattern, 1,   ri_pattern1_red,ri_pattern1_green,ri_pattern1_blue,ri_pattern1_alpha)
+    cairo_pattern_add_color_stop_rgba (ri_pattern, 0.8, ri_pattern4_red,ri_pattern4_green,ri_pattern4_blue,ri_pattern4_alpha)
+    cairo_pattern_add_color_stop_rgba (ri_pattern, 0.5, ri_pattern3_red,ri_pattern3_green,ri_pattern3_blue,ri_pattern3_alpha)
+    cairo_pattern_add_color_stop_rgba (ri_pattern, 0,   ri_pattern2_red,ri_pattern2_green,ri_pattern2_blue,ri_pattern2_alpha)
+
+    cairo_set_source(cr, ri_pattern)
     cairo_fill(cr)
 
     ----
     conky_start = nil -- 1st time flag
 
   end -- if updates > 1
-  -- cairo_surface_destroy(ali_image)
+  --cairo_surface_destroy(ali_image)
   --cairo_pattern_destroy(cr)
   cairo_destroy(cr)
   cairo_surface_destroy(cs)
