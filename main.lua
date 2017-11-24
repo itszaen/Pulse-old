@@ -93,7 +93,7 @@ function conky_main()
     sl_font_face = CAIRO_FONT_WEIGHT_NORMAL
     sl_font_size = 13
     sl_xpos = 40
-    sl_ypos = 650
+    sl_ypos = 700
 
 
     if sl_timer == 0 or conky_start == 1 then
@@ -158,7 +158,7 @@ function conky_main()
 
     ---- Left
     ci_l_gap    = 280.0   -- between this and the r250 circle
-    ci_l_radius = 350.0
+    ci_l_radius = 320.0
 
     ci_l_range  =  2.0*((math.asin(ci_height / (ci_l_radius*2.0)))*180.0/math.pi) --91.1693 when radius is 350.0
     ci_l_bottom = 180.0 - ci_l_range/2.0 -- 134.4153 when radius is 350.0
@@ -177,7 +177,7 @@ function conky_main()
     --cairo_stroke (cr)
 
     ---- Right
-    ci_r_gap = 250
+    ci_r_gap = 265
     ci_r_radius = 300
     ci_r_range =  2*(math.asin(ci_height / (ci_r_radius*2)))*180/math.pi
     ci_r_bottom = 180.0 - ci_r_range/2.0
@@ -211,6 +211,7 @@ function conky_main()
     cairo_line_to (cr, ci_line_bottom_end_xpos,ci_line_bottom_end_ypos)
 
     ---- Drawing(filling)
+    --ci_pattern = cairo_pattern_create_linear ()
     cairo_set_line_width (cr, 1)
     cairo_set_source_rgba(cr, 1,1,1,1)
     cairo_fill(cr)
@@ -225,7 +226,7 @@ function conky_main()
     ri_ram_height = ri_ram * (ri_height/100.0)
 
     ---- Left
-    ri_l_gap    = 250
+    ri_l_gap    = 265
     ri_l_radius = 300
 
     ri_l_range  =  (math.asin(ri_height / (ri_l_radius*2)))*180/math.pi
@@ -244,7 +245,7 @@ function conky_main()
     --cairo_stroke (cr)
     ---- Right
     ri_r_gap    = 280
-    ri_r_radius = 350
+    ri_r_radius = 320
 
     ri_r_range  =  (math.asin(ri_height / (ri_r_radius*2)))*180/math.pi
     ri_r_top    = 360.0 - ri_r_range
@@ -287,6 +288,7 @@ function conky_main()
 
   end -- if updates > 1
   -- cairo_surface_destroy(ali_image)
+  --cairo_pattern_destroy(cr)
   cairo_destroy(cr)
   cairo_surface_destroy(cs)
   cr = nil
