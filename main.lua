@@ -52,7 +52,7 @@ function conky_main()
     ci_cpu_height = ci_cpu * (ci_height/100.0)
 
     ---- Left
-    ci_l_gap    = 280.0   -- between this and the r250 circle
+    ci_l_gap    = 300.0   -- between this and the r250 circle
     ci_l_radius = 300.0
 
     ci_l_range  =  2.0*((math.asin(ci_height / (ci_l_radius*2.0)))*180.0/math.pi) --91.1693 when radius is 350.0
@@ -69,8 +69,8 @@ function conky_main()
     cairo_arc (cr, ci_l_center_xpos, ci_l_center_ypos, ci_l_radius, ci_l_start_angle, ci_l_end_angle)
 
     ---- Right
-    ci_r_gap = 265
-    ci_r_radius = 280
+    ci_r_gap = 295
+    ci_r_radius = 290
     ci_r_range =  2*(math.asin(ci_height / (ci_r_radius*2)))*180/math.pi
     ci_r_bottom = 180.0 - ci_r_range/2.0
     ci_r_degree = 90 + math.acos((radius_c-ci_cpu_height)/ci_r_radius)*180.0/math.pi
@@ -128,8 +128,8 @@ function conky_main()
     ri_ram_height = ri_ram * (ri_height/100.0)
 
     ---- Left
-    ri_l_gap    = 265
-    ri_l_radius = 280
+    ri_l_gap    = 295
+    ri_l_radius = 290
 
     ri_l_range  =  (math.asin(ri_height / (ri_l_radius*2)))*180/math.pi
     ri_l_top    = 360.0 - ri_l_range
@@ -145,7 +145,7 @@ function conky_main()
     cairo_arc(cr, ri_l_center_xpos, ri_l_center_ypos, ri_l_radius, ri_l_start_angle, ri_l_end_angle)
 
     ---- Right
-    ri_r_gap    = 280
+    ri_r_gap    = 300
     ri_r_radius = 300
 
     ri_r_range  =  (math.asin(ri_height / (ri_r_radius*2)))*180/math.pi
