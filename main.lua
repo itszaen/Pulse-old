@@ -1,4 +1,5 @@
 require 'cairo'
+dofile ("/home/zaen/.config/conky/ricing.lua")
 
 conky_start = 1
 
@@ -14,7 +15,7 @@ function conky_main()
   cr = cairo_create(cs)
 
 
-  local updates = tonumber(conky_parse('${updates}'))
+  updates = tonumber(conky_parse('${updates}'))
   if updates>1 then
 
   -- Info to terminal
@@ -30,131 +31,19 @@ function conky_main()
     screen_x = 1920
     screen_y = 1080
   -- Object
-    --- Arch Linux Image
---[[
-    ali_surface = cairo_image_surface_create_from_png ("~/.config/conky/image/ArchLinux.png")
-    ali_width = cairo_image_surface_get_width(ali_image)
-    ali_height = cairo_image_surface_get_height(ali_image)
-
-    cairo_scale (cr, 1, 1)
-    cairo_set_source_surface (ali_surface, ali_image, 0, 0)
-  cairo_paint (cr) ]]
     --- Circle
-    ---- Property
-    center_x_c = 960
-    center_y_c = 540
+    dofile ("/home/zaen/.config/conky/circle.lua")
+    draw_arc()
     radius_c = 220
-    width_c = 4
-    start_angle_c = 0
-    end_angle_c = 2*math.pi
-    bg_red_c = 1
-    bg_green_c = 1
-    bg_blue_c = 1
-    bg_alpha_c = 0.7
-    ---- Draw
-    cairo_set_line_width (cr, width_c)
-    cairo_set_source_rgba (cr, bg_red_c, bg_green_c, bg_blue_c, bg_alpha_c)
-    cairo_arc (cr, center_x_c, center_y_c, radius_c, start_angle_c, end_angle_c)
-    cairo_close_path (cr)
-    cairo_stroke (cr)
-
     --- Date & Time
-    local extents=cairo_text_extents_t:create()
-    tolua.takeownership(extents)
-    ---- Property
-    dtcenter_font="Noto Sans"
-    dtcenter_font_slant = CAIRO_FONT_SLANT_NORMAL
-    dtcenter_font_face = CAIRO_FONT_WEIGHT_NORMAL
-    dtcenter_font_size=96
-    dtcenter_seconds=os.date("%S")
-    dtcenter_minutes=os.date("%M")
-    dtcenter_hours=os.date("%H")
-    dtcenter_text = dtcenter_hours .. ":" .. dtcenter_minutes .. ":" .. dtcenter_seconds
-    ---- Drawing
-    cairo_select_font_face (cr, dtcenter_font, dtcenter_font_slant, dtcenter_font_face)
-    cairo_set_font_size (cr, dtcenter_font_size)
-    cairo_set_source_rgba (cr,1,1,1,0.6)
-    cairo_text_extents (cr, dtcenter_text, extents)
-    dtcenter_xpos = screen_x/2 - (extents.width/2 + extents.x_bearing)
-    dtcenter_ypos = screen_y/2 - (extents.height/2 + extents.y_bearing)
-    cairo_move_to (cr, dtcenter_xpos, dtcenter_ypos)
-    cairo_show_text (cr, dtcenter_text)
-    cairo_stroke(cr)
-
+    dofile ("/home/zaen/.config/conky/datetime.lua")
+    datetime()
     --- System Log
-
-    sl_xpos = 40
-    sl_ypos = 700
-    sl_interval = 1
-    sl_font="Inconsolata"
-    sl_font_slant = CAIRO_FONT_SLANT_NORMAL
-    sl_font_face = CAIRO_FONT_WEIGHT_NORMAL
-    sl_font_size = 13
-    sl_spacing = 1.2
-    sl_red, sl_green, sl_blue = 0.5, 0.1, 1
-    sl_alpha = 0.8
-
-    sl_timer = (updates % sl_interval)
-    cairo_select_font_face (cr, sl_font, sl_font_slant, sl_font_face)
-    cairo_set_font_size (cr, sl_font_size)
-    cairo_set_source_rgba(cr,sl_red,sl_green,sl_blue,sl_alpha)
-
-    if sl_timer == 0 or conky_start == 1 then
-      sl_content_table = {}
-      os.execute("~/.config/conky/journal_dump.sh")
-      sl_file = io.open("/home/zaen/.journal.txt", "r")
-      for line in sl_file:lines() do
-        sl_content = line
-        table.insert(sl_content_table, sl_content)
-      end
-      sl_file:close()
-    end
-    n = 1
-    for i, line in ipairs (sl_content_table) do
-      sl_content = line
-      sl_ypos = sl_ypos + sl_font_size*sl_spacing
-      cairo_move_to (cr,sl_xpos , sl_ypos)
-      cairo_show_text (cr, sl_content)
-      n = n+1
-    end
-
+    dofile ("/home/zaen/.config/conky/system_log.lua")
+    system_log()
     --- System Storage Information
-
-    ss_xpos = 40
-    ss_ypos = 400
-    ss_interval = 10
-    ss_font="Inconsolata"
-    ss_font_slant = CAIRO_FONT_SLANT_NORMAL
-    ss_font_face = CAIRO_FONT_WEIGHT_NORMAL
-    ss_font_size = 18
-    ss_spacing = 1.4
-    ss_red, ss_green, ss_blue = 0.3 ,0.3 ,1
-    ss_alpha = 0.7
-
-    ss_timer = (updates % ss_interval)
-    cairo_select_font_face (cr, ss_font, ss_font_slant, ss_font_face)
-    cairo_set_font_size (cr, ss_font_size)
-    cairo_set_source_rgba(cr,ss_red,ss_green,ss_blue,ss_alpha)
-
-    if ss_timer == 0 or conky_start == 1 then
-    ss_content_table = {}
-      ss_file = io.popen("df -h")
-      for line in ss_file:lines() do
-        ss_content = line
-        table.insert(ss_content_table, ss_content)
-      end
-      ss_file:close()
-    end
-    n = 1
-    for i, line in ipairs(ss_content_table) do
-      ss_content = line
-      ss_ypos = ss_ypos + ss_font_size*ss_spacing
-      cairo_move_to (cr,ss_xpos ,ss_ypos)
-      cairo_show_text (cr, ss_content)
-      n = n + 1
-    end
-    cairo_stroke (cr)
-
+    dofile ("/home/zaen/.config/conky/system_storage.lua")
+    system_storage()
     --- CPU Indicator Arc
     ci_interval = 1
     ci_timer = (updates % ci_interval)
