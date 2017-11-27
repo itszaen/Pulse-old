@@ -1,0 +1,14 @@
+16:27:16 dolphin[3594]: QFileSystemWatcher::removePaths: list is empty
+16:27:16 kwin_x11[523]: QXcbConnection: XCB error: 3 (BadWindow), sequence: 49121, resourc
+16:27:16 plasmashell[527]: QXcbConnection: XCB error: 2 (BadValue), sequence: 48117, resou
+16:27:16 kwin_x11[523]: QXcbConnection: XCB error: 3 (BadWindow), sequence: 49288, resourc
+16:27:16 kwin_x11[523]: QXcbConnection: XCB error: 9 (BadDrawable), sequence: 49289, resou
+16:27:17 plasmashell[527]: QXcbConnection: XCB error: 2 (BadValue), sequence: 48238, resou
+16:27:17 plasmashell[527]: QXcbConnection: XCB error: 2 (BadValue), sequence: 48252, resou
+16:28:07 kwin_x11[523]: QXcbConnection: XCB error: 3 (BadWindow), sequence: 57647, resourc
+16:28:07 systemd[1]: systemd-journald.service: Got notification message from PID 191 (WATC
+16:28:09 kdeinit5[485]: ()
+16:28:09 kdeinit5[485]: ("/home/zaen/Projects/conky/conky.conf")
+16:28:09 kdeinit5[485]: ()
+16:28:14 systemd[1]: systemd-logind.service: Got notification message from PID 300 (WATCHD
+16:28:14 systemd[1]: systemd-timesyncd.service: Got notification message from PID 220 (WAT

@@ -23,9 +23,11 @@ function conky_main()
     --print ("conky is running!")
 
   -- Parsing
-    cpu     =tonumber(conky_parse("${cpu}"))
-    memory  =tonumber(conky_parse("${memperc}"))
+    cpu       = tonumber(conky_parse("${cpu}"))
+    memory    = tonumber(conky_parse("${memperc}"))
     internet_connected = tonumber(conky_parse("${if_up wlan0}1${else}0${endif}"))
+    downspeed = conky_parse("${downspeedf}")
+    upspeed   = conky_parse("${upspeedf}")
 
   -- Screen
     screen_x = 1920
@@ -44,6 +46,9 @@ function conky_main()
     --- System Storage Information
     dofile ("/home/zaen/.config/conky/system_storage.lua")
     system_storage()
+    --- Network Information
+    dofile ("/home/zaen/.config/conky/network.lua")
+    network()
     --- CPU Indicator Arc
     ci_interval = 1
     ci_timer = (updates % ci_interval)
