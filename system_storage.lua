@@ -1,6 +1,6 @@
 function system_storage()
     ss_xpos = 82
-    ss_ypos = 400
+    ss_ypos = 420
     ss_interval = 10
     ss_font="Inconsolata"
     ss_font_slant = CAIRO_FONT_SLANT_NORMAL
