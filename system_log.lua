@@ -18,7 +18,7 @@ function system_log()
     if sl_timer == 0 or conky_start == 1 then
       sl_content_table = {}
       os.execute("~/.config/conky/journal_dump.sh")
-      sl_file = io.open("/home/zaen/.config/conky/tmp/journal.txt", "r")
+      sl_file = io.open("/home/zaen/.config/conky/.tmp/journal.txt", "r")
       for line in sl_file:lines() do
         sl_content = line
         table.insert(sl_content_table, sl_content)
