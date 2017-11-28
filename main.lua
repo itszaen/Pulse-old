@@ -26,7 +26,6 @@ function conky_main()
     cpu       = tonumber(conky_parse("${cpu}"))
     memory    = tonumber(conky_parse("${memperc}"))
     internet_connected = tonumber(conky_parse("${if_up wlp2s0}1${else}0${endif}"))
-    print(internet_connected)
     downspeed = conky_parse("${downspeedf}")
     upspeed   = conky_parse("${upspeedf}")
 
