@@ -26,8 +26,8 @@ function conky_main()
     cpu       = tonumber(conky_parse("${cpu}"))
     memory    = tonumber(conky_parse("${memperc}"))
     internet_connected = tonumber(conky_parse("${if_up wlp2s0}1${else}0${endif}"))
-    downspeed = conky_parse("${downspeedf}")
-    upspeed   = conky_parse("${upspeedf}")
+    downspeed = conky_parse("${downspeedf wlp2s0}")
+    upspeed   = conky_parse("${upspeedf wlp2s0}")
 
   -- Screen
     screen_x = 1920
