@@ -1,6 +1,6 @@
-function system_log()
-    sl_xpos = 82
-    sl_ypos = 790
+function system_log(x,y)
+    sl_xpos = x
+    sl_ypos = y
     sl_interval = 1
     sl_font="Inconsolata"
     sl_font_slant = CAIRO_FONT_SLANT_NORMAL

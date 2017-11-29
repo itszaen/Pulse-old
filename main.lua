@@ -33,6 +33,7 @@ function conky_main()
     screen_x = 1920
     screen_y = 1080
   -- Object
+    dofile ("/home/zaen/.config/conky/heading.lua")
     --- Circle
     dofile ("/home/zaen/.config/conky/circle.lua")
     draw_arc()
@@ -41,15 +42,18 @@ function conky_main()
     dofile ("/home/zaen/.config/conky/datetime.lua")
     datetime()
     --- System Log
+    heading("System Log",100,775)
     dofile ("/home/zaen/.config/conky/system_log.lua")
-    system_log()
+    system_log(82,790)
     --- System Storage Information
+    heading("Storage",100,410)
     dofile ("/home/zaen/.config/conky/system_storage.lua")
-    system_storage()
+    system_storage(82,420)
     --- Network Information
     dofile ("/home/zaen/.config/conky/network.lua")
     network()
     --- CPU Indicator Arc
+    dofile ("/home/zaen/.config/conky/cpu.lua")
     ci_interval = 1
     ci_timer = (updates % ci_interval)
     ci_height = radius_c * 2 --500
@@ -111,11 +115,11 @@ function conky_main()
     ci_pattern1_red, ci_pattern1_green, ci_pattern1_blue = 1,0,0 --red
     ci_pattern1_alpha = 1
     ci_pattern2_red, ci_pattern2_green, ci_pattern2_blue = 0,0,1 --blue
-    ci_pattern2_alpha = 0.2
+    ci_pattern2_alpha = 1
     ci_pattern3_red, ci_pattern3_green, ci_pattern3_blue = 0,1,0 --green
-    ci_pattern3_alpha = 0.3
+    ci_pattern3_alpha = 1
     ci_pattern4_red, ci_pattern4_green, ci_pattern4_blue = 1,1,0 --yellow
-    ci_pattern4_alpha = 0.5
+    ci_pattern4_alpha = 1
 
     cairo_pattern_add_color_stop_rgba (ci_pattern, 0,   ci_pattern1_red,ci_pattern1_green,ci_pattern1_blue,ci_pattern1_alpha)
     cairo_pattern_add_color_stop_rgba (ci_pattern, 0.5, ci_pattern4_red,ci_pattern4_green,ci_pattern4_blue,ci_pattern4_alpha)
@@ -187,11 +191,11 @@ function conky_main()
     ri_pattern1_red, ri_pattern1_green, ri_pattern1_blue = 1,0,0 --red
     ri_pattern1_alpha = 1
     ri_pattern2_red, ri_pattern2_green, ri_pattern2_blue = 0,0,1 --blue
-    ri_pattern2_alpha = 0.5
+    ri_pattern2_alpha = 1
     ri_pattern3_red, ri_pattern3_green, ri_pattern3_blue = 0,1,0 --green
-    ri_pattern3_alpha = 0.6
+    ri_pattern3_alpha = 1
     ri_pattern4_red, ri_pattern4_green, ri_pattern4_blue = 1,1,0 --yellow
-    ri_pattern4_alpha = 0.7
+    ri_pattern4_alpha = 1
 
     cairo_pattern_add_color_stop_rgba (ri_pattern, 1,   ri_pattern1_red,ri_pattern1_green,ri_pattern1_blue,ri_pattern1_alpha)
     cairo_pattern_add_color_stop_rgba (ri_pattern, 0.8, ri_pattern4_red,ri_pattern4_green,ri_pattern4_blue,ri_pattern4_alpha)
