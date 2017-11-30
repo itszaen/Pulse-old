@@ -1,7 +1,7 @@
 function cpuarc()
      ci_interval = 1
     ci_timer = (updates % ci_interval)
-    radius_c = 250
+    radius_c = 220
     ci_height = radius_c * 2 --500
     ci_cpu = cpu
     ci_cpu_height = ci_cpu * (ci_height/100.0)
