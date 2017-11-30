@@ -6,4 +6,5 @@
 
   cairo_scale (cr, 1, 1)
   cairo_set_source_surface (ali_surface, ali_image, 0, 0)
+  --cairo_surface_destroy(ali_image)
   cairo_paint (cr) ]]
