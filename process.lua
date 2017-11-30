@@ -1,20 +1,15 @@
-function process (x,y)
-  x=x
-  y=y
-  cpuprocess(x,y)
-  ramprocess(x+290,y)
-end
+-- the cpu will display the same as ram if interval is bigger than 1!
 function cpuprocess(x,y)
   x = x
   y = y
   spacing = 1
-  processfile(x,y,"/home/zaen/.config/conky/.tmp/process_cpu",spacing,5)
+  processfile(x,y,"/home/zaen/.config/conky/.tmp/process_cpu",spacing,1)
 end
 function ramprocess(x,y)
   x = x
   y = y
   spacing = 1
-  processfile(x,y,"/home/zaen/.config/conky/.tmp/process_ram",spacing,5)
+  processfile(x,y,"/home/zaen/.config/conky/.tmp/process_ram",spacing,1)
 end
 function processfile(x,y,file,spacing,interval)
   interval = interval

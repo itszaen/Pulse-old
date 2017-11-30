@@ -59,7 +59,8 @@ function conky_main()
     heading("CPU",805,860)
     heading("RAM",1095,860)
     dofile ("/home/zaen/.config/conky/process.lua")
-    process(725,880)
+    cpuprocess(725,880)
+    ramprocess(1015,880)
 
     ----
     conky_start = nil -- 1st time flag
