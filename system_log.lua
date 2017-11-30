@@ -7,7 +7,7 @@ function system_log(x,y)
     sl_font_face = CAIRO_FONT_WEIGHT_NORMAL
     sl_font_size = 12.5
     sl_spacing = 1.2
-    sl_red, sl_green, sl_blue = 0.60 ,0.60 ,1
+    sl_red, sl_green, sl_blue = 0.40 ,0.40 ,0.60
     sl_alpha = 0.8
 
     sl_timer = (updates % sl_interval)

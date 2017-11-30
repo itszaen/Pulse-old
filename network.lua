@@ -17,8 +17,7 @@ function network()
   speedtest_timer = (updates % speedtest_interval)
   internet_connected = 0
   if internet_connected == 1 then
-      a = conky_parse("${texeci 60 /home/zaen/.config/conky/speedtest.sh}")
-    if speedtest_timer == 0 or conky_start == 1 then
+      if speedtest_timer == 0 or conky_start == 1 then
       speedtest_file = io.open("/home/zaen/.config/conky/.tmp/speeds")
       speedtest_content_table = {}
       for line in speedtest_file:lines() do
