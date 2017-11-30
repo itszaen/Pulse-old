@@ -42,13 +42,13 @@ function conky_main()
     dofile ("/home/zaen/.config/conky/datetime.lua")
     datetime()
     --- System Log
-    heading("System Log",100,775)
+    heading("System Log",100,770)
     dofile ("/home/zaen/.config/conky/system_log.lua")
     system_log(82,790)
     --- System Storage Information
-    heading("Storage",100,410)
+    heading("Storage",100,450)
     dofile ("/home/zaen/.config/conky/system_storage.lua")
-    system_storage(82,420)
+    system_storage(82,460)
     --- Network Information
     dofile ("/home/zaen/.config/conky/network.lua")
     network()

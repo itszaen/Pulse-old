@@ -15,8 +15,7 @@ function network()
   alpha = 1
 
   speedtest_timer = (updates % speedtest_interval)
-  internet_connected = 1
-
+  internet_connected = 0
   if internet_connected == 1 then
       a = conky_parse("${texeci 60 /home/zaen/.config/conky/speedtest.sh}")
     if speedtest_timer == 0 or conky_start == 1 then
@@ -49,11 +48,11 @@ function network()
     font = "Inconsolata"
     font_slant = CAIRO_FONT_SLANT_NORMAL
     font_face = CAIRO_FONT_WEIGHT_NORMAL
-    font_size = 18
+    font_size = 30
     red, green, blue = 0.68,0.68,1
-    alpha = 1
-    xpos = 200
-    ypos = 200
+    alpha = 0.6
+    xpos = 220
+    ypos = 250
     text = "INTERNET DISCONNECTED"
     cairo_select_font_face (cr, font, font_slant, font_face)
     cairo_set_font_size (cr, font_size)
