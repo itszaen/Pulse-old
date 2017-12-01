@@ -15,8 +15,7 @@ function network()
   alpha = 1
 
   speedtest_timer = (updates % speedtest_interval)
-  internet_connected = 0
-  if internet_connected == 1 then
+  if internet_connected_wlp2s0 == 1 or internet_connected_enp4s0 == 1 then
       if speedtest_timer == 0 or conky_start == 1 then
       speedtest_file = io.open("/home/zaen/.config/conky/.tmp/speeds")
       speedtest_content_table = {}
