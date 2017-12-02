@@ -63,7 +63,8 @@ function network()
 end
 
 function display_speed(text,speed,x,y,spacing)
-  text2 = tostring(speed).." KiB"
+  print(speed)
+  text2 = speed_convert_s(speed)
   xpos = x
   ypos = y
   font = "Inconsolata"
@@ -83,4 +84,31 @@ function display_speed(text,speed,x,y,spacing)
   cairo_move_to (cr, xpos, ypos+font_size*spacing)
   cairo_show_text(cr,text2)
   cairo_stroke(cr)
+end
+
+function speed_convert_s (speed)
+  if tonumber(speed) < 100.0 then
+    speed = round_float(speed,1)
+    s = tostring(speed) .. " KiB"
+    return s
+  elseif tonumber(speed) < 100000.0 then
+    speed = speed / 1000.0
+    speed = round_float(speed,1)
+    s = tostring(speed) .. " MiB"
+    return s
+  elseif tonumber(speed) < 100000000.0 then
+    speed = speed / 1000000.0
+    speed = round_float(speed,1)
+    s = tostring(speed) .. " GiB"
+    return s
+  else
+    speed = speed / 1000000.0
+    speed = round_float(speed,1)
+    s = tostring(speed) .. "GiB"
+  end
+end
+
+function round_float(num, numDecimalPlaces) --string
+  rounded = string.format("%." .. (numDecimalPlaces or 0) .. "f", num) -- string
+  return rounded
 end
