@@ -27,9 +27,9 @@ function conky_main()
     memory    = tonumber(conky_parse("${memperc}"))
 
     internet_connected_wlp2s0 =
-    tonumber(conky_parse("${if_up wlp2s0}1${else}0${endif}"))
+    tonumber(conky_parse("${if_existing /sys/class/net/wlp2s0/operstate up}1${else}0${endif}"))
     internet_connected_enp4s0 =
-    tonumber(conky_parse("${if_up enp4s0}1${else}0${endif}"))
+    tonumber(conky_parse("${if_existing /sys/class/net/enp4s0/operstate up}1${else}0${endif}"))
 
     if     internet_connected_wlp2s0 == 1 then
       downspeed = conky_parse("${downspeedf wlp2s0}")
