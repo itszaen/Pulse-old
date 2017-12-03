@@ -43,12 +43,9 @@ function conky_main()
     screen_y = 1080
   -- Object
     dofile ("/home/zaen/.config/conky/heading.lua")
-    --- Circle
+    --- Clock
     dofile ("/home/zaen/.config/conky/clock.lua")
     clock()
-    --- Date & Time
-    dofile ("/home/zaen/.config/conky/datetime.lua")
-    datetime()
     --- System Log
     heading("System Log",100,770)
     dofile ("/home/zaen/.config/conky/system_log.lua")
@@ -66,11 +63,11 @@ function conky_main()
     dofile ("/home/zaen/.config/conky/ram.lua")
     ramarc()
     --- Process
-    heading("CPU",820,860)
-    heading("RAM",1115,860)
+    heading("CPU",795,860)
+    heading("RAM",1100,860)
     dofile ("/home/zaen/.config/conky/process.lua")
-    cpuprocess(725,880)
-    ramprocess(1015,880)
+    cpuprocess(700,880)
+    ramprocess(1000,880)
 
     ----
     conky_start = nil -- 1st time flag
