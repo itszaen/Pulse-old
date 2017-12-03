@@ -64,9 +64,11 @@ function conky_main()
     --- CPU Indicator Arc
     dofile ("/home/zaen/.config/conky/cpu.lua")
     cpuarc()
+    dofile ("/home/zaen/.config/conky/ram.lua")
+    ramarc()
     --- Process
-    heading("CPU",805,860)
-    heading("RAM",1095,860)
+    heading("CPU",820,860)
+    heading("RAM",1115,860)
     dofile ("/home/zaen/.config/conky/process.lua")
     cpuprocess(725,880)
     ramprocess(1015,880)

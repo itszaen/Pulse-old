@@ -8,7 +8,7 @@ function network()
   font_size = 15
   spacing = 10.5
   xpos = -50
-  ypos = 305
+  ypos = 340
   red = 0.6
   green = 0.6
   blue = 1
@@ -40,8 +40,8 @@ function network()
     end
 
     --download speed
-    display_speed("DWN SPD",downspeed,600,102,1.5)
-    display_speed("UPL SPD",upspeed  ,600,220,1.5)
+    display_speed("DWN SPD",downspeed,600,135,1.5)
+    display_speed("UPL SPD",upspeed  ,600,255,1.5)
   else
     font = "Inconsolata"
     font_slant = CAIRO_FONT_SLANT_NORMAL
@@ -63,7 +63,6 @@ function network()
 end
 
 function display_speed(text,speed,x,y,spacing)
-  print(speed)
   text2 = speed_convert_s(speed)
   xpos = x
   ypos = y
