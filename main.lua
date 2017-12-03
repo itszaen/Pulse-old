@@ -44,9 +44,8 @@ function conky_main()
   -- Object
     dofile ("/home/zaen/.config/conky/heading.lua")
     --- Circle
-    dofile ("/home/zaen/.config/conky/circle.lua")
-    draw_arc()
-    radius_c = 220
+    dofile ("/home/zaen/.config/conky/clock.lua")
+    clock()
     --- Date & Time
     dofile ("/home/zaen/.config/conky/datetime.lua")
     datetime()
