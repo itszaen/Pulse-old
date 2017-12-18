@@ -14,13 +14,13 @@ function conky_main()
   )
   cr = cairo_create(cs)
 
-
   updates = tonumber(conky_parse('${updates}'))
   if updates>1 then
 
-  -- Info to terminal
-  --- 'Conky is running' 1/s
+  -- Info
+  --[[
     --print ("conky is running!")
+  ]]
 
   -- Parsing
     cpu       = tonumber(conky_parse("${cpu}"))
@@ -38,34 +38,50 @@ function conky_main()
       downspeed = conky_parse("${downspeedf enp4s0}")
       upspeed   = conky_parse("${upspeedf enp4s0}")
     end
-  -- Screen
+
+    year    = os.date("%Y")
+    month   = os.date("%m")
+    monthn  = os.date("%B")
+    day     = os.date("%d")
+    weekdayn= os.date("%A")
+    hours   = os.date("%H")
+    minutes = os.date("%M")
+    seconds = os.date("%S")
+
     screen_x = 1920
     screen_y = 1080
-  -- Object
+
+    centerx = screen_x/2
+    centery = screen_y/2
+
+    -- Variable
+    center = 440
+
+    -- Objects
     dofile ("/home/zaen/.config/conky/heading.lua")
-    --- Clock
+
     dofile ("/home/zaen/.config/conky/clock.lua")
     clock()
-    --- System Log
-    heading("System Log",100,770)
+
     dofile ("/home/zaen/.config/conky/system_log.lua")
+    heading("System Log",100,770)
     system_log(82,790)
-    --- System Storage Information
-    heading("Storage",100,450)
+
     dofile ("/home/zaen/.config/conky/system_storage.lua")
+    heading("Storage",100,450)
     system_storage(82,460)
-    --- Network Information
+
     dofile ("/home/zaen/.config/conky/network.lua")
     network()
-    --- CPU Indicator Arc
+
     dofile ("/home/zaen/.config/conky/cpu.lua")
     cpuarc()
     dofile ("/home/zaen/.config/conky/ram.lua")
     ramarc()
-    --- Process
+
+    dofile ("/home/zaen/.config/conky/process.lua")
     heading("CPU",795,860)
     heading("RAM",1100,860)
-    dofile ("/home/zaen/.config/conky/process.lua")
     cpuprocess(700,880)
     ramprocess(1000,880)
 

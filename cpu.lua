@@ -3,7 +3,7 @@ function cpuarc()
   interval = 1
   timer = (updates % interval)
   cut   = 0
-  height = 440
+  height = center
   cpu = cpu
   cpu_height = cpu * (height/100.0)
   cut_height = cut * (cpu/100.0)

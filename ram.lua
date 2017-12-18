@@ -2,7 +2,7 @@ function ramarc()
   --! Starts from the top
   interval = 1
   timer    = (updates % interval)
-  height   = 440
+  height   = center
   ram      = memory
   ram_height = ram * (height/100.0)
 
