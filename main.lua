@@ -1,5 +1,4 @@
 require 'cairo'
-dofile ("/home/zaen/.config/conky/ricing.lua")
 
 conky_start = 1
 
@@ -45,6 +44,7 @@ function conky_main()
     day     = os.date("%d")
     weekdayn= os.date("%A")
     hours   = os.date("%H")
+    hours12 = os.date("%I")
     minutes = os.date("%M")
     seconds = os.date("%S")
 
