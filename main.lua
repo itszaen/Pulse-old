@@ -1,6 +1,19 @@
+package.path = os.getenv("HOME") ..  "/.config/conky/?.lua;" .. package.path
+
 require 'cairo'
 
+require 'clock'
+require 'heading'
+require 'system_log'
+require 'system_storage'
+require 'network'
+require 'cpu'
+require 'ram'
+require 'process'
+
 conky_start = 1
+home = os.getenv("HOME")
+curdir = home .. "/.config/conky"
 
 function conky_main()
   if conky_window == nil then return end
@@ -15,11 +28,6 @@ function conky_main()
 
   updates = tonumber(conky_parse('${updates}'))
   if updates>1 then
-
-  -- Info
-  --[[
-    --print ("conky is running!")
-  ]]
 
   -- Parsing
     cpu       = tonumber(conky_parse("${cpu}"))
@@ -58,28 +66,19 @@ function conky_main()
     center = 440
 
     -- Objects
-    dofile ("/home/zaen/.config/conky/heading.lua")
-
-    dofile ("/home/zaen/.config/conky/clock.lua")
     clock()
 
-    dofile ("/home/zaen/.config/conky/system_log.lua")
     heading("System Log",100,770)
     system_log(82,790)
 
-    dofile ("/home/zaen/.config/conky/system_storage.lua")
     heading("Storage",100,450)
     system_storage(82,460)
 
-    dofile ("/home/zaen/.config/conky/network.lua")
     network()
 
-    dofile ("/home/zaen/.config/conky/cpu.lua")
     cpuarc()
-    dofile ("/home/zaen/.config/conky/ram.lua")
     ramarc()
 
-    dofile ("/home/zaen/.config/conky/process.lua")
     heading("CPU",795,860)
     heading("RAM",1100,860)
     cpuprocess(700,880)

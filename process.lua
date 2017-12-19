@@ -3,13 +3,13 @@ function cpuprocess(x,y)
   x = x
   y = y
   spacing = 1
-  processfile(x,y,"/home/zaen/.config/conky/.tmp/process_cpu",spacing,1)
+  processfile(x,y,curdir .. "/.tmp/process_cpu",spacing,1)
 end
 function ramprocess(x,y)
   x = x
   y = y
   spacing = 1
-  processfile(x,y,"/home/zaen/.config/conky/.tmp/process_ram",spacing,1)
+  processfile(x,y,curdir .. "/.tmp/process_ram",spacing,1)
 end
 function processfile(x,y,file,spacing,interval)
   interval = interval
