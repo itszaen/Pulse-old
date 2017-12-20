@@ -31,3 +31,12 @@ sudo pacman -S ttf-inconsolata gsfonts
 ```
 ### Features
 * Speedtest
+For some reasons, conky will hangs for some time everytime it does the speedtest.
+Remove the feature then, wouldn't you say? NOOBIE POWER! YOU CAN'T! (soon you can!)
+```
+sudo pacman -S speedtest-cli
+```
+
+## Screenshot
+not updated regularly.
+![Screenshot](https://raw.githubusercontent.com/zaen323/conky/master/Screenshot.png)
