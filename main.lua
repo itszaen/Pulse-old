@@ -79,8 +79,8 @@ function conky_main()
     cpuarc()
     ramarc()
 
-    heading("CPU",795,860)
-    heading("RAM",1100,860)
+    heading("CPU",795,865)
+    heading("RAM",1100,865)
     cpuprocess(700,880)
     ramprocess(1000,880)
 
