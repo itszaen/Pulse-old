@@ -40,7 +40,7 @@ sudo pacman -S ttf-inconsolata gsfonts
 * Ubuntu
 ```
 sudo apt-get install fonts-inconsolata
-should be installed from the get go(sudo apt-get install gsfonts)
+sudo apt-get install gsfonts
 ```
 ### Features
 * Speedtest
