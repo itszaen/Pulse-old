@@ -10,6 +10,8 @@ require 'network'
 require 'cpu'
 require 'ram'
 require 'process'
+require 'information'
+require 'weather'
 
 conky_start = 1
 home = os.getenv("HOME")
@@ -64,7 +66,12 @@ function conky_main()
 
     -- Variable
     center = 440
-
+    color1 = {0.68,0.68,1.00,0.8}
+    color2 = {0.60,0.60,1.00,0.8}
+    color3 = {0.68,0.68,1.00,1.0}
+    color4 = {0.40,0.40,0.60,0.8}
+    color5 = {0.60,0.60,1.00,0.6}
+    color6 = {0.60,0.60,1.00,0.7}
     -- Objects
     clock()
 
@@ -84,6 +91,11 @@ function conky_main()
     cpuprocess(700,880)
     ramprocess(1000,880)
 
+    heading("Info",1300,770)
+    information()
+
+    --weather()
+
     ----
     conky_start = nil -- 1st time flag
 
@@ -97,4 +109,35 @@ end -- conky_main()
 --- converts color in hexa to decimal
 function rgb_to_r_g_b(colour, alpha)
   return ((colour / 0x10000) % 0x100) / 255., ((colour / 0x100) % 0x100) / 255., (colour % 0x100) / 255., alpha
+end
+function displaytext(x,y,text,font,font_size,color)
+  font_slant  = CAIRO_FONT_SLANT_NORMAL
+  font_weight = CAIRO_FONT_WEIGHT_NORMAL
+  cairo_select_font_face(cr,font,font_slant,font_face)
+  cairo_set_font_size(cr,font_size)
+  cairo_set_source_rgba (cr,rgba(color))
+  cairo_move_to(cr,x,y)
+  cairo_show_text(cr,text)
+  cairo_stroke(cr)
+end
+function text_extents(text,font,font_size)
+  font_slant  = CAIRO_FONT_SLANT_NORMAL
+  font_weight = CAIRO_FONT_WEIGHT_NORMAL
+  cairo_select_font_face(cr,font,font_slant,font_face)
+  cairo_set_font_size(cr,font_size)
+  extents = cairo_text_extents_t:create()
+  tolua.takeownership(extents)
+  cairo_text_extents(cr,text,extents)
+end
+function rgba(color)
+  r = color[1]
+  g = color[2]
+  b = color[3]
+  a = color[4]
+  return r,g,b,a
+end
+function draw_line(startx,starty,finishx,finishy)
+  cairo_move_to (cr, startx , starty)
+  cairo_line_to (cr, finishx, finishy)
+  cairo_close_path(cr)
 end

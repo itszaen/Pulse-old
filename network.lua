@@ -3,16 +3,11 @@ function network()
   up   = upspeed
   speedtest_interval = 30
   font = "Inconsolata"
-  font_slant = CAIRO_FONT_SLANT_NORMAL
-  font_face  = CAIRO_FONT_WEIGHT_NORMAL
   font_size = 15
   spacing = 10.5
-  xpos = -50
-  ypos = 340
-  red = 0.6
-  green = 0.6
-  blue = 1
-  alpha = 1
+  x = -50
+  y = 340
+  local color = color6
 
   speedtest_timer = (updates % speedtest_interval)
   if internet_connected_wlp2s0 == 1 or internet_connected_enp4s0 == 1 then
@@ -29,13 +24,8 @@ function network()
     n = 1
     for i, line in ipairs (speedtest_content_table) do
       speedtest_content = line
-      xpos = xpos + font_size*spacing
-      cairo_select_font_face (cr, font, font_slant, font_face)
-      cairo_set_font_size (cr, font_size)
-      cairo_set_source_rgba (cr, red,green,blue,alpha)
-      cairo_move_to (cr,xpos,ypos)
-      cairo_show_text (cr, speedtest_content)
-      cairo_stroke (cr)
+      x = x + font_size*spacing
+      displaytext(x,y,speedtest_content,font,font_size,color)
       n = n+1
     end
 
@@ -44,45 +34,23 @@ function network()
     display_speed("UPL SPD",upspeed  ,600,255,1.5)
   else
     font = "Inconsolata"
-    font_slant = CAIRO_FONT_SLANT_NORMAL
-    font_face = CAIRO_FONT_WEIGHT_NORMAL
     font_size = 30
-    red, green, blue = 0.68,0.68,1
-    alpha = 0.6
-    xpos = 220
-    ypos = 250
+    local color = color5
+    x = 220
+    y = 250
     text = "INTERNET DISCONNECTED"
-    cairo_select_font_face (cr, font, font_slant, font_face)
-    cairo_set_font_size (cr, font_size)
-    cairo_set_source_rgba (cr, red, green, blue, alpha)
-    cairo_move_to (cr, xpos, ypos)
-    cairo_show_text (cr, text)
-    cairo_stroke (cr)
+    displaytext(x,y,text,font,font_size,color)
   end
-
 end
 
-function display_speed(text,speed,x,y,spacing)
+function display_speed(text1,speed,x,y,spacing)
   text2 = speed_convert_s(speed)
-  xpos = x
-  ypos = y
   font = "Inconsolata"
-  font_slant = CAIRO_FONT_SLANT_NORMAL
-  font_face  = CAIRO_FONT_WEIGHT_NORMAL
   font_size = 20
-  red = 0.68
-  green = 0.68
-  blue = 1
-  alpha = 0.8
-  spacing = spacing
-  cairo_select_font_face (cr, font, font_slant, font_face)
-  cairo_set_font_size (cr,font_size)
-  cairo_set_source_rgba (cr,red, green,blue,alpha)
-  cairo_move_to (cr, xpos, ypos)
-  cairo_show_text(cr,text)
-  cairo_move_to (cr, xpos, ypos+font_size*spacing)
-  cairo_show_text(cr,text2)
-  cairo_stroke(cr)
+  local color = color1
+  displaytext(x,y,text1,font,font_size,color)
+  y = y + font_size*spacing
+  displaytext(x,y,text2,font,font_size,color)
 end
 
 function speed_convert_s (speed)

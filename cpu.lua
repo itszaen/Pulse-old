@@ -1,133 +1,129 @@
 function cpuarc()
   --! Starts from the bottom
   interval = 1
-  timer = (updates % interval)
-  cut   = 0
-  height = center
-  cpu = cpu
-  cpu_height = cpu * (height/100.0)
-  cut_height = cut * (cpu/100.0)
+  timer    = (updates % interval)
+  size     = 0.8
+  height   = center * size
+  cpu      = cpu
+  cpu_height = cpu * (height/100.0) * size
+  bgcolor  = {0.34,0.34,0.5,0.5}
 
-  gap_out,radius_out = 315.0,280.0
-  gap_in ,radius_in  = 310.0,275.0
+  offset_out,radius_out = 315.0,275.0
+  offset_in ,radius_in  = 310.0,270.0
+  offset_indicator = -295
 
-  cpu_arc_background(gap_out,radius_out,cut)
-  cpu_arc_background_n(gap_in,radius_in,cut)
-  cpu_arc_background_lines(cut)
-  cairo_set_source_rgba(cr,0.34,0.34,0.5,0.5)
+  cpu_arc_background(offset_out,radius_out)
+  cpu_arc_background_n(offset_in,radius_in)
+  cpu_arc_background_lines()
+  cairo_close_path(cr)
+  cairo_set_source_rgba(cr,rgba(bgcolor))
   cairo_fill(cr)
-  cairo_stroke(cr)
-  draw_cpu_arc(gap_out,radius_out,cut) -- arc outside
-  draw_cpu_arc_n(gap_in,radius_in,cut) -- arc inside
-  cpu_arc_lines(cut)                  -- top & bottom Line
-  cpu_arc_pattern(cut)                -- filling gradation
+  draw_cpu_arc(offset_out,radius_out) -- arc outside
+  draw_cpu_arc_n(offset_in,radius_in) -- arc inside
+  cpu_arc_lines()                  -- top & bottom Line
+  cpu_arc_pattern()                -- filling gradation
+  cairo_close_path(cr)
   cairo_set_source(cr, pattern)
   cairo_fill(cr)
-  cairo_stroke(cr)
-  cpu_indicator(660,screen_y/2,1)
+  cpu_indicator(centerx+offset_indicator,centery,1)
 end
 
 --Functions
-function cpu_arc_background(gap,radius,cut)
-  cut = cut or 0
-  range  = (math.asin((height/2.0 - cut) / radius))*180.0/math.pi --91.1693 when radius is 350.0
+function cpu_arc_background(offset,radius)
+  range  = (math.asin((height/2.0) / radius))*180.0/math.pi --91.1693 when radius is 350.0
   bottom = 180.0 - range                                            -- 134.4153 when radius is 350.0
-  degree = 180.0  + range
+  top    = 180.0 + range
+  local color = {1.0,1.0,1.0,1.0}
 
-  center_xpos = screen_x / 2 + radius - gap
-  center_ypos = screen_y / 2
+  center_xpos = centerx + radius - offset
+  center_ypos = centery
 
-  start_angle = bottom * math.pi/180.0
-  finish_angle   = degree * math.pi/180.0
+  start_angle  = bottom * math.pi/180.0
+  finish_angle = top    * math.pi/180.0
 
-  cairo_set_source_rgba (cr,1,1,1,1)
+  cairo_set_source_rgba (cr,rgba(color))
   cairo_arc (cr, center_xpos, center_ypos, radius, start_angle, finish_angle)
 end
-function cpu_arc_background_n (gap,radius,cut)
-  cut = cut or 0
-  range =  (math.asin((height/2.0 - cut) / radius))*180/math.pi
+function cpu_arc_background_n (offset,radius)
+  range  = (math.asin((height/2.0) / radius))*180/math.pi
   bottom = 180.0 - range
-  degree = 180.0  + range
+  top    = 180.0 + range
+  local color = {1.0,1.0,1.0,1.0}
 
-  center_xpos = screen_x / 2 + radius - gap
-  center_ypos = screen_y / 2
+  center_xpos = centerx + radius - offset
+  center_ypos = centery
 
-  start_angle  = degree * math.pi/180
+  start_angle  = top    * math.pi/180
   finish_angle = bottom * math.pi/180
   -- the order here is important for filling to work properly
 
-  cairo_set_source_rgba (cr,1,1,1,1)
+  cairo_set_source_rgba (cr,rgba(color))
   cairo_arc_negative(cr, center_xpos, center_ypos, radius, start_angle, finish_angle) --negative arc
 end
 
-function cpu_arc_background_lines(cut)
-  cut = cut or 0
-  top_start_xpos =  screen_x / 2 + radius_out - gap_out - radius_out
-  top_start_ypos = screen_y/2 - height/2 + cut
-  top_end_xpos = screen_x / 2 + radius_in - gap_in - (math.sqrt(radius_in^2 - (height/2)^2))
-  top_end_ypos = screen_y/2 - height/2 + cut
-  bottom_start_xpos = top_start_xpos
-  bottom_start_ypos = screen_y / 2 + height/2 - cut
-  bottom_end_xpos = top_end_xpos
-  bottom_end_ypos = bottom_start_ypos
-  draw_line(top_start_xpos,top_start_ypos,top_end_xpos,top_end_ypos)
-  draw_line(bottom_start_xpos,bottom_start_ypos,bottom_end_xpos,bottom_end_ypos)
+function cpu_arc_background_lines()
+  top_sx = centerx + radius_out - offset_out - radius_out
+  top_sy = centery - height/2
+  top_fx = centerx + radius_in - offset_in - (math.sqrt(radius_in^2 - (height/2)^2))
+  top_fy = centery - height/2
+  bottom_sx = top_sx
+  bottom_sy = centery / 2 + height/2
+  bottom_fx = top_fx
+  bottom_fy = bottom_sy
+  draw_line(top_sx,top_sy,top_fx,top_fy)
+  draw_line(bottom_sx,bottom_sy,bottom_fx,bottom_fy)
 end
 
-function draw_cpu_arc(gap,radius,cut)
-  cut = cut or 0
-  range  = 2.0*((math.asin((height/2.0 - cut) / radius))*180.0/math.pi) --91.1693 when radius is 350.0
-  bottom = 180.0 - range/2.0                                            -- 134.4153 when radius is 350.0
-  degree = 90 + math.acos((height/2.0 - cpu_height + cut_height)/radius)*180.0/math.pi
+function draw_cpu_arc(offset,radius)
+  range  = (math.asin((height/2.0) / radius))*180.0/math.pi
+  bottom = 180.0 - range
+  top    = 180.0 - (90.0 - math.acos((height/2.0 - cpu_height)/radius)*180.0/math.pi)
+  local color = {1.0,1.0,1.0,1.0}
 
-  center_xpos = screen_x / 2 + radius - gap
-  center_ypos = screen_y / 2
+  center_xpos = centerx + radius - offset
+  center_ypos = centery
 
-  start_angle = bottom * math.pi/180.0
-  finish_angle   = degree * math.pi/180.0
+  start_angle  = bottom * math.pi/180.0
+  finish_angle = top    * math.pi/180.0
 
-  cairo_set_source_rgba (cr,1,1,1,1)
+  cairo_set_source_rgba (cr,rgba(color))
   cairo_arc (cr, center_xpos, center_ypos, radius, start_angle, finish_angle)
 end
-function draw_cpu_arc_n(gap,radius,cut)
-  cut = cut or 0
-  range =  2.0*(math.asin((height/2.0 - cut) / radius))*180/math.pi
-  bottom = 180.0 - range/2.0
-  degree = 90 + math.acos((height/2.0 - cpu_height + cut_height)/radius)*180.0/math.pi
+function draw_cpu_arc_n(offset,radius)
+  range  = (math.asin((height/2.0) / radius))*180.0/math.pi
+  bottom = 180.0 - range
+  top    = 180.0 - (90.0 - math.acos((height/2.0 - cpu_height)/radius)*180.0/math.pi)
+  local color = {1.0,1.0,1.0,1.0}
 
-  center_xpos = screen_x / 2 + radius - gap
-  center_ypos = screen_y / 2
+  center_xpos = centerx + radius - offset
+  center_ypos = centery
 
-  start_angle = degree * math.pi/180
-  finish_angle   = bottom * math.pi/180
+  start_angle  = top * math.pi/180
+  finish_angle = bottom    * math.pi/180
   -- the order here is important for filling to work properly
 
-  cairo_set_source_rgba (cr,1,1,1,1)
+  cairo_set_source_rgba (cr,rgba(color))
   cairo_arc_negative(cr, center_xpos, center_ypos, radius, start_angle, finish_angle) --negative arc
 end
 
-function cpu_arc_lines(cut)
-  cut = cut or 0
-  top_start_xpos =  screen_x / 2 + radius_out - gap_out - radius_out
-  top_start_ypos = screen_y/2 + height/2 - cpu_height + cut_height
-  top_end_xpos = screen_x / 2 + radius_in - gap_in - (math.sqrt(radius_in^2 - (height/2)^2))
-  top_end_ypos = screen_y/2 + height/2 - cpu_height + cut_height
-  bottom_start_xpos = top_start_xpos
-  bottom_start_ypos = screen_y / 2 + height/2 - cut
-  bottom_end_xpos = top_end_xpos
-  bottom_end_ypos = bottom_start_ypos
+function cpu_arc_lines()
+  top_sx = centerx + radius_out - offset_out - radius_out
+  top_sy = centery + height/2 - cpu_height
+  top_fx = centerx + radius_in - offset_in - (math.sqrt(radius_in^2 - (height/2)^2))
+  top_fy = centery + height/2 - cpu_height
+  bottom_sx = top_sx
+  bottom_sy = centery + height/2
+  bottom_fx = top_fx
+  bottom_fy = bottom_sy
   cairo_set_line_width (cr,1)
-  draw_line(top_start_xpos,top_start_ypos,top_end_xpos,top_end_ypos)
-  draw_line(bottom_start_xpos,bottom_start_ypos,bottom_end_xpos,bottom_end_ypos)
-end
-function draw_line(startx,starty, finishx,finishy)
-  cairo_move_to (cr, startx , starty)
-  cairo_line_to (cr, finishx , finishy)
+  draw_line(top_sx,top_sy,top_fx,top_fy)
+  draw_line(bottom_sx,bottom_sy,bottom_fx,bottom_fy)
 end
 
-function cpu_arc_pattern(cut)
-  cut = cut or 0
-  pattern = cairo_pattern_create_linear (top_start_xpos , 290.0+cut, top_start_xpos , 790.0-cut)
+function cpu_arc_pattern()
+  sy = centery - height/2
+  fy = centery + height/2
+  pattern = cairo_pattern_create_linear (top_sx , sy, top_sx , fy)
   pattern1_red, pattern1_green, pattern1_blue = 1,0,0 --red
   pattern1_alpha = 1
   pattern2_red, pattern2_green, pattern2_blue = 0,0,1 --blue
@@ -143,23 +139,12 @@ function cpu_arc_pattern(cut)
   cairo_pattern_add_color_stop_rgba (pattern, 1,   pattern2_red,pattern2_green,pattern2_blue,pattern2_alpha)
 end
 function cpu_indicator(x,y,spacing)
-  x = x
-  y = y
-  spacing = spacing
   font = "Inconsolata"
-  font_slant = CAIRO_FONT_SLANT_NORMAL
-  font_face  = CAIRO_FONT_WEIGHT_NORMAL
   font_size  = 15
   text1 = "CPU"
   text2 = cpu .. "%"
-  red,green,blue = 0.68,0.68,1
-  alpha = 0.8
-  cairo_select_font_face (cr,font,font_slant,font_face,font_size)
-  cairo_set_font_size (cr,font_size)
-  cairo_set_source_rgba (cr,red,green,blue,alpha)
-  cairo_move_to (cr,x,y)
-  cairo_show_text (cr,text1)
-  cairo_move_to (cr,x,y+spacing*font_size)
-  cairo_show_text (cr,text2)
-  cairo_stroke(cr)
+  color = color1
+  displaytext(x,y,text1,font,font_size,color)
+  y = y + spacing*font_size
+  displaytext(x,y,text2,font,font_size,color)
 end
