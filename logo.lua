@@ -36,7 +36,7 @@ end
 function archname(x,y,size)
   font = "Z003"
   font_size = size/2.3
-  local color = color4
+  local color = color2
   text = "Arch Linux"
   text_extents(text,font,font_size)
   x = x + centerx - (extents.width/2 + extents.x_bearing)

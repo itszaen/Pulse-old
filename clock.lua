@@ -14,6 +14,7 @@ function clock()
   else end
   analog_time()
   watch_dial()
+  archlogo(logox,logoy,logosize)
 end
 
 

@@ -3,7 +3,7 @@ function system_storage(x,y)
     font="Inconsolata"
     font_size = 18
     spacing = 1.4
-    local color = color4
+    local color = color2
 
     timer = (updates % interval)
     if timer == 0 or conky_start == 1 then

@@ -8,8 +8,8 @@ function ramarc()
   ram_height = ram * (height/100.0) * size
   bgcolor  = {0.34,0.34,0.5,0.5}
 
-  offset_out,radius_out = 315.0,275.0
-  offset_in ,radius_in  = 310.0,270.0
+  offset_out,radius_out = 315.0,255.0
+  offset_in ,radius_in  = 310.0,255.0
   offset_indicator = 275
 
   ram_arc_background(offset_in,radius_in)
