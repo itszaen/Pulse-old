@@ -69,7 +69,6 @@ function watch_hand_hour(degree,scale)
   offset1 = length/5
   offset2 = length/4
   offset3 = length/1.5
-  linewidth = 1 --doesn't matter
   rootwidth = 7.5
   outerwidth = 15
   innerwidth = 10
@@ -88,7 +87,7 @@ function watch_hand_hour(degree,scale)
   py = sy+(math.sin((degree+endwidth)*math.pi/180)*length)*scale
   qx = sx+(math.cos((degree-endwidth)*math.pi/180)*length)*scale
   qy = sy+(math.sin((degree-endwidth)*math.pi/180)*length)*scale
-  cairo_set_line_width(cr,linewidth)
+  cairo_set_line_width(cr,1)
   cairo_set_source_rgba(cr,rgba(outercolor))
   cairo_move_to(cr,sx,sy)
   cairo_line_to(cr,lx,ly)
@@ -126,7 +125,6 @@ function watch_hand_minute(degree,scale)
   offset1 = length/5
   offset2 = length/4
   offset3 = length/1.5
-  linewidth = 1
   rootwidth = 6
   outerwidth = 12
   innerwidth = 7.2
@@ -145,7 +143,7 @@ function watch_hand_minute(degree,scale)
   py = sy+(math.sin((degree+endwidth)*math.pi/180)*length)*scale
   qx = sx+(math.cos((degree-endwidth)*math.pi/180)*length)*scale
   qy = sy+(math.sin((degree-endwidth)*math.pi/180)*length)*scale
-  cairo_set_line_width(cr,linewidth)
+  cairo_set_line_width(cr,1)
   cairo_set_source_rgba(cr,rgba(outercolor))
   cairo_move_to(cr,sx,sy)
   cairo_line_to(cr,lx,ly)
@@ -180,21 +178,21 @@ function watch_hand_second(degree,scale)
   sx = centerx
   sy = centery
   radius = 2.5
-  linewidth = 1
   color = color2
-  width = 4
+  startwidth = 4
+  endwidth = 0.2
   gap = 0.95
   lx = scale*(math.cos(degree*math.pi/180)*(size/2-25))
   ly = scale*(math.sin(degree*math.pi/180)*(size/2-25))
-  mx = scale*(math.cos((degree-width)*math.pi/180)*(size/2-25))*gap
-  my = scale*(math.sin((degree-width)*math.pi/180)*(size/2-25))*gap
-  nx = scale*(math.cos((degree+width)*math.pi/180)*(size/2-25))*gap
-  ny = scale*(math.sin((degree+width)*math.pi/180)*(size/2-25))*gap
-  ox = scale*(math.cos((degree+0.2)*math.pi/180)*(size/2-25))
-  oy = scale*(math.sin((degree+0.2)*math.pi/180)*(size/2-25))
-  px = scale*(math.cos((degree-0.2)*math.pi/180)*(size/2-25))
-  py = scale*(math.sin((degree-0.2)*math.pi/180)*(size/2-25))
-  cairo_set_line_width(cr,linewidth)
+  mx = scale*(math.cos((degree-startwidth)*math.pi/180)*(size/2-25))*gap
+  my = scale*(math.sin((degree-startwidth)*math.pi/180)*(size/2-25))*gap
+  nx = scale*(math.cos((degree+startwidth)*math.pi/180)*(size/2-25))*gap
+  ny = scale*(math.sin((degree+startwidth)*math.pi/180)*(size/2-25))*gap
+  ox = scale*(math.cos((degree+endwidth)*math.pi/180)*(size/2-25))
+  oy = scale*(math.sin((degree+endwidth)*math.pi/180)*(size/2-25))
+  px = scale*(math.cos((degree-endwidth)*math.pi/180)*(size/2-25))
+  py = scale*(math.sin((degree-endwidth)*math.pi/180)*(size/2-25))
+  cairo_set_line_width(cr,1)
   cairo_set_source_rgba(cr,rgba(color))
   cairo_arc(cr,sx,sy,radius,0,2*math.pi)
   cairo_move_to(cr,sx-lx*0.2,sy-ly*0.2)

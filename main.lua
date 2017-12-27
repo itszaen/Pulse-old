@@ -93,7 +93,7 @@ function conky_main()
     ramprocess(1000,880)
 
     heading("Info",1300,770)
-    information()
+    information(1300,800)
 
     --weather()
 
