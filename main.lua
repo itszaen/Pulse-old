@@ -72,6 +72,7 @@ function conky_main()
     color4 = {0.40,0.40,0.60,0.8}
     color5 = {0.60,0.60,1.00,0.6}
     color6 = {0.60,0.60,1.00,0.7}
+    color7 = {0.68,0.68,1.00,0.6}
     -- Objects
     clock()
 
