@@ -10,7 +10,7 @@ end
 function processfile(x,y,file,spacing,interval)
   font = "Inconsolata"
   font_size = 15
-  local color = color2
+  color = color2
 
   timer = (updates % interval)
   if timer == 0 or conky_start == 1 then

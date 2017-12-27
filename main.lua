@@ -36,9 +36,9 @@ function conky_main()
     memory    = tonumber(conky_parse("${memperc}"))
 
     internet_connected_wlp2s0 =
-    tonumber(conky_parse("${if_existing /sys/class/net/wlp2s0/operstate up}1${else}0${endif}"))
+    conky_parse("${if_existing /sys/class/net/wlp2s0/operstate up}1${else}0${endif}")
     internet_connected_enp4s0 =
-    tonumber(conky_parse("${if_existing /sys/class/net/enp4s0/operstate up}1${else}0${endif}"))
+    conky_parse("${if_existing /sys/class/net/enp4s0/operstate up}1${else}0${endif}")
 
     if     internet_connected_wlp2s0 == 1 then
       downspeed = conky_parse("${downspeedf wlp2s0}")
@@ -76,10 +76,10 @@ function conky_main()
     -- Objects
     clock()
 
-    heading("System Log",100,770)
+    heading1(100,770,"System Log")
     system_log(82,790)
 
-    heading("Storage",100,450)
+    heading1(100,450,"Storage")
     system_storage(82,460)
 
     network()
@@ -87,12 +87,12 @@ function conky_main()
     cpuarc()
     ramarc()
 
-    heading("CPU",795,865,0)
-    heading("RAM",1100,865,0)
+    heading3(795 ,865,"CPU")
+    heading3(1100,865,"RAM")
     cpuprocess(700,880)
     ramprocess(1000,880)
 
-    heading("Info",1300,770)
+    heading1(1300,770,"Info")
     information(1300,800)
 
     --weather()
