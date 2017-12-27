@@ -1,0 +1,47 @@
+function icon_update(x,y,size,color,inverse)
+  inverse = 0 or inverse
+  original = 281
+  scale = size / original
+  pattern = cairo_pattern_create_rgba(rgba(color))
+  cairo_set_source(cr,pattern)
+  cairo_new_path(cr)
+  cairo_move_to(cr,x,y)
+  cairo_rel_curve_to(cr,-34.875*scale,5.875*scale,-67.25*scale,26.625*scale,-86.375*scale,55.375*scale)
+  cairo_rel_curve_to(cr,-44.25*scale,66.25*scale,-18.625*scale,156.625*scale,53.75*scale,189.75*scale)
+  cairo_rel_curve_to(cr,79.125*scale,36.25*scale,171*scale,-15.75*scale,181.75*scale,-102.875*scale)
+  cairo_rel_curve_to(cr,4.75*scale,-38.125*scale,-9.5*scale,-78.375*scale,-37.625*scale,-106.5*scale)
+  cairo_rel_curve_to(cr,-28.875*scale,-28.875*scale,-71.375*scale,-42.5*scale,-111.5*scale,-35.75*scale)
+  --[[cairo_move_to(cr,x+50.875*scale,y+13.125*scale)
+  cairo_rel_curve_to(cr,42.375*scale,11.375*scale,74.25*scale,44.5*scale,85.25*scale,88.5*scale)
+  cairo_rel_curve_to(cr,3.375*scale,13.25*scale,3*scale,41.625*scale,-0.625*scale,55.125*scale)
+  cairo_rel_curve_to(cr,-11.375*scale,42*scale,-43.375*scale,73.875*scale,-85.375*scale,85.375*scale)
+  cairo_rel_curve_to(cr,-9*scale,2.375*scale,-13.375*scale,2.875*scale,-29.875*scale,2.75*scale)
+  cairo_rel_curve_to(cr,-22.375*scale,-0.125*scale,-31.75*scale,-2.125*scale,-49.5*scale,-10.375*scale)
+  cairo_rel_curve_to(cr,-34.75*scale,-16.25*scale,-59.625*scale,-49*scale,-66.25*scale,-86.625*scale)
+  cairo_rel_curve_to(cr,-2.875*scale,-16.375*scale,-1.875*scale,-37.75*scale,2.5*scale,-52.625*scale)
+  cairo_rel_curve_to(cr,12.875*scale,-43.5*scale,48*scale,-75.5*scale,92.625*scale,-84.125*scale)
+  cairo_rel_curve_to(cr,12.625*scale,-2.5*scale,38.375*scale,-1.5*scale,51.25*scale,2*scale)
+  ]]
+  cairo_move_to(cr,x+16.5*scale,y+56.75*scale)
+  cairo_rel_curve_to(cr,-0.75*scale,1.625*scale,-1.25*scale,23.75*scale,-1.25*scale,63.5*scale)
+  cairo_rel_line_to(cr,0*scale,61*scale)
+  cairo_rel_line_to(cr,-18.5*scale,-18.5*scale)
+  cairo_rel_curve_to(cr,-11.625*scale,-11.625*scale,-19.375*scale,-18.375*scale,-21*scale,-18.375*scale)
+  cairo_rel_curve_to(cr,-3.25*scale,0*scale,-5.5*scale,2.25*scale,-5.5*scale,5.625*scale)
+  cairo_rel_curve_to(cr,0*scale,3.375*scale,47.25*scale,50.625*scale,50.625*scale,50.625*scale)
+  cairo_rel_curve_to(cr,3*scale,0*scale,50.625*scale,-47.375*scale,50.625*scale,-50.25*scale)
+  cairo_rel_curve_to(cr,0*scale,-2.625*scale,-3.375*scale,-6*scale,-5.875*scale,-6*scale)
+  cairo_rel_curve_to(cr,-1.125*scale,0*scale,-10.375*scale,8.25*scale,-20.625*scale,18.375*scale)
+  cairo_rel_line_to(cr,-18.5*scale,18.375*scale)
+  cairo_rel_line_to(cr,0*scale,-61*scale)
+  cairo_rel_curve_to(cr,0*scale,-39.625*scale,-0.5*scale,-61.75*scale,-1.25*scale,-63.375*scale)
+  cairo_rel_curve_to(cr,-0.75*scale,-1.375*scale,-2.625*scale,-2.375*scale,-4.375*scale,-2.375*scale)
+  cairo_rel_curve_to(cr,-1.75*scale,0*scale,-3.625*scale,1*scale,-4.375*scale,2.375*scale)
+  cairo_close_path(cr)
+  if inverse == 0 then
+    cairo_set_fill_rule(cr,CAIRO_FILL_RULE_EVEN_ODD)
+  else
+    cairo_set_fill_rule(cr,CAIRO_FILL_RULE_WINDING)
+  end
+  cairo_fill(cr)
+end
