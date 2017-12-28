@@ -13,9 +13,11 @@ function information(x,y)
   cuy = y + spacing
   class_update(cux,cuy)
 
+  indent = 15
+  spacing = 120
   eux = x + indent
-  euy = y + 120
-  email_update(x,y)
+  euy = y + spacing
+  email_update(eux,euy)
 
   six = x + 100
   siy = y
@@ -52,6 +54,14 @@ function package_update(x,y)
   displaytext(x,y,text,font,font_size,color)
 end
 function email_update(x,y)
+  interval = 60
+  iconsize = 30
+  iconcolor = color5
+  iconx = x + 11
+  icony = y - 5
+  mail_icon(iconx,icony,iconsize,iconcolor)
+
+  timer = (updates % interval)
 
 end
 function class_update(x,y)
@@ -60,7 +70,7 @@ function class_update(x,y)
   iconcolor = color5
   iconx = x - 12
   icony = y - 3
-  teaching_icon(iconx,icony,iconsize,color)
+  teaching_icon(iconx,icony,iconsize,iconcolor)
 
   timer = (updates % interval)
 
