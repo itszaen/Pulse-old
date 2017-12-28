@@ -1,6 +1,6 @@
 function heading1(x,y,text)
   font = "Inconsolata"
-  font_size = 15
+  font_size = 16.5
   color = color1
   size = 7
 

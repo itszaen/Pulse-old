@@ -21,7 +21,7 @@ function processfile(x,y,file,spacing,interval)
         table.insert(file_content_table, file_content)
       end
       file:close()
-    end
+  end
     n = 1
     for i, line in ipairs (file_content_table) do
       file_content = line

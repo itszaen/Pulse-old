@@ -24,7 +24,7 @@ function package_update(x,y)
   interval = 30
   iconsize = 30
   color = color5
-  icony = y - 5
+  icony = y
   icon_update(x,icony,iconsize,color,1)
 
   timer = (updates % interval)
@@ -44,7 +44,7 @@ function package_update(x,y)
   font = "Inconsolata"
   font_size = 16
   indent = 25
-  spacing = 13
+  spacing = 18
   color = color1
   x = x + indent
   y = y + spacing
@@ -54,16 +54,31 @@ function email_update(x,y)
 
 end
 function class_update(x,y)
+  interval = 60
+  iconsize = 30
+  iconcolor = color5
+  iconx = x - 12
+  icony = y - 3
+  teaching_icon(iconx,icony,iconsize,color)
+
+  timer = (updates % interval)
+
   font = "Inconsolata"
   font_size = 16
   color = color2
-  class = classtime()
-  if class == 0 then
-    text = "School finished!"
-    displaytext(x,y,text,font,font_size,color)
-  else
-
-  end
+  indent = 25
+  spacing = 13
+  x = x + indent
+  y = y + spacing
+  text1 = "Next class is "
+  displaytext(x,y,text1,font,font_size,color)
+  text_extents(text1,font,font_size)
+  text2 = classinfo()
+  font = "Source Han Sans JP"
+  font_size = 13
+  indent = 6 + extents.width + extents.x_bearing
+  x = x + indent
+  displaytext(x,y,text2,font,font_size,color)
 end
 function software_info(x,y)
 
