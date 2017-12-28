@@ -95,7 +95,7 @@ function conky_main()
     heading1(1290,770,"Info")
     information(1290,800)
 
-    --weather()
+    weather(1350,400)
 
     ----
     conky_start = nil -- 1st time flag

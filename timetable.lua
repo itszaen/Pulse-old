@@ -18,13 +18,13 @@ end
 function classname()
   number = classnumber(hour,minutes,20)
   if conky_start == 1 then
-  file = io.open(curdir .. "/timetable.txt")
-  class_table = {}
-  for line in file:lines() do
-    file_content = line
-    table.insert(class_table,file_content)
-  end
-  file:close()
+    file = io.open(curdir .. "/timetable.txt")
+    class_table = {}
+    for line in file:lines() do
+      file_content = line
+      table.insert(class_table,file_content)
+    end
+    file:close()
   end
   class = class_table[number]
   return class
