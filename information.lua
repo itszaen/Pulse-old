@@ -3,21 +3,22 @@ require 'timetable'
 
 function information(x,y)
   indent = 15
-  spacing = 120
-  sy = y
-  x = x + indent
+  pux = x + indent
+  puy = y
+  package_update(pux,puy)
 
-  package_update(x,y)
+  indent = 15
+  spacing = 60
+  cux = x + indent
+  cuy = y + spacing
+  class_update(cux,cuy)
 
-  y = y + 120
+  eux = x + indent
+  euy = y + 120
   email_update(x,y)
 
-  x = x
-  y = y + 20
-  class_update(x,y)
-
-  x = x + 100
-  y = sy
+  six = x + 100
+  siy = y
   software_info(x,y)
 end
 function package_update(x,y)
@@ -45,7 +46,7 @@ function package_update(x,y)
   font_size = 16
   indent = 25
   spacing = 18
-  color = color1
+  color = color2
   x = x + indent
   y = y + spacing
   displaytext(x,y,text,font,font_size,color)
