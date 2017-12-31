@@ -1,5 +1,5 @@
 function archlogo(x,y,size)
-  spacing = size+25
+  spacing = size - 20
   archicon(x,y,size)
   archname(x,y+spacing,size)
 end
@@ -40,7 +40,7 @@ function archname(x,y,size)
   text = "Arch Linux"
   text_extents(text,font,font_size)
   x = x + centerx - (extents.width/2 + extents.x_bearing)
-  y = y + centery - (extents.width/2 + extents.y_bearing)
+  y = y + centery - (extents.height/2 + extents.y_bearing)
   displaytext(x,y,text,font,font_size,color)
 end
 

@@ -12,6 +12,7 @@ require 'ram'
 require 'process'
 require 'information'
 require 'weather'
+require 'svg2luacairo'
 
 conky_start = 1
 home = os.getenv("HOME")
@@ -33,6 +34,11 @@ function conky_main()
 
   -- Parsing
     cpu       = tonumber(conky_parse("${cpu}"))
+    if cpu > 100 then
+      cpu = 100
+    elseif cpu < 0 then
+      cpu = 0
+    end
     memory    = tonumber(conky_parse("${memperc}"))
 
     internet_connected_wlp2s0 =
@@ -55,8 +61,10 @@ function conky_main()
     weekdayn= os.date("%A")
     hours   = os.date("%H")
     hours12 = os.date("%I")
+    hourapm = os.date("%p")
     minutes = os.date("%M")
     seconds = os.date("%S")
+
 
     screen_x = 1920
     screen_y = 1080
@@ -79,8 +87,8 @@ function conky_main()
     heading1(100,770,"System Log")
     system_log(82,790)
 
-    heading1(100,450,"Storage")
-    system_storage(82,460)
+    heading1(100,420,"Storage")
+    system_storage(82,430)
 
     network()
 
@@ -95,7 +103,7 @@ function conky_main()
     heading1(1290,770,"Info")
     information(1290,800)
 
-    weather(1350,400)
+    weather(1350,440)
 
     ----
     conky_start = nil -- 1st time flag
@@ -129,6 +137,9 @@ function text_extents(text,font,font_size)
   extents = cairo_text_extents_t:create()
   tolua.takeownership(extents)
   cairo_text_extents(cr,text,extents)
+  -- Usage
+  -- x = extents.width  + extents.x_bearing
+  -- y = extents.height + extents.y_bearing
 end
 function rgba(color)
   r = color[1]

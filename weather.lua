@@ -1,9 +1,12 @@
+require 'icon_weather'
+
 function weather(x,y)
-  interval = 60
+  interval = 300
   timer = (updates % interval)
+  area = "Tokyo" -- available currently: Tokyo
 
   if timer == 0 or conky_start == 1 then
-    file = io.open(curdir .. "/.tmp/weather")
+    file = io.open(curdir .. "/.tmp/weather_" .. area)
     weather_t = {}
     for line in file:lines() do
       file_content = line
@@ -11,6 +14,32 @@ function weather(x,y)
     end
     file:close()
   end
+
+  if timer == 0 or conky_start == 1 then
+    file = io.open(curdir .. "/.tmp/weather_forecasts_" .. area)
+    forecast_t = {}
+    for line in file:lines() do
+      file_content = line
+      table.insert(forecast_t,file_content)
+    end
+    file:close()
+  end
+
+  location_t = {
+    Tokyo = "Tokyo,Japan",
+    California = "California,United States of America"
+  }
+
+  weather_icon_day_t = {
+    Fair = "day-sunny",
+    Clear = "day-sunny"
+  }
+
+  weather_icon_night_t = {
+    Fair = "night-clear"
+  }
+
+  location = location_t[area]
 
   temperature      = weather_t[1]
   temperature_high = weather_t[2]
@@ -29,33 +58,210 @@ function weather(x,y)
   sunrise          = weather_t[15]
   sunset           = weather_t[16]
   moon_phase       = weather_t[17]
-  last_updated     = weather_t[18]
-  icon             = weather_t[19]
+  last_update      = weather_t[18]
+  observation      = weather_t[19]
+  moon_phase_text  = weather_t[20]
 
+  second_date = forecast_t[1]
+  second_day_of_week = forecast_t[2]
+  second_temp_high = forecast_t[3]
+  second_temp_low = forecast_t[4]
+  second_humidity = forecast_t[5]
+  second_precip_chance = forecast_t[6]
+  second_text = forecast_t[7]
+  third_date = forecast_t[8]
+  third_day_of_week = forecast_t[9]
+  third_temp_high = forecast_t[10]
+  third_temp_low = forecast_t[11]
+  third_humidity = forecast_t[12]
+  third_precip_chance = forecast_t[13]
+  third_text = forecast_t[14]
+  fourth_date = forecast_t[15]
+  fourth_day_of_week = forecast_t[16]
+  fourth_temp_high = forecast_t[17]
+  fourth_temp_low = forecast_t[18]
+  fourth_humidity = forecast_t[19]
+  fourth_precip_chance = forecast_t[20]
+  fourth_text = forecast_t[21]
+
+
+  color = color6
+  weather_icon_size = 50
+  text_indent = iconsize + 10
+  start1y = 35
+  indent1 = 140
+  spacing2 = 42
+  start2x = x
+  start2y = y + 82
+  spacing3 = spacing2
+  start3x = 130
+  start3y = 82
+  start4x = 250
+  start4y = -35
+  spacing4 = 30
+
+  -- temperature
   font = "Noto Sans"
   font_size = 80
-  color = color6
+  text = temperature
   x1 = x
   y1 = y
-  displaytext(x1,y1,temperature,font,font_size,color)
+  displaytext(x1,y1,text,font,font_size,color)
 
-  font_size = 16
+  -- icon
+  iconx = x + 130
+  icony = y - 65
+  iconpath = curdir .. "/image/weather_icons/" .. weather_icon_name(summary) ..".svg"
+  draw_cairo(iconx,icony,iconpath,90,30,color6)
+
+  -- element 1
+  font_size = 17
+
+  iconx = x + indent1 - 20
+  icony = y + start1y - 18
+  iconpath = curdir .. "/image/weather_icons/thermometer.svg"
+  draw_cairo(iconx,icony,iconpath,25,30,color6)
   text = temperature_high .. "/" .. temperature_low
-  x2 = x + 80
-  y2 = y + 20
+  x2 = x + indent1
+  y2 = y + start1y
   displaytext(x2,y2,text,font,font_size,color)
 
-
+  --font = "Inconsolata"
+  text = summary
   x3 = x
-  y3 = y + 20
-  displaytext(x3,y3,summary,font,font_size,color)
+  y3 = y2
+  displaytext(x3,y3,text,font,font_size,color)
 
-  x4 = x
-  y4 = y + 60
-  displaytext(x4,y4,wind_speed,font,font_size,color)
+  -- element 2
+  font_size = 14
 
-  x5 = x
-  y5 = y + 80
-  displaytext(x5,y5,precip_chance,font,font_size,color)
+  iconx = start2x
+  icony = start2y - 30
+  iconpath = curdir .. "/image/weather_icons/humidity.svg"
+  draw_cairo(iconx,icony,iconpath,40,30,color6)
+  text = humidity
+  x4 = iconx + text_indent
+  y4 = start2y
+  displaytext(x4,y4,text,font,font_size,color)
 
+  iconx = iconx
+  icony = icony + spacing2
+  iconpath = curdir .. "/image/weather_icons/umbrella.svg"
+  draw_cairo(iconx,icony,iconpath,40,30,color6)
+  text = precip_chance
+  x5 = x4
+  y5 = y4 + spacing2
+  displaytext(x5,y5,text,font,font_size,color)
+
+  iconx = iconx
+  icony = icony + spacing2
+  iconpath = curdir .. "/image/weather_icons/windy.svg"
+  draw_cairo(iconx,icony,iconpath,40,30,color6)
+  text = wind_speed
+  x6 = x5
+  y6 = y5 + spacing2
+  displaytext(x6,y6,text,font,font_size,color)
+
+  iconx = iconx
+  icony = icony + spacing2
+  iconpath = curdir .. "/image/weather_icons/barometer.svg"
+  draw_cairo(iconx,icony,iconpath,40,30,color6)
+  text = air_pressure
+  x7 = x6
+  y7 = y6 + spacing2
+  displaytext(x7,y7,text,font,font_size,color)
+
+  iconx = iconx
+  icony = icony + spacing2
+  iconpath = curdir .. "/image/weather_icons/uv.svg"
+  draw_cairo(iconx,icony,iconpath,30,512,color6)
+  text = uv_text
+  x8 = x7
+  y8 = y7 + spacing2
+  displaytext(x8,y8,text,font,font_size,color)
+
+  -- element 3
+  iconx = iconx + start3x
+  icony = start2y - 30
+  iconpath = curdir .. "/image/weather_icons/smog.svg"
+  draw_cairo(iconx,icony,iconpath,40,30,color6)
+  text = visibility
+  x9 = x + start3x + text_indent
+  y9 = y + start3y
+  displaytext(x9,y9,text,font,font_size,color)
+
+  iconx = iconx
+  icony = icony + spacing2
+  iconpath = curdir .. "/image/weather_icons/raindrops.svg"
+  draw_cairo(iconx,icony,iconpath,40,30,color6)
+  text = dew_point
+  x10 = x9
+  y10 = y9 + spacing3
+  displaytext(x10,y10,text,font,font_size,color)
+
+  iconx = iconx
+  icony = icony + spacing2
+  iconpath = curdir .. "/image/weather_icons/sunrise.svg"
+  draw_cairo(iconx,icony,iconpath,40,30,color6)
+  text = sunrise
+  x11 = x10
+  y11 = y10 + spacing3
+  displaytext(x11,y11,text,font,font_size,color)
+
+  iconx = iconx
+  icony = icony + spacing2
+  iconpath = curdir .. "/image/weather_icons/sunset.svg"
+  draw_cairo(iconx,icony,iconpath,40,30,color6)
+  text = sunset
+  x12 = x11
+  y12 = y11 + spacing3
+  displaytext(x12,y12,text,font,font_size,color)
+
+  iconx = iconx
+  icony = icony + spacing2
+  iconpath = curdir .. "/image/weather_icons/moon-"..moon_phase..".svg"
+  draw_cairo(iconx,icony,iconpath,36,30,color6)
+  font_size = 13
+  n = 1
+  text = {}
+  for i in string.gmatch(moon_phase_text,"%S+") do
+    text[n] = i
+    n = n + 1
+  end
+  x13 = x12
+  y13 = y12 + spacing3 -font_size
+  displaytext(x13,y13,text[1],font,font_size,color)
+  displaytext(x13,y13+font_size*1.1,text[2],font,font_size,color)
+
+  -- element4 (location,update)
+  font = "Inconsolata"
+  font_size = 16.5
+
+  text = "Location: " .. location
+  x14 = x + start4x
+  y14 = y + start4y
+  displaytext(x14,y14,text,font,font_size,color)
+
+  font_size = 13.5
+  text = "Last Update: " .. last_update
+  x15 = x14
+  y15 = y14 + spacing4
+  displaytext(x15,y15,text,font,font_size,color)
+
+end
+
+function weather_icon_name(weather)
+  weather_icon_day_t = {
+    Fair = "day-sunny",
+    Clear = "day-sunny"
+  }
+  weather_icon_night_t = {
+    Fair = "night-clear",
+    Clear = "night-clear"
+  }
+  if 5 < tonumber(hours) and tonumber(hours) < 18  then
+    return weather_icon_day_t[weather]
+  else
+    return weather_icon_night_t[weather]
+  end
 end

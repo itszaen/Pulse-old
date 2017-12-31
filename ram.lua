@@ -2,14 +2,14 @@ function ramarc()
   --! Starts from the top
   interval = 1
   timer    = (updates % interval)
-  size     = 0.8
+  size     = 0.75
   height   = center * size
   ram      = memory
   ram_height = ram * (height/100.0) * size
   bgcolor  = {0.34,0.34,0.5,0.5}
 
-  offset_out,radius_out = 315.0,255.0
-  offset_in ,radius_in  = 310.0,255.0
+  offset_out,radius_out = 315.0,250.0
+  offset_in ,radius_in  = 310.0,250.0
   offset_indicator = 275
 
   ram_arc_background(offset_in,radius_in)

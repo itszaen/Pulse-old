@@ -9,7 +9,7 @@ function system_log(x,y)
   if timer == 0 or conky_start == 1 then
     sl_content_table = {}
     os.execute(curdir .. "/journal_dump.sh")
-    file = io.open(curdir .. "/.tmp/journal.txt", "r")
+    file = io.open(curdir .. "/.tmp/journal", "r")
     for line in file:lines() do
       local content = line
       table.insert(sl_content_table, content)

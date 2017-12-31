@@ -2,7 +2,7 @@ function cpuarc()
   --! Starts from the bottom
   interval = 1
   timer    = (updates % interval)
-  size     = 0.8
+  size     = 0.75
   height   = center * size
   cpu      = cpu
   cpu_height = cpu * (height/100.0) * size
