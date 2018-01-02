@@ -1,4 +1,4 @@
-function svg2luacairo(filepath)
+function svg2luacairo(filepath,name)
   file = assert(io.popen(curdir.."/svg2cairoxml ".. filepath))
   data = ""
   for line in file:lines() do
@@ -12,7 +12,7 @@ function svg2luacairo(filepath)
   end
   file:close()
   data = trim(data)
-  item_t = {} -- important
+  item_t = {}
   item_number_t = {}
   for item in data:gmatch("%S+") do
     if item == "m" or item == "c" or item == "l" or item == "h" then
@@ -25,11 +25,14 @@ function svg2luacairo(filepath)
       table.insert(item_number_t,item)
     end
   end
-  return item_t
+  _G[name.."item_t"] = item_t
 end
 
-function draw_cairo(x,y,file,size,original,color)
-  cairo_t = svg2luacairo(file)
+function draw_image(x,y,filepath,name,size,original,color)
+  if conky_start == 1 or image_change == 1 then
+  svg2luacairo(filepath,name)
+  end
+  cairo_t = _G[name.."item_t"]
   scale = size/original
   pattern = cairo_pattern_create_rgba(rgba(color))
   cairo_set_source(cr,pattern)

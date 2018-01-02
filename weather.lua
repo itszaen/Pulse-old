@@ -112,7 +112,8 @@ function weather(x,y)
   iconx = x + 130
   icony = y - 65
   iconpath = curdir .. "/image/weather_icons/" .. weather_icon_name(summary) ..".svg"
-  draw_cairo(iconx,icony,iconpath,90,30,color6)
+  iconname = "weather"
+  draw_image(iconx,icony,iconpath,iconname,90,30,color6)
 
   -- element 1
   font_size = 17
@@ -120,7 +121,8 @@ function weather(x,y)
   iconx = x + indent1 - 20
   icony = y + start1y - 18
   iconpath = curdir .. "/image/weather_icons/thermometer.svg"
-  draw_cairo(iconx,icony,iconpath,25,30,color6)
+  iconname = "thermometer"
+  draw_image(iconx,icony,iconpath,iconname,25,30,color6)
   text = temperature_high .. "/" .. temperature_low
   x2 = x + indent1
   y2 = y + start1y
@@ -138,7 +140,8 @@ function weather(x,y)
   iconx = start2x
   icony = start2y - 30
   iconpath = curdir .. "/image/weather_icons/humidity.svg"
-  draw_cairo(iconx,icony,iconpath,40,30,color6)
+  iconname = "humidity"
+  draw_image(iconx,icony,iconpath,iconname,40,30,color6)
   text = humidity
   x4 = iconx + text_indent
   y4 = start2y
@@ -147,7 +150,8 @@ function weather(x,y)
   iconx = iconx
   icony = icony + spacing2
   iconpath = curdir .. "/image/weather_icons/umbrella.svg"
-  draw_cairo(iconx,icony,iconpath,40,30,color6)
+  iconname = "umbrella"
+  draw_image(iconx,icony,iconpath,iconname,40,30,color6)
   text = precip_chance
   x5 = x4
   y5 = y4 + spacing2
@@ -156,7 +160,8 @@ function weather(x,y)
   iconx = iconx
   icony = icony + spacing2
   iconpath = curdir .. "/image/weather_icons/windy.svg"
-  draw_cairo(iconx,icony,iconpath,40,30,color6)
+  iconname = "wind"
+  draw_image(iconx,icony,iconpath,iconname,40,30,color6)
   text = wind_speed
   x6 = x5
   y6 = y5 + spacing2
@@ -165,7 +170,8 @@ function weather(x,y)
   iconx = iconx
   icony = icony + spacing2
   iconpath = curdir .. "/image/weather_icons/barometer.svg"
-  draw_cairo(iconx,icony,iconpath,40,30,color6)
+  iconname = "barometer"
+  draw_image(iconx,icony,iconpath,iconname,40,30,color6)
   text = air_pressure
   x7 = x6
   y7 = y6 + spacing2
@@ -174,7 +180,8 @@ function weather(x,y)
   iconx = iconx
   icony = icony + spacing2
   iconpath = curdir .. "/image/weather_icons/uv.svg"
-  draw_cairo(iconx,icony,iconpath,30,512,color6)
+  iconname = "uv"
+  draw_image(iconx,icony,iconpath,iconname,30,512,color6)
   text = uv_text
   x8 = x7
   y8 = y7 + spacing2
@@ -184,7 +191,8 @@ function weather(x,y)
   iconx = iconx + start3x
   icony = start2y - 30
   iconpath = curdir .. "/image/weather_icons/smog.svg"
-  draw_cairo(iconx,icony,iconpath,40,30,color6)
+  iconname = "visibility"
+  draw_image(iconx,icony,iconpath,iconname,40,30,color6)
   text = visibility
   x9 = x + start3x + text_indent
   y9 = y + start3y
@@ -193,7 +201,8 @@ function weather(x,y)
   iconx = iconx
   icony = icony + spacing2
   iconpath = curdir .. "/image/weather_icons/raindrops.svg"
-  draw_cairo(iconx,icony,iconpath,40,30,color6)
+  iconname = "dewpoint"
+  draw_image(iconx,icony,iconpath,iconname,40,30,color6)
   text = dew_point
   x10 = x9
   y10 = y9 + spacing3
@@ -202,7 +211,8 @@ function weather(x,y)
   iconx = iconx
   icony = icony + spacing2
   iconpath = curdir .. "/image/weather_icons/sunrise.svg"
-  draw_cairo(iconx,icony,iconpath,40,30,color6)
+  iconname = "sunrise"
+  draw_image(iconx,icony,iconpath,iconname,40,30,color6)
   text = sunrise
   x11 = x10
   y11 = y10 + spacing3
@@ -211,7 +221,8 @@ function weather(x,y)
   iconx = iconx
   icony = icony + spacing2
   iconpath = curdir .. "/image/weather_icons/sunset.svg"
-  draw_cairo(iconx,icony,iconpath,40,30,color6)
+  iconname = "sunset"
+  draw_image(iconx,icony,iconpath,iconname,40,30,color6)
   text = sunset
   x12 = x11
   y12 = y11 + spacing3
@@ -220,7 +231,8 @@ function weather(x,y)
   iconx = iconx
   icony = icony + spacing2
   iconpath = curdir .. "/image/weather_icons/moon-"..moon_phase..".svg"
-  draw_cairo(iconx,icony,iconpath,36,30,color6)
+  iconname = "moonphase"
+  draw_image(iconx,icony,iconpath,iconname,36,30,color6)
   font_size = 13
   n = 1
   text = {}
