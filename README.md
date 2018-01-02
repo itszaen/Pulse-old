@@ -95,9 +95,9 @@ Awesome weather widget via pywapi.
 
 #### Info
 ##### Package needing update
-Only on Arch Linux.
+Only on Arch Linux & Ubuntu
 ##### Next Class
-Wow who wants this except for me.
+WOW who wants this except for me.
 ##### Unread email
 not yet implemented. (just an icon floating there)
 
