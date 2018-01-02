@@ -87,50 +87,62 @@ function weather(x,y)
 
   color = color6
   weather_icon_size = 50
-  text_indent = iconsize + 10
+  text_indent = iconsize + 15
   start1y = 35
-  indent1 = 140
+  indent1 = 150
   spacing2 = 42
   start2x = x
   start2y = y + 82
   spacing3 = spacing2
-  start3x = 130
+  start3x = 150
   start3y = 82
   start4x = 250
   start4y = -35
   spacing4 = 30
 
   -- temperature
-  font = "Noto Sans"
+  font = "Roboto"
   font_size = 80
   text = temperature
-  x1 = x
+  text_extents(text,font,font_size)
+  x1 = x + 40 - (extents.width + extents.x_bearing)*1/2
   y1 = y
   displaytext(x1,y1,text,font,font_size,color)
+  iconx = x + 45
+  icony = y - 100
+  iconpath = curdir .. "/image/weather_icons/celsius.svg"
+  iconname = "celsius"
+  iconsize = 165
+  iconorig = 30
+  draw_image(iconx,icony,iconpath,iconname,iconsize,iconorig,color6)
 
   -- icon
-  iconx = x + 130
+  iconx = x + 160
   icony = y - 65
   iconpath = curdir .. "/image/weather_icons/" .. weather_icon_name(summary) ..".svg"
   iconname = "weather"
-  draw_image(iconx,icony,iconpath,iconname,90,30,color6)
+  iconsize = 81
+  iconorig = 30
+  draw_image(iconx,icony,iconpath,iconname,iconsize,iconorig,color6)
 
   -- element 1
   font_size = 17
-
-  iconx = x + indent1 - 20
+  iconsize = 25
+  iconorig = 30
+  iconx = x + indent1
   icony = y + start1y - 18
   iconpath = curdir .. "/image/weather_icons/thermometer.svg"
   iconname = "thermometer"
-  draw_image(iconx,icony,iconpath,iconname,25,30,color6)
+  draw_image(iconx,icony,iconpath,iconname,iconsize,iconorig,color6)
   text = temperature_high .. "/" .. temperature_low
-  x2 = x + indent1
+  x2 = x + indent1 + text_indent - 15
   y2 = y + start1y
   displaytext(x2,y2,text,font,font_size,color)
 
   --font = "Inconsolata"
+  font_size = 18
   text = summary
-  x3 = x
+  x3 = x + 10
   y3 = y2
   displaytext(x3,y3,text,font,font_size,color)
 
@@ -138,7 +150,7 @@ function weather(x,y)
   font_size = 14
 
   iconx = start2x
-  icony = start2y - 30
+  icony = start2y - 25
   iconpath = curdir .. "/image/weather_icons/humidity.svg"
   iconname = "humidity"
   draw_image(iconx,icony,iconpath,iconname,40,30,color6)
@@ -181,7 +193,7 @@ function weather(x,y)
   icony = icony + spacing2
   iconpath = curdir .. "/image/weather_icons/uv.svg"
   iconname = "uv"
-  draw_image(iconx,icony,iconpath,iconname,30,512,color6)
+  draw_image(iconx,icony,iconpath,iconname,35,512,color6)
   text = uv_text
   x8 = x7
   y8 = y7 + spacing2
@@ -189,7 +201,7 @@ function weather(x,y)
 
   -- element 3
   iconx = iconx + start3x
-  icony = start2y - 30
+  icony = start2y - 25
   iconpath = curdir .. "/image/weather_icons/smog.svg"
   iconname = "visibility"
   draw_image(iconx,icony,iconpath,iconname,40,30,color6)
@@ -232,18 +244,29 @@ function weather(x,y)
   icony = icony + spacing2
   iconpath = curdir .. "/image/weather_icons/moon-"..moon_phase..".svg"
   iconname = "moonphase"
-  draw_image(iconx,icony,iconpath,iconname,36,30,color6)
-  font_size = 13
-  n = 1
+  draw_image(iconx,icony,iconpath,iconname,40,30,color6)
+
+  n = 0
+
   text = {}
   for i in string.gmatch(moon_phase_text,"%S+") do
-    text[n] = i
     n = n + 1
+    text[n] = i
   end
-  x13 = x12
-  y13 = y12 + spacing3 -font_size
-  displaytext(x13,y13,text[1],font,font_size,color)
-  displaytext(x13,y13+font_size*1.1,text[2],font,font_size,color)
+
+  if n == 1 then
+    font_size = 15
+    x13 = x12
+    y13 = y12 + spacing3
+    displaytext(x13,y13,text[1],font,font_size,color)
+  end
+  if n == 2 then
+    font_size = 13
+    x13 = x12
+    y13 = y12 + spacing3 -font_size
+    displaytext(x13,y13,text[1],font,font_size,color)
+    displaytext(x13,y13+font_size*1.1,text[2],font,font_size,color)
+  end
 
   -- element4 (location,update)
   font = "Inconsolata"

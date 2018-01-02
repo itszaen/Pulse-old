@@ -1,4 +1,4 @@
-require 'icon'
+require 'drawimage'
 require 'timetable'
 
 function information(x,y)
@@ -26,9 +26,13 @@ end
 function package_update(x,y)
   interval = 30
   iconsize = 30
+  iconorig = 225
   color = color5
-  icony = y
-  icon_update(x,icony,iconsize,color,1)
+  iconx = x - 17
+  icony = y - 6
+  iconpath = curdir .. "/image/Update.svg"
+  iconname = "update"
+  draw_image(iconx,icony,iconpath,iconname,iconsize,iconorig,color)
 
   timer = (updates % interval)
 
@@ -46,7 +50,7 @@ function package_update(x,y)
 
   font = "Inconsolata"
   font_size = 16
-  indent = 25
+  indent = 28
   spacing = 18
   color = color2
   x = x + indent
@@ -56,10 +60,13 @@ end
 function email_update(x,y)
   interval = 60
   iconsize = 30
+  iconorig = 225
   iconcolor = color5
-  iconx = x + 11
-  icony = y - 5
-  mail_icon(iconx,icony,iconsize,iconcolor)
+  iconx = x - 16
+  icony = y - 13
+  iconpath = curdir .. "/image/Email.svg"
+  iconname = "email"
+  draw_image(iconx,icony,iconpath,iconname,iconsize,iconorig,iconcolor)
 
   timer = (updates % interval)
 
@@ -67,17 +74,20 @@ end
 function class_update(x,y)
   interval = 60
   iconsize = 30
+  iconorig = 512
   iconcolor = color5
-  iconx = x - 12
-  icony = y - 3
-  teaching_icon(iconx,icony,iconsize,iconcolor)
+  iconx = x - 17
+  icony = y - 10
+  iconpath = curdir .. "/image/Class.svg"
+  iconname = "class"
+  draw_image(iconx,icony,iconpath,iconname,iconsize,iconorig,iconcolor)
 
   timer = (updates % interval)
 
   font = "Inconsolata"
   font_size = 16
   color = color2
-  indent = 25
+  indent = 28
   spacing = 13
   x = x + indent
   y = y + spacing

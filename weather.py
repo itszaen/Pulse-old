@@ -21,7 +21,7 @@ forecast = wc_result['forecasts']
 
 #Today
 
-temperature    = cur_cond['temperature']             + "℃"
+temperature    = cur_cond['temperature']
 temperature_high = forecast[1]['high']               + "℃"
 temperature_low  = forecast[1]['low']                + "℃"
 text           = cur_cond['text']
