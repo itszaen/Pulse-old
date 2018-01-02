@@ -37,17 +37,9 @@ function package_update(x,y)
   timer = (updates % interval)
 
   if timer == 0 or conky_start == 1 then
-    update_number = tonumber(conky_parse("${exec checkupdates | wc -l}"))
+    update_info = getUpdate()
   end
-
-  if update_number == 0 then
-    text = "Your system is up to date!"
-  elseif update_number == nil then
-    text = "Error reading information."
-  else
-    text = update_number .. " packages need updating."
-  end
-
+  text = update_info
   font = "Inconsolata"
   font_size = 16
   indent = 28
@@ -55,7 +47,37 @@ function package_update(x,y)
   color = color2
   x = x + indent
   y = y + spacing
+
   displaytext(x,y,text,font,font_size,color)
+end
+function getUpdate()
+  if osname == "Arch" then
+    update_info = assert(io.popen("checkupdates | wc -l"))
+    for line in update_info:lines() do
+      for number in line:gmatch("%d+") do
+        update_number = number
+        break
+      end
+      break
+    end
+  elseif osname == "Ubuntu" then
+    update_info = assert(io.popen("cat /etc/issue"))
+    for line in update_info:lines() do
+      for number in line:gmatch(",+") do
+        update_number = number
+        break
+      end
+      break
+    end
+  end
+  if update_number == 0 then
+    text = "Your system is up to date!"
+  elseif update_number == nil then
+    text = "Error reading information."
+  else
+    text = update_number .. " packages need updating."
+  end
+  return text
 end
 function email_update(x,y)
   interval = 60

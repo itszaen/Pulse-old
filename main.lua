@@ -32,6 +32,9 @@ function conky_main()
   if updates>1 then
 
   -- Parsing
+    -- OS detection
+    osname = os_detection()
+
     cpu       = tonumber(conky_parse("${cpu}"))
     if cpu > 100 then
       cpu = 100
@@ -151,4 +154,20 @@ function draw_line(startx,starty,finishx,finishy)
   cairo_move_to (cr, startx , starty)
   cairo_line_to (cr, finishx, finishy)
   cairo_close_path(cr)
+end
+function os_detection()
+  if package.config:sub(1,1) == "\\" then
+    osname = "Windows"
+  else
+    temp = assert(io.popen("cat /etc/issue"))
+    for line in temp:lines() do
+      for word in line:gmatch("%S+") do
+        osname = word
+        break
+      end
+      break
+    end
+    temp:close()
+    return osname
+  end
 end
