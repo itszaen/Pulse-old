@@ -9,7 +9,7 @@ The codes are **abhorrent**. definitely something you would expect from a coding
 
 Some to note
 * It is meant to be projected on a 1920x1080 display.
-* It's using Inconsolata & Z003 font, and the fallback font is not pretty.
+* It's using Inconsolata, Z003 & Roboto font, and the fallback font is not pretty.
 
 ## Installation
 I am using ArchLinux (with KDE, not sure if that matters) , and that's all. So I am not sure how some implemention on other distros would vary. (the location of the conky folder and whatnot)
@@ -68,13 +68,13 @@ On other distros, follow the instructions on respective wikis.
 Although it will work without, the fallback is not something desirable.
 * Arch
 ```
-sudo pacman -S ttf-inconsolata gsfonts
+sudo pacman -S ttf-inconsolata gsfonts ttf-roboto
 ```
 * Ubuntu
 ```
-sudo apt-get install fonts-inconsolata
-sudo apt-get install gsfonts
+sudo apt-get install fonts-inconsolata gs-fonts font-roboto
 ```
+
 ### Features
 #### Speedtest
 For some reasons, conky will hangs for some time everytime it does the speedtest.
@@ -88,7 +88,7 @@ sudo pacman -S speedtest-cli
 sudo apt-get install speedtest-cli
 ```
 #### Weather
-Awesome weather widget via pywapi.
+Awesome weather widget via pywapi. Uses Roboto font.
 ```
 (sudo) pip install pywapi
 ```
