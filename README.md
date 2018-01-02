@@ -23,7 +23,7 @@ Which is really a pain in the butt. PUN INTENDED
 (in the future i will consider if to replace the svg images with already converted xml files. that would be nice, but a bit weird)
 
 * Arch
-To manually build cairo, this is the only way I know. Pacaur users, sorry, would you mind installing yaourt with pacaur? ;)
+1. To manually build cairo, this is the only way I know. Pacaur users, sorry, would you mind installing yaourt with pacaur? ;)
 ```
 yaourt -S customizepkg
 mkdir ~/.customizepkg
@@ -49,11 +49,24 @@ After:
 ```
 then proceed to build the package(it will take a while), and install. Done!
 
-Install the conky package with lua support. (nvidia, either way.)
+2. Install the conky package with lua support. (nvidia, either way.)
 ```
 yaourt -S conky-lua(-nv)
 ```
 * Ubuntu
+1. Go to :https://cairographics.org/releases/ and check what's the latest release and wget it. (should be called something like "cairo-1.14.6.tar.xz")
+And do the following.
+```
+wget https://cairographics.org/releases/cairo-[something]
+tar -xvf cairo-[something] (Use <tab>!)
+cd cairo-[something]
+./autogen.sh --enable-xml
+make
+sudo make install
+```
+If you encounter any error, there might be some packages missing for autobuild. Please open an issue.
+
+2. Conky
 ```
 sudo apt-get install conky-all
 ```
@@ -98,15 +111,26 @@ Awesome weather widget via pywapi. Uses Roboto font.
 Only on Arch Linux & Ubuntu
 ##### Next Class
 WOW who wants this except for me.
-##### Unread email
-not yet implemented. (just an icon floating there)
+##### Unread email (gmail)
+Uses curl to read gmail's atom API feed.
+You have to setup python keyring to give conky the necessary credentials.
 
-Good thing is, if you want to get rid of them (of course!), just add "--" in front of both
+(Could I have just made it to read plain text passwords? Yes! But that's too asshole-ish, even for me, you know)
+
 ```
-heading1(1290,770,"Info")
-information(1290,800)
+(sudo) pip install keyring
 ```
-in main.lua.
+Then, run it!
+```
+python -c "import keyring; keyring.set_password('gmail','[Email Address]','[Password]')"
+```
+* Ignore "[" and "]"
+* Yep, the arguments passed to keyring.set_password can be anything, but for this particular conky script, please do it this way.
+
+And to give conky an idea what kind of password it needs, pass your email address into ~/.config/conky/.gmail . (don't forget the **.**!)
+```
+echo  [Email Address] > ~/.config/conky/.gmail
+```
 
 Everything is set! Run conky in terminal! or somewhere else!
 
