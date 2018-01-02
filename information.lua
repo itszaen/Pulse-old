@@ -80,18 +80,100 @@ function getUpdate()
   return text
 end
 function email_update(x,y)
-  interval = 60
-  iconsize = 30
-  iconorig = 225
-  iconcolor = color5
-  iconx = x - 16
-  icony = y - 13
-  iconpath = curdir .. "/image/Email.svg"
-  iconname = "email"
-  draw_image(iconx,icony,iconpath,iconname,iconsize,iconorig,iconcolor)
-
+  interval = 300
   timer = (updates % interval)
 
+  if conky_start == 1 or timer == 0 then
+    gmail_info = getGmail()
+  end
+  if gmail_info == 0 then
+    iconsize = 30
+    iconorig = 225
+    iconcolor = color5
+    iconx = x - 16
+    icony = y - 15
+    iconpath = curdir .. "/image/Email_empty.svg"
+    iconname = "email"
+    draw_image(iconx,icony,iconpath,iconname,iconsize,iconorig,iconcolor)
+    font = "Inconsolata"
+    font_size = 16
+    indent = 28
+    spacing = 9
+    color = color2
+    x = x + indent
+    y = y + spacing
+    text = "You have no unread emails."
+    displaytext(x,y,text,font,font_size,color)
+  elseif gmail_info == nil or gmail_info == "error" then
+    iconsize = 30
+    iconorig = 225
+    iconcolor = color5
+    iconx = x - 16
+    icony = y - 15
+    iconpath = curdir .. "/image/Email.svg"
+    iconname = "email"
+    draw_image(iconx,icony,iconpath,iconname,iconsize,iconorig,iconcolor)
+
+    font = "Inconsolata"
+    font_size = 16
+    indent = 28
+    spacing = 9
+    color = color2
+    x = x + indent
+    y = y + spacing
+    text = "Error reading information."
+
+    displaytext(x,y,text,font,font_size,color)
+  else
+    iconsize = 30
+    iconorig = 225
+    iconcolor = color5
+    iconx = x - 16
+    icony = y - 15
+    iconpath = curdir .. "/image/Email.svg"
+    iconname = "email"
+    draw_image(iconx,icony,iconpath,iconname,iconsize,iconorig,iconcolor)
+
+    font = "Inconsolata"
+    font_size = 16
+    indent = 28
+    spacing = 9
+    color = color2
+    x = x + indent
+    y = y + spacing
+    text = "You have "..gmail_info.." unread emails."
+
+    displaytext(x,y,text,font,font_size,color)
+  end
+
+end
+function getGmail()
+  if conky_start == 1 or email_change ==1 then
+    gmail_address,gmail_password = getGmailCredit()
+  end
+  result = assert(io.popen("curl -s -u "..gmail_address..":"..gmail_password..[[ https://mail.google.com/mail/feed/atom | sed -n 's:.*<fullcount>\(.*\)</fullcount>.*:\1:p']]))
+  for line in result:lines() do
+    for number in line:gmatch("%d+") do
+      unread_mail = number
+      break
+    end
+    break
+  end
+  result:close()
+  return unread_mail
+end
+function getGmailCredit()
+  address_f = io.open(curdir.."/.gmail")
+  for line in address_f:lines() do
+    address = line
+    break
+  end
+  password_f = io.popen("python -c \"import keyring; print(keyring.get_password('gmail','"..address.."'))\"")
+  for line in password_f:lines() do
+    password = line
+    break
+  end
+  return address,password
 end
 function class_update(x,y)
   interval = 60
