@@ -1,4 +1,4 @@
-require 'icon_weather'
+require 'drawimage'
 
 function weather(x,y)
   interval = 300

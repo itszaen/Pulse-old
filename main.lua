@@ -12,7 +12,6 @@ require 'ram'
 require 'process'
 require 'information'
 require 'weather'
-require 'svg2luacairo'
 
 conky_start = 1
 home = os.getenv("HOME")

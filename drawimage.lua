@@ -30,7 +30,7 @@ end
 
 function draw_image(x,y,filepath,name,size,original,color)
   if conky_start == 1 or image_change == 1 then
-  svg2luacairo(filepath,name)
+    svg2luacairo(filepath,name)
   end
   cairo_t = _G[name.."item_t"]
   scale = size/original

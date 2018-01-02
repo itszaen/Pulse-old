@@ -5,8 +5,8 @@ function clock()
   inner = 50
   digital_t = 0
   logosize = 60
-  logox = 0
-  logoy = -125
+  logox = centerx + 0
+  logoy = centery -120
   if digital_t == 1 then
     digital_date()
     digital_time()
