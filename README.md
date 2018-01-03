@@ -129,7 +129,7 @@ python -c "import keyring; keyring.set_password('gmail','[Email Address]','[Pass
 * Ignore "[" and "]"
 * Yep, the arguments passed to keyring.set_password can be anything, but for this particular conky script, please do it this way.
 
-And to give conky an idea what kind of password it needs, pass your email address into ~/.config/conky/.gmail . (don't forget the **.**!)
+And to give conky an idea what kind of password it needs, pass your email address into ~/.config/conky/.gmail . (don't forget the **.** !)
 ```
 echo  [Email Address] > ~/.config/conky/.gmail
 ```
