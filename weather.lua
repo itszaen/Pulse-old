@@ -120,9 +120,9 @@ function weather(x,y)
   spacing3 = spacing2
   start3x = 150
   start3y = 82
-  start4x = 250
-  start4y = -35
-  spacing4 = 30
+  start4x = 260
+  start4y = -30
+  spacing4 = 25
 
   -- temperature
   font = "Roboto"
@@ -272,9 +272,7 @@ function weather(x,y)
   end
 
   -- element4 (location,update)
-  font = "Inconsolata"
-  font_size = 16.5
-
+  font_size = 18
   text = "Location: " .. location
   x14 = x + start4x
   y14 = y + start4y
