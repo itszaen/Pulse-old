@@ -44,16 +44,27 @@ function conky_main()
     memory    = tonumber(conky_parse("${memperc}"))
 
     internet_connected_wlp2s0 =
-    tonumber(conky_parse("${if_existing /sys/class/net/wlp2s0/operstate up}1${else}0${endif}"))
+      tonumber(conky_parse("${if_existing /sys/class/net/wlp2s0/operstate up}1${else}0${endif}"))
     internet_connected_enp4s0 =
-    tonumber(conky_parse("${if_existing /sys/class/net/enp4s0/operstate up}1${else}0${endif}"))
-
+      tonumber(conky_parse("${if_existing /sys/class/net/enp4s0/operstate up}1${else}0${endif}"))
+    internet_connected_wlp4s0 =
+      tonumber(conky_parse("${if_existing /sys/class/net/wlp4s0/operstate up}1${else}0${endif}"))
     if     internet_connected_wlp2s0 == 1 then
       downspeed = conky_parse("${downspeedf wlp2s0}")
       upspeed   = conky_parse("${upspeedf wlp2s0}")
+      internet_connected = 1
+    elseif internet_connected_wlp4s0 == 1 then
+      downspeed = conky_parse("${downspeedf wlp4s0}")
+      upspeed   = conky_parse("${upspeedf wlp4s0}")
+      internet_connected = 1
     elseif internet_connected_enp4s0 == 1 then
       downspeed = conky_parse("${downspeedf enp4s0}")
       upspeed   = conky_parse("${upspeedf enp4s0}")
+      internet_connected = 1
+    else
+      downspeed = 0
+      upspeed = 0
+      internet_connected = 0
     end
 
     year    = os.date("%Y")
