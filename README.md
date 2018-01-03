@@ -124,7 +124,8 @@ Then, run it!
 ```
 python -c "import keyring; keyring.set_password('gmail','[Email Address]','[Password]')"
 ```
-* **The password must be the one you generate at :https://myaccount.google.com/apppasswords**
+* **If you are using 2-factor authentication method, the password must be the one you generate at :https://myaccount.google.com/apppasswords**
+* **If not, go here:https://myaccount.google.com/lesssecureapps and enable less secure apps. (It's okay.)**
 * Ignore "[" and "]"
 * Yep, the arguments passed to keyring.set_password can be anything, but for this particular conky script, please do it this way.
 
