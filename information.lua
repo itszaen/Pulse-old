@@ -25,30 +25,67 @@ function information(x,y)
 end
 function package_update(x,y)
   interval = 30
-  iconsize = 30
-  iconorig = 225
-  color = color5
-  iconx = x - 17
-  icony = y - 6
-  iconpath = curdir .. "/image/Update.svg"
-  iconname = "update"
-  draw_image(iconx,icony,iconpath,iconname,iconsize,iconorig,color)
-
   timer = (updates % interval)
 
   if timer == 0 or conky_start == 1 then
-    update_info = getUpdate()
+    update_number = getUpdate()
   end
-  text = update_info
-  font = "Inconsolata"
-  font_size = 16
-  indent = 28
-  spacing = 18
-  color = color2
-  x = x + indent
-  y = y + spacing
 
-  displaytext(x,y,text,font,font_size,color)
+  if update_number == "0" then
+    iconsize = 30
+    iconorig = 225
+    color = color5
+    iconx = x - 17
+    icony = y - 6
+    iconpath = curdir .. "/image/Up_to_date.svg"
+    iconname = "uptodate"
+    draw_image(iconx,icony,iconpath,iconname,iconsize,iconorig,color)
+    font = "Inconsolata"
+    font_size = 16
+    indent = 28
+    spacing = 18
+    color = color2
+    x = x + indent
+    y = y + spacing
+    text = "Your system is up to date!"
+    displaytext(x,y,text,font,font_size,color)
+  elseif update_number == nil then
+    iconsize = 30
+    iconorig = 225
+    color = color5
+    iconx = x - 17
+    icony = y - 6
+    iconpath = curdir .. "/image/Update.svg"
+    iconname = "update"
+    draw_image(iconx,icony,iconpath,iconname,iconsize,iconorig,color)
+    font = "Inconsolata"
+    font_size = 16
+    indent = 28
+    spacing = 18
+    color = color2
+    x = x + indent
+    y = y + spacing
+    text = "Error reading information."
+    displaytext(x,y,text,font,font_size,color)
+  else
+    iconsize = 30
+    iconorig = 225
+    color = color5
+    iconx = x - 17
+    icony = y - 6
+    iconpath = curdir .. "/image/Update.svg"
+    iconname = "update"
+    draw_image(iconx,icony,iconpath,iconname,iconsize,iconorig,color)
+    font = "Inconsolata"
+    font_size = 16
+    indent = 28
+    spacing = 18
+    color = color2
+    x = x + indent
+    y = y + spacing
+    text = update_number .. " packages can be updated."
+    displaytext(x,y,text,font,font_size,color)
+  end
 end
 function getUpdate()
   if osname == "Arch" then
@@ -70,14 +107,7 @@ function getUpdate()
       break
     end
   end
-  if update_number == 0 then
-    text = "Your system is up to date!"
-  elseif update_number == nil then
-    text = "Error reading information."
-  else
-    text = update_number .. " packages can be updated."
-  end
-  return text
+  return update_number
 end
 function email_update(x,y)
   interval = 300
