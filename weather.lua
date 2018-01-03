@@ -309,7 +309,7 @@ function forecasts(x,y)
   spacing = 70
   spacing_text = 18
   weather_icon_size = 65
-  weather_icon_offset = 10
+  weather_icon_offset = 8
   text_indent = 70  -- from left
   text_spacing = 25 -- from top
   icon_offset = -15
@@ -388,7 +388,7 @@ function forecasts(x,y)
   thirdx = secondx
   thirdy = secondy + spacing
   iconx1 = thirdx
-  icony1 = thirdx + weather_icon_offset
+  icony1 = thirdy + weather_icon_offset
   draw_image(iconx1,icony1,"weather3",weather_icon_size,30,color)
 
   x2 = thirdx + text_indent
