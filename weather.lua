@@ -26,17 +26,20 @@ function weather(x,y)
   end
 
   location_t = {
-    Tokyo = "Tokyo,Japan",
-    California = "California,United States of America"
+    ['Tokyo'] = "Tokyo,Japan",
+    ['California'] = "California,United States"
   }
 
   weather_icon_day_t = {
-    Fair = "day-sunny",
-    Clear = "day-sunny"
+    ['Fair'] = "day-sunny",
+    ['Clear'] = "day-sunny",
+    ['Fair / Windy'] = "day-windy"
   }
 
   weather_icon_night_t = {
-    Fair = "night-clear"
+    ['Fair'] = "night-clear",
+    ['Clear'] = "night-clear",
+    ['Fair / Windy'] = 'windy'
   }
 
   location = location_t[area]
@@ -113,15 +116,6 @@ function weather(x,y)
   iconpath = curdir .. "/image/weather_icons/celsius.svg"
   iconname = "celsius"
   iconsize = 165
-  iconorig = 30
-  draw_image(iconx,icony,iconpath,iconname,iconsize,iconorig,color6)
-
-  -- icon
-  iconx = x + 160
-  icony = y - 65
-  iconpath = curdir .. "/image/weather_icons/" .. weather_icon_name(summary) ..".svg"
-  iconname = "weather"
-  iconsize = 81
   iconorig = 30
   draw_image(iconx,icony,iconpath,iconname,iconsize,iconorig,color6)
 
@@ -283,6 +277,14 @@ function weather(x,y)
   y15 = y14 + spacing4
   displaytext(x15,y15,text,font,font_size,color)
 
+  -- weather icon
+  iconx = x + 160
+  icony = y - 65
+  iconpath = curdir .. "/image/weather_icons/" .. weather_icon_name(summary) ..".svg"
+  iconname = "weather"
+  iconsize = 81
+  iconorig = 30
+  draw_image(iconx,icony,iconpath,iconname,iconsize,iconorig,color6)
 end
 
 function weather_icon_name(weather)
