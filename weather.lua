@@ -28,8 +28,8 @@ function weather(x,y)
   end
 
   location_t = {
-    ['Tokyo'] = "Tokyo,Japan",
-    ['California'] = "California,United States"
+    ['Tokyo'] = "Tokyo, Japan",
+    ['California'] = "California, United States"
   }
 
   weather_icon_t = {
