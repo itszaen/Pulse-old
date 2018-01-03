@@ -39,7 +39,7 @@ function weather(x,y)
   weather_icon_night_t = {
     ['Fair'] = "night-clear",
     ['Clear'] = "night-clear",
-    ['Fair / Windy'] = 'windy'
+    ['Fair / Windy'] = "windy"
   }
 
   location = location_t[area]
@@ -288,14 +288,6 @@ function weather(x,y)
 end
 
 function weather_icon_name(weather)
-  weather_icon_day_t = {
-    Fair = "day-sunny",
-    Clear = "day-sunny"
-  }
-  weather_icon_night_t = {
-    Fair = "night-clear",
-    Clear = "night-clear"
-  }
   if 5 < tonumber(hours) and tonumber(hours) < 18  then
     return weather_icon_day_t[weather]
   else
