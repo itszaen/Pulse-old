@@ -2,6 +2,22 @@ require 'drawimage'
 require 'timetable'
 
 function information(x,y)
+  -- store images
+  if conky_start == 1 then
+    path = curdir .. "/image/Update.svg"
+    name = "update"
+    store_image(path,name)
+    path = curdir .. "/image/Up_to_date.svg"
+    name = "uptodate"
+    store_image(path,name)
+    path = curdir .. "/image/Class.svg"
+    name = "class"
+    store_image(path,name)
+    path = curdir .. "/image/Email.svg"
+    name = "email"
+    store_image(path,name)
+  end
+
   indent = 15
   pux = x + indent
   puy = y
@@ -37,9 +53,8 @@ function package_update(x,y)
     color = color5
     iconx = x - 17
     icony = y - 6
-    iconpath = curdir .. "/image/Up_to_date.svg"
     iconname = "uptodate"
-    draw_image(iconx,icony,iconpath,iconname,iconsize,iconorig,color)
+    draw_image(iconx,icony,iconname,iconsize,iconorig,color)
     font = "Inconsolata"
     font_size = 16
     indent = 28
@@ -55,9 +70,8 @@ function package_update(x,y)
     color = color5
     iconx = x - 17
     icony = y - 6
-    iconpath = curdir .. "/image/Update.svg"
     iconname = "update"
-    draw_image(iconx,icony,iconpath,iconname,iconsize,iconorig,color)
+    draw_image(iconx,icony,iconname,iconsize,iconorig,color)
     font = "Inconsolata"
     font_size = 16
     indent = 28
@@ -73,9 +87,8 @@ function package_update(x,y)
     color = color5
     iconx = x - 17
     icony = y - 6
-    iconpath = curdir .. "/image/Update.svg"
     iconname = "update"
-    draw_image(iconx,icony,iconpath,iconname,iconsize,iconorig,color)
+    draw_image(iconx,icony,iconname,iconsize,iconorig,color)
     font = "Inconsolata"
     font_size = 16
     indent = 28
@@ -160,9 +173,8 @@ function email_update(x,y)
     iconcolor = color5
     iconx = x - 16
     icony = y - 15
-    iconpath = curdir .. "/image/Email.svg"
     iconname = "email"
-    draw_image(iconx,icony,iconpath,iconname,iconsize,iconorig,iconcolor)
+    draw_image(iconx,icony,iconname,iconsize,iconorig,iconcolor)
 
     font = "Inconsolata"
     font_size = 16
@@ -212,9 +224,8 @@ function class_update(x,y)
   iconcolor = color5
   iconx = x - 17
   icony = y - 10
-  iconpath = curdir .. "/image/Class.svg"
   iconname = "class"
-  draw_image(iconx,icony,iconpath,iconname,iconsize,iconorig,iconcolor)
+  draw_image(iconx,icony,iconname,iconsize,iconorig,iconcolor)
 
   timer = (updates % interval)
 

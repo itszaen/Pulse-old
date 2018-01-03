@@ -1,6 +1,7 @@
 require 'drawimage'
 
 function weather(x,y)
+
   interval = 300
   timer = (updates % interval)
   area = "Tokyo" -- available currently: Tokyo
@@ -13,6 +14,7 @@ function weather(x,y)
       table.insert(weather_t,file_content)
     end
     file:close()
+
   end
 
   if timer == 0 or conky_start == 1 then
@@ -30,16 +32,27 @@ function weather(x,y)
     ['California'] = "California,United States"
   }
 
+  weather_icon_t = {
+    ['Fair']  = "day-sunny",
+    ['Clear'] = "day-sunny",
+    ['Sunny'] = "day-sunny",
+    ['Mostly Sunny'] = "day-sunny-overcast",
+    ['Mostly Cloudy'] = "cloud"
+  }
   weather_icon_day_t = {
     ['Fair'] = "day-sunny",
     ['Clear'] = "day-sunny",
-    ['Fair / Windy'] = "day-windy"
+    ['Fair / Windy'] = "day-windy",
+    ['Mostly Sunny'] = "day-haze",
+    ['Mostly Cloudy'] = "day-cloudy"
   }
 
   weather_icon_night_t = {
     ['Fair'] = "night-clear",
     ['Clear'] = "night-clear",
-    ['Fair / Windy'] = "windy"
+    ['Fair / Windy'] = "windy",
+    ['Mostly Sunny'] = "night-clear",
+    ['Mostly Cloudy'] = "cloud"
   }
 
   location = location_t[area]
@@ -65,28 +78,36 @@ function weather(x,y)
   observation      = weather_t[19]
   moon_phase_text  = weather_t[20]
 
-  second_date = forecast_t[1]
-  second_day_of_week = forecast_t[2]
-  second_temp_high = forecast_t[3]
-  second_temp_low = forecast_t[4]
-  second_humidity = forecast_t[5]
+  second_date          = forecast_t[1]
+  second_day_of_week   = forecast_t[2]
+  second_temp_high     = forecast_t[3]
+  second_temp_low      = forecast_t[4]
+  second_humidity      = forecast_t[5]
   second_precip_chance = forecast_t[6]
-  second_text = forecast_t[7]
-  third_date = forecast_t[8]
-  third_day_of_week = forecast_t[9]
-  third_temp_high = forecast_t[10]
-  third_temp_low = forecast_t[11]
-  third_humidity = forecast_t[12]
-  third_precip_chance = forecast_t[13]
-  third_text = forecast_t[14]
-  fourth_date = forecast_t[15]
-  fourth_day_of_week = forecast_t[16]
-  fourth_temp_high = forecast_t[17]
-  fourth_temp_low = forecast_t[18]
-  fourth_humidity = forecast_t[19]
+  second_summary       = forecast_t[7]
+  third_date           = forecast_t[8]
+  third_day_of_week    = forecast_t[9]
+  third_temp_high      = forecast_t[10]
+  third_temp_low       = forecast_t[11]
+  third_humidity       = forecast_t[12]
+  third_precip_chance  = forecast_t[13]
+  third_summary        = forecast_t[14]
+  fourth_date          = forecast_t[15]
+  fourth_day_of_week   = forecast_t[16]
+  fourth_temp_high     = forecast_t[17]
+  fourth_temp_low      = forecast_t[18]
+  fourth_humidity      = forecast_t[19]
   fourth_precip_chance = forecast_t[20]
-  fourth_text = forecast_t[21]
+  fourth_summary       = forecast_t[21]
 
+  --images
+  if conky_start == 1 then
+    store_weather_icons() -- except for the condition icon
+  end
+  -- condition images
+  if timer == 0 or conky_start == 1 then
+    store_weather_condition_icons()
+  end
 
   color = color6
   weather_icon_size = 50
@@ -113,11 +134,10 @@ function weather(x,y)
   displaytext(x1,y1,text,font,font_size,color)
   iconx = x + 45
   icony = y - 100
-  iconpath = curdir .. "/image/weather_icons/celsius.svg"
   iconname = "celsius"
   iconsize = 165
   iconorig = 30
-  draw_image(iconx,icony,iconpath,iconname,iconsize,iconorig,color6)
+  draw_image(iconx,icony,iconname,iconsize,iconorig,color6)
 
   -- element 1
   font_size = 17
@@ -125,9 +145,8 @@ function weather(x,y)
   iconorig = 30
   iconx = x + indent1
   icony = y + start1y - 18
-  iconpath = curdir .. "/image/weather_icons/thermometer.svg"
   iconname = "thermometer"
-  draw_image(iconx,icony,iconpath,iconname,iconsize,iconorig,color6)
+  draw_image(iconx,icony,iconname,iconsize,iconorig,color6)
   text = temperature_high .. "/" .. temperature_low
   x2 = x + indent1 + text_indent - 15
   y2 = y + start1y
@@ -145,9 +164,8 @@ function weather(x,y)
 
   iconx = start2x
   icony = start2y - 25
-  iconpath = curdir .. "/image/weather_icons/humidity.svg"
   iconname = "humidity"
-  draw_image(iconx,icony,iconpath,iconname,40,30,color6)
+  draw_image(iconx,icony,iconname,40,30,color6)
   text = humidity
   x4 = iconx + text_indent
   y4 = start2y
@@ -155,9 +173,8 @@ function weather(x,y)
 
   iconx = iconx
   icony = icony + spacing2
-  iconpath = curdir .. "/image/weather_icons/umbrella.svg"
   iconname = "umbrella"
-  draw_image(iconx,icony,iconpath,iconname,40,30,color6)
+  draw_image(iconx,icony,iconname,40,30,color6)
   text = precip_chance
   x5 = x4
   y5 = y4 + spacing2
@@ -165,9 +182,8 @@ function weather(x,y)
 
   iconx = iconx
   icony = icony + spacing2
-  iconpath = curdir .. "/image/weather_icons/windy.svg"
   iconname = "wind"
-  draw_image(iconx,icony,iconpath,iconname,40,30,color6)
+  draw_image(iconx,icony,iconname,40,30,color6)
   text = wind_speed
   x6 = x5
   y6 = y5 + spacing2
@@ -175,9 +191,8 @@ function weather(x,y)
 
   iconx = iconx
   icony = icony + spacing2
-  iconpath = curdir .. "/image/weather_icons/barometer.svg"
   iconname = "barometer"
-  draw_image(iconx,icony,iconpath,iconname,40,30,color6)
+  draw_image(iconx,icony,iconname,40,30,color6)
   text = air_pressure
   x7 = x6
   y7 = y6 + spacing2
@@ -185,9 +200,8 @@ function weather(x,y)
 
   iconx = iconx
   icony = icony + spacing2
-  iconpath = curdir .. "/image/weather_icons/uv.svg"
   iconname = "uv"
-  draw_image(iconx,icony,iconpath,iconname,35,512,color6)
+  draw_image(iconx,icony,iconname,35,512,color6)
   text = uv_text
   x8 = x7
   y8 = y7 + spacing2
@@ -196,9 +210,8 @@ function weather(x,y)
   -- element 3
   iconx = iconx + start3x
   icony = start2y - 25
-  iconpath = curdir .. "/image/weather_icons/smog.svg"
   iconname = "visibility"
-  draw_image(iconx,icony,iconpath,iconname,40,30,color6)
+  draw_image(iconx,icony,iconname,40,30,color6)
   text = visibility
   x9 = x + start3x + text_indent
   y9 = y + start3y
@@ -206,9 +219,8 @@ function weather(x,y)
 
   iconx = iconx
   icony = icony + spacing2
-  iconpath = curdir .. "/image/weather_icons/raindrops.svg"
   iconname = "dewpoint"
-  draw_image(iconx,icony,iconpath,iconname,40,30,color6)
+  draw_image(iconx,icony,iconname,40,30,color6)
   text = dew_point
   x10 = x9
   y10 = y9 + spacing3
@@ -216,9 +228,8 @@ function weather(x,y)
 
   iconx = iconx
   icony = icony + spacing2
-  iconpath = curdir .. "/image/weather_icons/sunrise.svg"
   iconname = "sunrise"
-  draw_image(iconx,icony,iconpath,iconname,40,30,color6)
+  draw_image(iconx,icony,iconname,40,30,color6)
   text = sunrise
   x11 = x10
   y11 = y10 + spacing3
@@ -226,9 +237,8 @@ function weather(x,y)
 
   iconx = iconx
   icony = icony + spacing2
-  iconpath = curdir .. "/image/weather_icons/sunset.svg"
   iconname = "sunset"
-  draw_image(iconx,icony,iconpath,iconname,40,30,color6)
+  draw_image(iconx,icony,iconname,40,30,color6)
   text = sunset
   x12 = x11
   y12 = y11 + spacing3
@@ -236,9 +246,8 @@ function weather(x,y)
 
   iconx = iconx
   icony = icony + spacing2
-  iconpath = curdir .. "/image/weather_icons/moon-"..moon_phase..".svg"
   iconname = "moonphase"
-  draw_image(iconx,icony,iconpath,iconname,40,30,color6)
+  draw_image(iconx,icony,iconname,40,30,color6)
 
   n = 0
 
@@ -280,13 +289,67 @@ function weather(x,y)
   -- weather icon
   iconx = x + 160
   icony = y - 65
-  iconpath = curdir .. "/image/weather_icons/" .. weather_icon_name(summary) ..".svg"
   iconname = "weather"
   iconsize = 81
   iconorig = 30
-  draw_image(iconx,icony,iconpath,iconname,iconsize,iconorig,color6)
+  draw_image(iconx,icony,iconname,iconsize,iconorig,color6)
 end
-
+function store_weather_icons()
+  path = curdir .. "/image/weather_icons/celsius.svg"
+  name = "celsius"
+  store_image(path,name)
+  path = curdir .. "/image/weather_icons/thermometer.svg"
+  name = "thermometer"
+  store_image(path,name)
+  path = curdir .. "/image/weather_icons/humidity.svg"
+  name = "humidity"
+  store_image(path,name)
+  path = curdir .. "/image/weather_icons/umbrella.svg"
+  name = "umbrella"
+  store_image(path,name)
+  path = curdir .. "/image/weather_icons/windy.svg"
+  name = "wind"
+  store_image(path,name)
+  path = curdir .. "/image/weather_icons/barometer.svg"
+  name = "barometer"
+  store_image(path,name)
+  path = curdir .. "/image/weather_icons/uv.svg"
+  name = "uv"
+  store_image(path,name)
+  path = curdir .. "/image/weather_icons/smog.svg"
+  name = "visibility"
+  store_image(path,name)
+  path = curdir .. "/image/weather_icons/raindrops.svg"
+  name = "dewpoint"
+  store_image(path,name)
+  path = curdir .. "/image/weather_icons/sunrise.svg"
+  name = "sunrise"
+  store_image(path,name)
+  path = curdir .. "/image/weather_icons/sunset.svg"
+  name = "sunset"
+  store_image(path,name)
+  path = curdir .. "/image/weather_icons/moon-"..moon_phase..".svg"
+  name = "moonphase"
+  store_image(path,name)
+end
+function store_weather_condition_icons()
+  path = curdir .. "/image/weather_icons/" .. weather_icon_name(summary) ..".svg"
+  name = "weather"
+  store_image(path,name)
+  print(second_summary)
+  print(third_summary)
+  print(fourth_summary)
+  --[[path = curdir .. "/image/weather_icons/" .. weather_icon_name(second_summary) .. ".svg"
+  name = "weather2"
+  store_image(path,name)
+  path = curdir .. "/image/weather_icons/" .. weather_icon_name(third_summary) .. ".svg"
+  name = "weather3"
+  store_image(path,name)
+  path = curdir .. "/image/weather_icons/" .. weather_icon_name(fourth_summary) .. ".svg"
+  name = "weather4"
+  store_image(path,name)
+  ]]
+end
 function weather_icon_name(weather)
   if 5 < tonumber(hours) and tonumber(hours) < 18  then
     return weather_icon_day_t[weather]

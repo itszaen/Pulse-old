@@ -27,11 +27,10 @@ function svg2luacairo(filepath,name)
   end
   _G[name.."item_t"] = item_t
 end
-
-function draw_image(x,y,filepath,name,size,original,color)
-  if conky_start == 1 or image_change == 1 then
-    svg2luacairo(filepath,name)
-  end
+function store_image(filepath,name)
+  svg2luacairo(filepath,name)
+end
+function draw_image(x,y,name,size,original,color)
   cairo_t = _G[name.."item_t"]
   scale = size/original
   pattern = cairo_pattern_create_rgba(rgba(color))
