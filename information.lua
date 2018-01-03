@@ -75,7 +75,7 @@ function getUpdate()
   elseif update_number == nil then
     text = "Error reading information."
   else
-    text = update_number .. " packages need updating."
+    text = update_number .. " packages can be updated."
   end
   return text
 end
