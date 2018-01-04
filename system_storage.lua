@@ -7,19 +7,18 @@ function system_storage(x,y)
 
     timer = (updates % interval)
     if timer == 0 or conky_start == 1 then
-    ss_content_table = {}
-      file = io.popen("df -h")
-      for line in file:lines() do
-        local content = line
-        table.insert(ss_content_table, content)
+    ss_t = {}
+      result = io.popen("df -h")
+      for line in result:lines() do
+        table.insert(ss_t, line)
       end
-      file:close()
+      result:close()
     end
     n = 1
-    for i, line in ipairs(ss_content_table) do
-      local content = line
+    for i, line in ipairs(ss_t) do
+      text = line
       y = y + font_size*spacing
-      displaytext(x,y,content,font,font_size,color)
+      displaytext(x,y,text,font,font_size,color)
       n = n + 1
     end
 end
