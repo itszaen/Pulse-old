@@ -1,0 +1,29 @@
+function cpu_name(x,y)
+  font = "Inconsolata"
+  font_size = 15
+  color = color6
+  if conky_start == 1 then
+  text_t = {}
+  local n = 1
+    result = io.popen("lscpu | grep 'Model name' | sed 's/Model name://; s/^[ \t]*//; s/(R)/®/; s/(TM)/™/; s/@/\\n@/'")
+    for line in result:lines() do
+      text_t[n] = line
+      n = n + 1
+    end
+    result:close()
+  end
+  text = text_t[1]
+  displaytext(x,y,text,font,font_size,color)
+
+  text_extents(text,font,font_size)
+  text1center = (extents.width/2 + extents.x_bearing)
+  text = text_t[2]
+  text_extents(text,font,font_size)
+  text2center = (extents.width/2 + extents.x_bearing)
+
+  indent = text1center - text2center
+  spacing = font_size
+  x = x + indent
+  y = y + spacing
+  displaytext(x,y,text,font,font_size,color)
+end

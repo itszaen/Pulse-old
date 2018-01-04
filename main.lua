@@ -3,14 +3,15 @@ package.path = os.getenv("HOME") ..  "/.config/conky/?.lua;" .. package.path
 require 'cairo'
 
 require 'clock'
+require 'cpu'
+require 'device_info'
 require 'heading'
+require 'information'
+require 'network'
+require 'process'
+require 'ram'
 require 'system_log'
 require 'system_storage'
-require 'network'
-require 'cpu'
-require 'ram'
-require 'process'
-require 'information'
 require 'weather'
 
 conky_start = 1
@@ -108,10 +109,11 @@ function conky_main()
     cpuarc()
     ramarc()
 
-    heading3(795 ,865,"CPU")
-    heading3(1100,865,"RAM")
-    cpuprocess(700,880)
-    ramprocess(1000,880)
+    heading3(795 ,830,"CPU")
+    heading3(1100,830,"RAM")
+    cpuprocess(700,845)
+    cpu_name(700,1000)
+    ramprocess(1000,845)
 
     heading1(1290,770,"Info")
     information(1290,800)
