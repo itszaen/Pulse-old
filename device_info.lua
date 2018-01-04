@@ -39,6 +39,6 @@ function ram_info(x,y)
     result:close()
   end
   text = "Total RAM: " .. ram_size
-  x = x + 50
+  x = x + 48
   displaytext(x,y,text,font,font_size,color)
 end

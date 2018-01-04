@@ -57,7 +57,7 @@ function package_update(x,y)
     draw_image(iconx,icony,iconname,iconsize,iconorig,color)
     font = "Inconsolata"
     font_size = 16
-    indent = 28
+    indent = 30
     spacing = 18
     color = color2
     x = x + indent
@@ -74,7 +74,7 @@ function package_update(x,y)
     draw_image(iconx,icony,iconname,iconsize,iconorig,color)
     font = "Inconsolata"
     font_size = 16
-    indent = 28
+    indent = 30
     spacing = 18
     color = color2
     x = x + indent
@@ -91,7 +91,7 @@ function package_update(x,y)
     draw_image(iconx,icony,iconname,iconsize,iconorig,color)
     font = "Inconsolata"
     font_size = 16
-    indent = 28
+    indent = 30
     spacing = 18
     color = color2
     x = x + indent
@@ -178,7 +178,7 @@ function email_update(x,y)
 
     font = "Inconsolata"
     font_size = 16
-    indent = 28
+    indent = 30
     spacing = 9
     color = color2
     x = x + indent
@@ -232,19 +232,24 @@ function class_update(x,y)
   font = "Inconsolata"
   font_size = 16
   color = color2
-  indent = 28
+  indent = 30
   spacing = 13
   x = x + indent
   y = y + spacing
-  text1 = "Next class is "
-  displaytext(x,y,text1,font,font_size,color)
-  text_extents(text1,font,font_size)
-  text2 = classinfo()
-  font = "Source Han Sans JP"
-  font_size = 13
-  indent = 6 + extents.width + extents.x_bearing
-  x = x + indent
-  displaytext(x,y,text2,font,font_size,color)
+  text,flag = classinfo()
+  if flag == 1 then
+    text1 = "Next class is "
+    displaytext(x,y,text1,font,font_size,color)
+    text_extents(text1,font,font_size)
+    text2 = text
+    font = "Source Han Sans JP"
+    font_size = 13
+    indent = 6 + extents.width + extents.x_bearing
+    x = x + indent
+    displaytext(x,y,text2,font,font_size,color)
+  else
+    displaytext(x,y,text,font,font_size,color)
+  end
 end
 function software_info(x,y)
 
