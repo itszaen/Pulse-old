@@ -1,4 +1,4 @@
-function cpu_name(x,y)
+function cpu_info(x,y)
   font = "Inconsolata"
   font_size = 15
   color = color6
@@ -25,5 +25,20 @@ function cpu_name(x,y)
   spacing = font_size
   x = x + indent
   y = y + spacing
+  displaytext(x,y,text,font,font_size,color)
+end
+function ram_info(x,y)
+  font = "inconsolata"
+  font_size = 15
+  color = color6
+  if conky_start == 1 then
+    result = io.popen("free --giga | sed '1d;3d' | awk '{print $2,\"GB\"}' ")
+    for line in result:lines() do
+      ram_size = line
+    end
+    result:close()
+  end
+  text = "Total RAM: " .. ram_size
+  x = x + 50
   displaytext(x,y,text,font,font_size,color)
 end

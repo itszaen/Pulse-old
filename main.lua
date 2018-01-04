@@ -109,12 +109,12 @@ function conky_main()
     cpuarc()
     ramarc()
 
-    heading3(795 ,830,"CPU")
-    heading3(1100,830,"RAM")
-    cpuprocess(700,845)
-    cpu_name(700,1000)
-    ramprocess(1000,845)
-
+    heading3(795 ,835,"CPU")
+    heading3(1100,835,"RAM")
+    cpuprocess(700,850)
+    cpu_info(700,982)
+    ramprocess(1000,850)
+    ram_info(1000,990)
     heading1(1290,770,"Info")
     information(1290,800)
 
