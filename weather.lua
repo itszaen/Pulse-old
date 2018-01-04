@@ -39,7 +39,9 @@ function weather(x,y)
     ['Mostly Sunny'] = "day-sunny-overcast",
     ['Mostly Cloudy'] = "cloudy",
     ['Partly Cloudy'] = "cloud",
-    ['Rain'] = "rain"
+    ['Rain'] = "rain",
+    ['AM Rain'] = "rain",
+    ['PM Rain'] = "rain"
   }
   weather_icon_day_t = {
     ['Fair'] = "day-sunny",
