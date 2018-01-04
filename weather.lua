@@ -37,14 +37,18 @@ function weather(x,y)
     ['Clear'] = "day-sunny",
     ['Sunny'] = "day-sunny",
     ['Mostly Sunny'] = "day-sunny-overcast",
-    ['Mostly Cloudy'] = "cloud"
+    ['Mostly Cloudy'] = "cloudy",
+    ['Partly Cloudy'] = "cloud",
+    ['Rain'] = "rain"
   }
   weather_icon_day_t = {
     ['Fair'] = "day-sunny",
     ['Clear'] = "day-sunny",
     ['Fair / Windy'] = "day-windy",
     ['Mostly Sunny'] = "day-haze",
-    ['Mostly Cloudy'] = "day-cloudy"
+    ['Mostly Cloudy'] = "day-cloudy",
+    ['Partly Cloudy'] = "day-cloudy",
+    ['Rain'] = "day-rain"
   }
 
   weather_icon_night_t = {
@@ -52,7 +56,9 @@ function weather(x,y)
     ['Clear'] = "night-clear",
     ['Fair / Windy'] = "windy",
     ['Mostly Sunny'] = "night-clear",
-    ['Mostly Cloudy'] = "cloud"
+    ['Mostly Cloudy'] = "cloudy",
+    ['Partly Cloudy'] = "cloud",
+    ['Rain'] = "night-rain"
   }
 
   location = location_t[area]
@@ -198,8 +204,9 @@ function weather(x,y)
   y7 = y6 + spacing2
   displaytext(x7,y7,text,font,font_size,color)
 
+  uv_icon_offset = -3
   iconx = iconx
-  icony = icony + spacing2
+  icony = icony + spacing2 + uv_icon_offset
   iconname = "uv"
   draw_image(iconx,icony,iconname,35,512,color6)
   text = uv_text
@@ -244,32 +251,9 @@ function weather(x,y)
   y12 = y11 + spacing3
   displaytext(x12,y12,text,font,font_size,color)
 
-  iconx = iconx
-  icony = icony + spacing2
-  iconname = "moonphase"
-  draw_image(iconx,icony,iconname,40,30,color6)
-
-  n = 0
-
-  text = {}
-  for i in string.gmatch(moon_phase_text,"%S+") do
-    n = n + 1
-    text[n] = i
-  end
-
-  if n == 1 then
-    font_size = 15
-    x13 = x12
-    y13 = y12 + spacing3
-    displaytext(x13,y13,text[1],font,font_size,color)
-  end
-  if n == 2 then
-    font_size = 13
-    x13 = x12
-    y13 = y12 + spacing3 -font_size
-    displaytext(x13,y13,text[1],font,font_size,color)
-    displaytext(x13,y13+font_size*1.1,text[2],font,font_size,color)
-  end
+  moonx = iconx
+  moony = icony + spacing3
+  moonphase(moonx,moony)
 
   -- element4 (location,update)
   font_size = 18
@@ -297,6 +281,30 @@ function weather(x,y)
   forecasts(x,y)
 
 end
+function moonphase(x,y)
+  iconname = "moonphase"
+  draw_image(x,y,iconname,40,30,color6)
+  n = 0
+  text = {}
+  for i in string.gmatch(moon_phase_text,"%S+") do
+    n = n + 1
+    text[n] = i
+  end
+
+  if n == 1 then
+    font_size = 15
+    x13 = x12
+    y13 = y12 + spacing3
+    displaytext(x13,y13,text[1],font,font_size,color)
+  end
+  if n == 2 then
+    font_size = 13
+    x13 = x12
+    y13 = y12 + spacing3 - 8
+    displaytext(x13,y13,text[1],font,font_size,color)
+    displaytext(x13,y13+font_size*1.1,text[2],font,font_size,color)
+  end
+end
 function forecasts(x,y)
   text = "3 Day Forecasts"
   font = "Roboto"
@@ -305,12 +313,12 @@ function forecasts(x,y)
   color = color6
 
   top = 5
-  left = 5
+  left = 0
   spacing = 70
   spacing_text = 18
   weather_icon_size = 65
   weather_icon_offset = 8
-  text_indent = 70  -- from left
+  text_indent = 65  -- from left
   text_spacing = 25 -- from top
   icon_offset = -15
   icon_size = 20
