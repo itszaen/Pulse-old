@@ -275,8 +275,8 @@ function weather(x,y)
   displaytext(x15,y15,text,font,font_size,color)
 
   -- weather icon
-  iconx = x + 160
-  icony = y - 65
+  iconx = x + 165
+  icony = y - 60
   iconname = "weather"
   iconsize = 81
   iconorig = 30
