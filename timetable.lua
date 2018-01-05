@@ -1,14 +1,14 @@
 function classinfo()
   wintertime = 1
 
-  if isSunday() == 1 then
-    return "It's your day off!",0
-  elseif isVacation() == 1 then
+  if isVacation() == 1 then
     return "Enjoy your summer vacation!",0
   elseif isVacation() == 2 then
     return "Enjoy your winter break!",0
   elseif isVacation() == 3 then
     return "Enjoy your spring rest!",0
+  elseif isSunday() == 1 then
+    return "It's your day off!",0
   elseif isSchoolFinished() == 1 then
     return "School finished!",0
   else
