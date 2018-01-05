@@ -5,7 +5,7 @@ function cpuarc()
   size     = 0.75
   height   = center * size
   cpu      = cpu
-  cpu_height = cpu * (height/100.0) * size
+  cpu_height = cpu * (height/100.0)
   bgcolor  = {0.34,0.34,0.5,0.5}
 
   offset_out,radius_out = 315.0,250.0
