@@ -41,7 +41,9 @@ function weather(x,y)
     ['Partly Cloudy'] = "cloud",
     ['Rain'] = "rain",
     ['AM Rain'] = "rain",
-    ['PM Rain'] = "rain"
+    ['PM Rain'] = "rain",
+    ['AM Showers'] = "showers",
+    ['PM Showers'] = "showers"
   }
   weather_icon_day_t = {
     ['Fair'] = "day-sunny",
@@ -50,7 +52,8 @@ function weather(x,y)
     ['Mostly Sunny'] = "day-haze",
     ['Mostly Cloudy'] = "day-cloudy",
     ['Partly Cloudy'] = "day-cloudy",
-    ['Rain'] = "day-rain"
+    ['Rain'] = "day-rain",
+    ['Showers'] = 'day-showers'
   }
 
   weather_icon_night_t = {
@@ -60,7 +63,8 @@ function weather(x,y)
     ['Mostly Sunny'] = "night-clear",
     ['Mostly Cloudy'] = "cloudy",
     ['Partly Cloudy'] = "cloud",
-    ['Rain'] = "night-rain"
+    ['Rain'] = "night-rain",
+    ['Showers'] = "night-showers"
   }
 
   location = location_t[area]
