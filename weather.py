@@ -53,7 +53,7 @@ def output_forecasts():
     file = open(path,'w+')
     for i in range(2,5):
         file.write(forecast[i]['date']                 + '\n')
-        file.write(forecast[i]['day_of_week']          + '\n')
+        file.write(forecast[i-1]['day_of_week']          + '\n')
         file.write(forecast[i]['high']                 + '℃' + '\n')
         file.write(forecast[i]['low']                  + '℃' + '\n')
         file.write(forecast[i]['day']['humidity']      + '%' + '\n')
