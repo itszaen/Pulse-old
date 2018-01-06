@@ -55,7 +55,6 @@ function package_update(x,y)
     icony = y - 6
     iconname = "uptodate"
     draw_image(iconx,icony,iconname,iconsize,iconorig,color)
-    font = "Inconsolata"
     font_size = 16
     indent = 30
     spacing = 18
@@ -72,7 +71,6 @@ function package_update(x,y)
     icony = y - 6
     iconname = "update"
     draw_image(iconx,icony,iconname,iconsize,iconorig,color)
-    font = "Inconsolata"
     font_size = 16
     indent = 30
     spacing = 18
@@ -89,7 +87,6 @@ function package_update(x,y)
     icony = y - 6
     iconname = "update"
     draw_image(iconx,icony,iconname,iconsize,iconorig,color)
-    font = "Inconsolata"
     font_size = 16
     indent = 30
     spacing = 18
@@ -126,10 +123,27 @@ function email_update(x,y)
   interval = 300
   timer = (updates % interval)
 
-  if conky_start == 1 or timer == 0 then
+  if ic == 1 and (conky_start == 1 or timer == 0) then
     gmail_info = getGmail()
   end
-  if gmail_info == 0 then
+  if ic ~= 1 then
+    iconsize = 30
+    iconorig = 225
+    iconcolor = color5
+    iconx = x - 16
+    icony = y - 15
+    iconpath = curdir .. "/image/Email.svg"
+    iconname = "email"
+    draw_image(iconx,icony,iconpath,iconname,iconsize,iconorig,iconcolor)
+    font_size = 16
+    indent = 28
+    spacing = 9
+    color = color2
+    x = x + indent
+    y = y + spacing
+    text = "Internet not connected."
+    displaytext(x,y,text,font,font_size,color)
+  elseif gmail_info == 0 then
     iconsize = 30
     iconorig = 225
     iconcolor = color5
@@ -138,7 +152,6 @@ function email_update(x,y)
     iconpath = curdir .. "/image/Email_empty.svg"
     iconname = "email"
     draw_image(iconx,icony,iconpath,iconname,iconsize,iconorig,iconcolor)
-    font = "Inconsolata"
     font_size = 16
     indent = 28
     spacing = 9
@@ -157,7 +170,6 @@ function email_update(x,y)
     iconname = "email"
     draw_image(iconx,icony,iconpath,iconname,iconsize,iconorig,iconcolor)
 
-    font = "Inconsolata"
     font_size = 16
     indent = 28
     spacing = 9
@@ -176,7 +188,6 @@ function email_update(x,y)
     iconname = "email"
     draw_image(iconx,icony,iconname,iconsize,iconorig,iconcolor)
 
-    font = "Inconsolata"
     font_size = 16
     indent = 30
     spacing = 9
@@ -229,7 +240,6 @@ function class_update(x,y)
 
   timer = (updates % interval)
 
-  font = "Inconsolata"
   font_size = 16
   color = color2
   indent = 30
