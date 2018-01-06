@@ -4,7 +4,7 @@ function cpu_info(x,y)
   if conky_start == 1 then
   text_t = {}
   local n = 1
-    result = io.popen("lscpu | grep 'Model name' | sed 's/Model name://; s/^[ \t]*//; s/(R)/®/; s/(TM)/™/; s/@/\\n@/'")
+    result = io.popen("lscpu | grep 'Model name' | sed 's/Model name://; s/^[ \t]*//; s/(R)/®/g; s/(TM)/™/g; s/@/\\n@/'")
     for line in result:lines() do
       text_t[n] = line
       n = n + 1
