@@ -46,7 +46,9 @@ function weather(x,y)
     ['AM Showers'] = "showers",
     ['PM Showers'] = "showers",
     ['AM Light Rain'] = "showers",
-    ['PM Light Rain'] = "showers"
+    ['PM Light Rain'] = "showers",
+
+    ['AM Clouds / PM Sun'] = "day-cloudy-high"
   }
   weather_icon_day_t = {
     ['Fair'] = "day-sunny",
@@ -331,6 +333,7 @@ function forecasts(x,y)
   weather_icon_offset = 8
   text_indent = 65  -- from left
   text_spacing = 25 -- from top
+  text_date_indent = 72
   icon_offset = -15
   icon_size = 20
   text_icon_indent  = 50
@@ -370,13 +373,18 @@ function forecasts(x,y)
   draw_image(iconx1,icony1,"weather2",weather_icon_size,30,color)
   x2 = secondx + text_indent
   y2 = secondy + text_spacing
-  text = "Tomorrow " .. second_date .. ":"
+  text = second_day_of_week
   displaytext(x2,y2,text,font,font_size,color)
+  x7 = x2 + text_date_indent
+  y7 = y2
+  text = second_date .. ":"
+  displaytext(x7,y7,text,font,font_size,color)
 
   x3 = x2
   y3 = y2 + spacing_text
   text = second_summary
   displaytext(x3,y3,text,font,font_size,color)
+
 
   x4 = x3
   y4 = y3 + spacing_text
@@ -412,8 +420,12 @@ function forecasts(x,y)
 
   x2 = thirdx + text_indent
   y2 = thirdy + text_spacing
-  text = third_day_of_week .. " " .. third_date .. ":"
+  text = third_day_of_week
   displaytext(x2,y2,text,font,font_size,color)
+  x7 = x2 + text_date_indent
+  y7 = y2
+  text = third_date .. ":"
+  displaytext(x7,y7,text,font,font_size,color)
 
   x3 = x2
   y3 = y2 + spacing_text
@@ -452,8 +464,12 @@ function forecasts(x,y)
   draw_image(iconx1,icony1,"weather4",weather_icon_size,30,color)
   x2 = fourthx + text_indent
   y2 = fourthy + text_spacing
-  text = fourth_day_of_week .. " " .. fourth_date .. ":"
+  text = fourth_day_of_week
   displaytext(x2,y2,text,font,font_size,color)
+  x7 = x2 + text_date_indent
+  y7 = y2
+  text = fourth_date .. ":"
+  displaytext(x7,y7,text,font,font_size,color)
 
   x3 = x2
   y3 = y2 + spacing_text
