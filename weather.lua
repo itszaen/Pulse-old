@@ -29,8 +29,6 @@ function weather(x,y)
     file:close()
   end
 
-
-
   weather_icon_t = {
     ['Fair']  = "day-sunny",
     ['Clear'] = "day-sunny",
@@ -661,5 +659,5 @@ function code2area(code)
     else
       area = observation
     end
-    return
+    return area
 end

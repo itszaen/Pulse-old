@@ -39,16 +39,17 @@ list = [
 ]
 
 home = expanduser("~")
+areacode = sys.argv[1]
 
 def output_weather():
-    path = home + "/.config/conky/.tmp/weather_" + area
+    path = home + "/.config/conky/.tmp/weather_" + areacode
     file = open(path,'w+')
     for i in range(len(list)):
         file.write(list[i]+'\n')
 
 # Forecasts (1 week) (day)
 def output_forecasts():
-    path = home + "/.config/conky/.tmp/weather_forecasts_" + area
+    path = home + "/.config/conky/.tmp/weather_forecasts_" + areacode
     file = open(path,'w+')
     for i in range(2,5):
         file.write(forecast[i]['date']                 + '\n')
