@@ -293,6 +293,7 @@ function weather(x,y)
 
 end
 function moonphase(x,y)
+  local font = "Roboto"
   iconname = "moonphase"
   draw_image(x,y,iconname,40,30,color6)
   n = 0
