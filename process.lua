@@ -1,7 +1,6 @@
 -- the cpu will display the same as ram if interval is bigger than 1!
 function cpuprocess(x,y)
   spacing = 1
-  font = "Inconsolata"
   font_size = 15
   color = color2
   interval = 2
@@ -26,7 +25,6 @@ end
 
 function ramprocess(x,y)
   spacing = 1
-  font = "Inconsolata"
   font_size = 15
   color = color2
   interval = 2

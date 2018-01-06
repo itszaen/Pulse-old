@@ -1,5 +1,4 @@
 function heading1(x,y,text)
-  font = "Inconsolata"
   font_size = 16.5
   color = color1
   size = 7
@@ -22,7 +21,6 @@ function heading1(x,y,text)
   cairo_stroke(cr)
 end
 function heading2(x,y,text)
-  font = "Inconsolata"
   font_size = 15
   spacing = 4
   add = 1
@@ -37,7 +35,6 @@ function heading2(x,y,text)
   cairo_stroke(cr)
 end
 function heading3(x,y,text)
-  font = "Inconsolata"
   font_size = 15
   color = color1
   displaytext(x,y,text,font,font_size,color)

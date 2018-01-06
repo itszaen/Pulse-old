@@ -1,6 +1,5 @@
 function system_log(x,y)
   interval = 1
-  font="Inconsolata"
   font_size = 12.5
   spacing = 1.2
   local color = color4

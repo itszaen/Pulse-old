@@ -92,6 +92,7 @@ function conky_main()
     color5 = {0.60,0.60,1.00,0.6}
     color6 = {0.60,0.60,1.00,0.7}
     color7 = {0.68,0.68,1.00,0.6}
+    font = "Inconsolata"
     -- Objects
     clock()
 

@@ -143,7 +143,7 @@ function weather(x,y)
   spacing4 = 25
 
   -- temperature
-  font = "Roboto"
+  local font = "Roboto"
   font_size = 80
   text = temperature
   text_extents(text,font,font_size)
@@ -170,7 +170,6 @@ function weather(x,y)
   y2 = y + start1y
   displaytext(x2,y2,text,font,font_size,color)
 
-  --font = "Inconsolata"
   font_size = 18
   text = summary
   x3 = x + 10
@@ -319,7 +318,7 @@ function moonphase(x,y)
 end
 function forecasts(x,y)
   text = "3 Day Forecasts"
-  font = "Roboto"
+  local font = "Roboto"
   font_size = 16.5
   text_extents(text,font,font_size)
   color = color6

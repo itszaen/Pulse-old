@@ -2,7 +2,6 @@ function network()
   down = downspeed
   up   = upspeed
   speedtest_interval = 600
-  font = "Inconsolata"
   font_size = 15
   spacing = 10.5
   x = -50
@@ -36,7 +35,6 @@ function network()
     display_speed("DWN SPD",downspeed,600,135,1.5)
     display_speed("UPL SPD",upspeed  ,600,255,1.5)
   else
-    font = "Inconsolata"
     font_size = 30
     local color = color5
     x = 220
@@ -48,7 +46,6 @@ end
 
 function display_speed(text1,speed,x,y,spacing)
   text2 = speed_convert_s(speed)
-  font = "Inconsolata"
   font_size = 20
   local color = color1
   displaytext(x,y,text1,font,font_size,color)

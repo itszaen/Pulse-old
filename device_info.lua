@@ -1,5 +1,4 @@
 function cpu_info(x,y)
-  font = "Inconsolata"
   font_size = 15
   color = color6
   if conky_start == 1 then

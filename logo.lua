@@ -19,9 +19,9 @@ function archicon(x,y,size,color)
 end
 
 function archname(x,y,size)
-  font = "Z003"
+  local font = "Z003"
   font_size = size/2.3
-  local color = color2
+  color = color2
   text = "Arch Linux"
   text_extents(text,font,font_size)
   x = x - (extents.width/2 + extents.x_bearing)
@@ -47,9 +47,9 @@ function ubuntuicon(x,y,size)
   draw_image(x,y,path,name,size,original,color)
 end
 function ubuntuname(x,y,size)
-  font = "Ubuntu"
+  local font = "Ubuntu"
   font_size = size/2
-  local color = color4
+  color = color4
   text = "Ubuntu"
   text_extents(text,font,font_size)
   x = x  - (extents.width/2 + extents.x_bearing)

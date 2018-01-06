@@ -1,6 +1,5 @@
 function system_storage(x,y)
     interval = 10
-    font="Inconsolata"
     font_size = 18
     spacing = 1.4
     local color = color2

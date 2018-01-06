@@ -139,7 +139,6 @@ function cpu_arc_pattern()
   cairo_pattern_add_color_stop_rgba (pattern, 1,   pattern2_red,pattern2_green,pattern2_blue,pattern2_alpha)
 end
 function cpu_indicator(x,y,spacing)
-  font = "Inconsolata"
   font_size  = 15
   text1 = "CPU"
   text2 = cpu .. "%"

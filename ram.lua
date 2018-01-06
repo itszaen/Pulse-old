@@ -133,7 +133,6 @@ function ram_arc_pattern()
   cairo_pattern_add_color_stop_rgba (pattern, 0,   pattern2_red,pattern2_green,pattern2_blue,pattern2_alpha)
 end
 function ram_indicator(x,y,spacing)
-  font = "Inconsolata"
   font_size  = 15
   text1 = "ram"
   text2 = ram .. "%"
