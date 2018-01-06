@@ -7,20 +7,18 @@ function system_log(x,y)
 
   timer = (updates % interval)
   if timer == 0 or conky_start == 1 then
-    sl_content_table = {}
-    os.execute(curdir .. "/journal_dump.sh")
-    file = io.open(curdir .. "/.tmp/journal", "r")
-    for line in file:lines() do
-      local content = line
-      table.insert(sl_content_table, content)
+    sl_t = {}
+    result = io.popen("journalctl -n 14 | sed 1d | awk '{$1=$2=$4=\"\"; print $0}' | sed 's/  //' | sed 's/  / /' | cut -c1-80")
+    for line in result:lines() do
+      table.insert(sl_t,line)
     end
-    file:close()
+    result:close()
   end
   n = 1
-  for i, line in ipairs (sl_content_table) do
-    local content = line
+  for i, line in ipairs (sl_t) do
+    text = line
     y = y + font_size*spacing
-    displaytext(x,y,content,font,font_size,color)
+    displaytext(x,y,text,font,font_size,color)
     n = n+1
   end
 end

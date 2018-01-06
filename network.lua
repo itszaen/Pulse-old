@@ -1,7 +1,7 @@
 function network()
   down = downspeed
   up   = upspeed
-  speedtest_interval = 30
+  speedtest_interval = 600
   font = "Inconsolata"
   font_size = 15
   spacing = 10.5
@@ -10,25 +10,28 @@ function network()
   local color = color6
 
   speedtest_timer = (updates % speedtest_interval)
-  if internet_connected == 1 then
-      if speedtest_timer == 0 or conky_start == 1 then
-      speedtest_file = io.open(curdir .. "/.tmp/speeds")
-      speedtest_content_table = {}
-      for line in speedtest_file:lines() do
-        speedtest_content = line
-        table.insert(speedtest_content_table, speedtest_content)
+  if ic == 1 then
+    if speedtest_timer == 0 or conky_start == 1 then
+      os.execute("speedtest-cli --simple | sed 's/Ping/PNG/' | sed 's/Download/DWN/' | sed 's/Upload/UPL/' > "..curdir.."/.tmp/speeds &")
+    end
+    if speedtest_timer == 30 then -- xx seconds after launch, speedtest results start to show
+      speedtest_t = {}
+      result = io.open(curdir.."/.tmp/speeds")
+      for line in result:lines() do
+        table.insert(speedtest_t, line)
       end
-      speedtest_file:close()
+      result:close()
     end
 
-    n = 1
-    for i, line in ipairs (speedtest_content_table) do
-      speedtest_content = line
-      x = x + font_size*spacing
-      displaytext(x,y,speedtest_content,font,font_size,color)
-      n = n+1
+    if speedtest_t ~= nil then
+      n = 1
+      for i, line in ipairs (speedtest_t) do
+        text = line
+        x = x + font_size*spacing
+        displaytext(x,y,text,font,font_size,color)
+        n = n+1
+      end
     end
-
     --download speed
     display_speed("DWN SPD",downspeed,600,135,1.5)
     display_speed("UPL SPD",upspeed  ,600,255,1.5)
