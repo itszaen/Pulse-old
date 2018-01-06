@@ -4,17 +4,9 @@ import sys
 from os.path import expanduser
 import datetime
 
-def getCode(area):
-    return area_code[area]
-
-area_code = {
-    'Tokyo':'JAXX0085'
-}
-
-area = sys.argv[1]
 
 time = datetime.datetime.now()
-wc_result = pywapi.get_weather_from_weather_com(getCode(area))
+wc_result = pywapi.get_weather_from_weather_com(sys.argv[1])
 
 cur_cond = wc_result['current_conditions']
 forecast = wc_result['forecasts']

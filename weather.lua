@@ -2,16 +2,19 @@ require 'drawimage'
 
 function weather(x,y)
 
-  interval = 300
+  interval = 600
   timer = (updates % interval)
-  area = "Tokyo" -- available currently: Tokyo
+  area = "JAXX0085"
+
+  if ic == 1 and (timer == 0 or conky_start == 1) then
+    os.execute(curdir .. "/weather.py " .. area)
+  end
 
   if timer == 0 or conky_start == 1 then
     file = io.open(curdir .. "/.tmp/weather_" .. area)
     weather_t = {}
     for line in file:lines() do
-      file_content = line
-      table.insert(weather_t,file_content)
+      table.insert(weather_t,line)
     end
     file:close()
 
@@ -21,16 +24,12 @@ function weather(x,y)
     file = io.open(curdir .. "/.tmp/weather_forecasts_" .. area)
     forecast_t = {}
     for line in file:lines() do
-      file_content = line
-      table.insert(forecast_t,file_content)
+      table.insert(forecast_t,line)
     end
     file:close()
   end
 
-  location_t = {
-    ['Tokyo'] = "Tokyo, Japan",
-    ['California'] = "California, United States"
-  }
+
 
   weather_icon_t = {
     ['Fair']  = "day-sunny",
@@ -74,7 +73,6 @@ function weather(x,y)
     ['Light Rain'] = "night-showers"
   }
 
-  location = location_t[area]
 
   temperature      = weather_t[1]
   temperature_high = weather_t[2]
@@ -127,6 +125,9 @@ function weather(x,y)
   if timer == 0 or conky_start == 1 then
     store_weather_condition_icons()
   end
+  -- location text
+
+  location = code2area(area)
 
   color = color6
   weather_icon_size = 50
@@ -560,4 +561,105 @@ function weather_icon_name(weather)
   else
     return weather_icon_night_t[weather]
   end
+end
+function code2area(code)
+    location_t = {
+    JAXX0001 = "Akita, Japan",
+    JAXX0002 = "Akune, Japan",
+    JAXX0003 = "Amagasaki, Japan",
+    JAXX0004 = "Aomori, Japan",
+    JAXX0005 = "Asahikawa, Japan",
+    JAXX0006 = "Chiba, Japan",
+    JAXX0007 = "Choshi, Japan",
+    JAXX0008 = "Ebetsu, Japan",
+    JAXX0009 = "Fukuoka, Japan",
+    JAXX0010 = "Fukushima, Japan",
+    JAXX0011 = "Funabashi, Japan",
+    JAXX0012 = "Gifu, Japan",
+    JAXX0013 = "Hachioji, Japan",
+    JAXX0014 = "Hakodate, Japan",
+    JAXX0015 = "Hakui, Japan",
+    JAXX0016 = "East Osaka, Japan",
+    JAXX0017 = "Himeji, Japan",
+    JAXX0018 = "Hiroshima, Japan",
+    JAXX0019 = "Hitachi, Japan",
+    JAXX0020 = "Honjo, Japan",
+    JAXX0021 = "Ichikawa, Japan",
+    JAXX0022 = "Ichinomiya, Japan",
+    JAXX0023 = "Iizuka, Japan",
+    JAXX0024 = "Iwakuni, Japan",
+    JAXX0025 = "Izumi, Japan",
+    JAXX0026 = "Joetsu, Japan",
+    JAXX0027 = "Kadena Air Base, Japan",
+    JAXX0028 = "Kagoshima, Japan",
+    JAXX0029 = "Kamiiso, Japan",
+    JAXX0030 = "Kanazawa, Japan",
+    JAXX0031 = "Karatsu, Japan",
+    JAXX0032 = "Kariya, Japan",
+    JAXX0033 = "Kashiwazaki, Japan",
+    JAXX0034 = "Kasugai, Japan",
+    JAXX0035 = "Kawaguchi, Japan",
+    JAXX0036 = "Kawasaki, Japan",
+    JAXX0037 = "Kisakata, Japan",
+    JAXX0038 = "Kishiwada, Japan",
+    JAXX0039 = "Kitakyushu, Japan",
+    JAXX0040 = "Kobe, Japan",
+    JAXX0041 = "Kofu, Japan",
+    JAXX0042 = "Komatsu, Japan",
+    JAXX0043 = "Kumamoto, Japan",
+    JAXX0044 = "Kurashiki, Japan",
+    JAXX0045 = "Kure, Japan",
+    JAXX0046 = "Kurume, Japan",
+    JAXX0047 = "Kyoto, Japan",
+    JAXX0048 = "Machida, Japan",
+    JAXX0049 = "Matsudo, Japan",
+    JAXX0050 = "Nagano, Japan",
+    JAXX0051 = "Matsuto, Japan",
+    JAXX0052 = "Matsuyama, Japan",
+    JAXX0053 = "Mito, Japan",
+    JAXX0054 = "Nagaoka, Japan",
+    JAXX0055 = "Nagasaki, Japan",
+    JAXX0056 = "Nago, Japan",
+    JAXX0057 = "Nagoya, Japan",
+    JAXX0058 = "Naha, Japan",
+    JAXX0059 = "Nanao, Japan",
+    JAXX0060 = "Nara, Japan",
+    JAXX0061 = "Niigata, Japan",
+    JAXX0062 = "Noshiro, Japan",
+    JAXX0063 = "Ogaki, Japan",
+    JAXX0064 = "Okaya, Japan",
+    JAXX0065 = "Okayama, Japan",
+    JAXX0066 = "Okazaki, Japan",
+    JAXX0067 = "Okinawa, Japan",
+    JAXX0068 = "Omiya, Japan",
+    JAXX0069 = "Omura, Japan",
+    JAXX0070 = "Omuta, Japan",
+    JAXX0071 = "Osaka, Japan",
+    JAXX0072 = "Otaru, Japan",
+    JAXX0073 = "Otsu, Japan",
+    JAXX0074 = "Sagamihara, Japan",
+    JAXX0075 = "Sakai, Japan",
+    JAXX0076 = "Sakata, Japan",
+    JAXX0077 = "Sanjo, Japan",
+    JAXX0078 = "Sapporo, Japan",
+    JAXX0079 = "Sasebo, Japan",
+    JAXX0080 = "Shimonoseki, Japan",
+    JAXX0081 = "Takamatsu, Japan",
+    JAXX0082 = "Takaoka, Japan",
+    JAXX0083 = "Takatsuki, Japan",
+    JAXX0084 = "Tokuyama, Japan",
+    JAXX0085 = "Tokyo, Japan",
+    JAXX0086 = "Toyama, Japan",
+    JAXX0087 = "Toyonaka, Japan",
+    JAXX0088 = "Toyota, Japan",
+    JAXX0089 = "Tsu, Japan",
+    JAXX0090 = "Tsuruoka, Japan",
+    USCA0638 = "Los Angeles, CA"
+    }
+    if location_t[code] ~= nil then
+      area = location_t[code]
+    else
+      area = observation
+    end
+    return
 end
