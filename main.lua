@@ -1,18 +1,5 @@
 package.path = os.getenv("HOME") ..  "/.config/conky/?.lua;" .. package.path
-
 require 'cairo'
-
-require 'clock'
-require 'cpu'
-require 'device_info'
-require 'heading'
-require 'information'
-require 'network'
-require 'process'
-require 'ram'
-require 'system_log'
-require 'system_storage'
-require 'weather'
 
 conky_start = 1
 home = os.getenv("HOME")
@@ -92,8 +79,32 @@ function conky_main()
     color5 = {0.60,0.60,1.00,0.6}
     color6 = {0.60,0.60,1.00,0.7}
     color7 = {0.68,0.68,1.00,0.6}
+    color8 = {0.40,0.40,0.60,0.6}
+    purple_dark = {0.17,0.18,0.26,0.4}
     font = "Inconsolata"
     -- Objects
+    -- require 'clock'
+    -- require 'cpu'
+    -- require 'device_info'
+    -- require 'heading'
+    -- require 'information'
+    -- require 'network'
+    -- require 'process'
+    -- require 'ram'
+    -- require 'system_log'
+    -- require 'system_storage'
+    -- require 'weather'
+    dofile(curdir.."/clock.lua")
+    dofile(curdir.."/device_info.lua")
+    dofile(curdir.."/heading.lua")
+    dofile(curdir.."/information.lua")
+    dofile(curdir.."/network.lua")
+    dofile(curdir.."/process.lua")
+    dofile(curdir.."/ram.lua")
+    dofile(curdir.."/system_log.lua")
+    dofile(curdir.."/system_storage.lua")
+    dofile(curdir.."/weather.lua")
+
     clock()
 
     heading1(100,770,"System Log")
