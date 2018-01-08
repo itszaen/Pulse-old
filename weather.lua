@@ -11,23 +11,23 @@ function weather(x,y)
   end
 
   if timer == 0 or conky_start == 1 then
-    file = io.open(curdir .. "/.tmp/weather_" .. area)
+    local file = io.open(curdir .. "/.tmp/weather_" .. area)
     if file ~= nil then
       weather_t = {}
       for line in file:lines() do
         table.insert(weather_t,line)
-        file:close()
       end
+      file:close()
     else
       file:close()
     end
-    file = io.open(curdir .. "/.tmp/weather_forecasts_" .. area)
+    local file = io.open(curdir .. "/.tmp/weather_forecasts_" .. area)
     if file ~= nil then
       forecast_t = {}
       for line in file:lines() do
         table.insert(forecast_t,line)
-        file:close()
       end
+      file:close()
     else
       file:close()
     end
@@ -79,7 +79,6 @@ function weather(x,y)
     ['Showers'] = "night-showers",
     ['Light Rain'] = "night-showers"
   }
-
 
   temperature      = weather_t[1]
   temperature_high = weather_t[2]
