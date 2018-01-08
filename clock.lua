@@ -329,11 +329,12 @@ function dig_date02()
 
   x = centerx
   y = centery + 120
-  y1 = y + 20
+  y1 = y + 12
   y2 = y + 36
   --wings(x,y1)
-  date02_month(x,y2)
   date02_day(x,y)
+  date02_weekday(x,y1)
+  date02_month(x,y2)
 end
 function date02_day(x,y)
   local font = "Roboto"
@@ -344,6 +345,7 @@ function date02_day(x,y)
   font_size2 = 24
   date02_day_left_edge = x - indent*3
   date02_day_right_edge = x + indent*3
+
 
   text = tostring(correct_date((day_number-3)))
   font_size = font_size1
@@ -388,6 +390,69 @@ function date02_day(x,y)
   displaytext(x6,y,text,font,font_size,color)
 
   text = tostring(correct_date((day_number+3)))
+  font_size = font_size1
+  text_extents(text,font,font_size)
+  x7 = x + indent*3 - (extents.width/2 + extents.x_bearing)
+  color = color5
+  displaytext(x7,y,text,font,font_size,color)
+end
+function date02_weekday(x,y)
+  local indent = 35
+  local font = "Roboto"
+  font_size1 = 8
+  font_size2 = 10
+  color = 5
+  local weekday_number = tonumber(os.date("%w"))
+  if weekday_number == 0 then
+    weekday_number = 7
+  end
+  weekday_t = {"Fr","Sa","S","Mo","Tu","We","Th","Fr","Sa","S","Mo","Tu","We"}
+  local function weekday(weekday_num)
+    return weekday_t[weekday_num+3]
+  end
+  text = tostring(weekday(weekday_number-3))
+  font_size = font_size1
+  text_extents(text,font,font_size)
+  x1 = x - indent*3 - (extents.width/2 + extents.x_bearing)
+  color = color5
+  displaytext(x1,y,text,font,font_size,color)
+
+  text = tostring(weekday(weekday_number-2))
+  font_size = font_size1
+  text_extents(text,font,font_size)
+  x2 = x - indent*2 - (extents.width/2 + extents.x_bearing)
+  color = color5
+  displaytext(x2,y,text,font,font_size,color)
+
+  text = tostring(weekday(weekday_number-1))
+  font_size = font_size1
+  text_extents(text,font,font_size)
+  x3 = x - indent*1 - (extents.width/2 + extents.x_bearing)
+  color = color5
+  displaytext(x3,y,text,font,font_size,color)
+
+  text = tostring(weekday(weekday_number))
+  font_size = font_size2
+  text_extents(text,font,font_size)
+  x4 = x - indent*0 - (extents.width/2 + extents.x_bearing)
+  color = color1
+  displaytext(x4,y,text,font,font_size,color)
+
+  text = tostring(weekday(weekday_number+1))
+  font_size = font_size1
+  text_extents(text,font,font_size)
+  x5 = x + indent*1 - (extents.width/2 + extents.x_bearing)
+  color = color5
+  displaytext(x5,y,text,font,font_size,color)
+
+  text = tostring(weekday(weekday_number+2))
+  font_size = font_size1
+  text_extents(text,font,font_size)
+  x6 = x + indent*2 - (extents.width/2 + extents.x_bearing)
+  color = color5
+  displaytext(x6,y,text,font,font_size,color)
+
+  text = tostring(weekday(weekday_number+3))
   font_size = font_size1
   text_extents(text,font,font_size)
   x7 = x + indent*3 - (extents.width/2 + extents.x_bearing)
