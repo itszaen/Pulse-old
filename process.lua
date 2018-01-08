@@ -7,8 +7,7 @@ function cpuprocess(x,y)
 
   timer = (updates % interval)
   if timer == 0 or conky_start == 1 then
-    os.execute("ps -e -o pid,comm,%cpu --sort=-%cpu | head -8 | sed 1d > "..curdir.."/.tmp/process_cpu &")
-    result = io.open(curdir.."/.tmp/process_cpu")
+    result = io.popen("ps -e -o pid,comm,%cpu --sort=-%cpu | head -8 | sed 1d")
     cp_t = {}
     for line in result:lines() do
       table.insert(cp_t, line)
@@ -35,8 +34,7 @@ function ramprocess(x,y)
 
   timer = (updates % interval)
   if timer == 0 or conky_start == 1 then
-    os.execute("ps -e -o pid,comm,%mem --sort=-%mem | head -8 | sed 1d > "..curdir.."/.tmp/process_ram &")
-    result = io.open(curdir.."/.tmp/process_ram")
+    result = io.popen("ps -e -o pid,comm,%mem --sort=-%mem | head -8 | sed 1d")
     mp_t = {}
     for line in result:lines() do
       table.insert(mp_t, line)
