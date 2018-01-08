@@ -345,12 +345,6 @@ function date02_day(x,y)
   date02_day_left_edge = x - indent*3
   date02_day_right_edge = x + indent*3
 
-  cx1 = x - indent*3
-  cy1 = y + (extents.height/2 + extents.y_bearing)
-  radius = 12
-  cairo_arc(cr,cx1,cy1,radius,0,math.pi*2)
-  cairo_set_source_rgba(cr,rgba(bgcolor))
-  cairo_fill(cr)
   text = tostring(correct_date((day_number-3)))
   font_size = font_size1
   text_extents(text,font,font_size)
