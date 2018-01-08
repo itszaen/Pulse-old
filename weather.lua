@@ -12,20 +12,25 @@ function weather(x,y)
 
   if timer == 0 or conky_start == 1 then
     file = io.open(curdir .. "/.tmp/weather_" .. area)
-    weather_t = {}
-    for line in file:lines() do
-      table.insert(weather_t,line)
+    if file ~= nil then
+      weather_t = {}
+      for line in file:lines() do
+        table.insert(weather_t,line)
+        file:close()
+      end
+    else
+      file:close()
     end
-    file:close()
-  end
-
-  if timer == 0 or conky_start == 1 then
     file = io.open(curdir .. "/.tmp/weather_forecasts_" .. area)
-    forecast_t = {}
-    for line in file:lines() do
-      table.insert(forecast_t,line)
+    if file ~= nil then
+      forecast_t = {}
+      for line in file:lines() do
+        table.insert(forecast_t,line)
+        file:close()
+      end
+    else
+      file:close()
     end
-    file:close()
   end
 
   if next(weather_t) == nil or next(forecast_t) == nil then

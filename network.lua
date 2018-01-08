@@ -16,20 +16,21 @@ function network()
       os.execute("speedtest-cli --simple | sed 's/Ping/PNG/' | sed 's/Download/DWN/' | sed 's/Upload/UPL/' > "..curdir.."/.tmp/speeds &")
     end
     result = io.open(curdir.."/.tmp/speeds")
-    speedtest_t = {}
-    for line in result:lines() do
-      table.insert(speedtest_t, line)
-    end
-    result:close()
-    if next(speedtest_t) == nil then
-      return
-    end
-    n = 1
-    for i, line in ipairs (speedtest_t) do
-      text = line
-      x = x + font_size*indent
-      displaytext(x,y,text,font,font_size,color)
-      n = n+1
+    if result ~= nil then
+      speedtest_t = {}
+      for line in result:lines() do
+        table.insert(speedtest_t, line)
+      end
+      result:close()
+      n = 1
+      for i, line in ipairs (speedtest_t) do
+        text = line
+        x = x + font_size*indent
+        displaytext(x,y,text,font,font_size,color)
+        n = n+1
+      end
+    else
+      result:close()
     end
   else
     font_size = 30
