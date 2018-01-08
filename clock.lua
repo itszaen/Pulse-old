@@ -35,7 +35,11 @@ function analog_time()
   second_length = 1.0
   watch_hand_hour(hour_degree,hour_length)
   watch_hand_minute(minute_degree,minute_length)
-  watch_hand_second_2(second_degree,second_length)
+  --if second_degree ~= 90 then
+  watch_hand_second_1(second_degree,second_length)
+  --else
+  --  watch_hand_second_2(second_degree,second_length)
+  --end
   watch_hand_pin()
 end
 --[[function watch_hand(degree,width,ratio)
@@ -324,22 +328,29 @@ function dig_date02()
   color = color2
 
   x = centerx
-  y = centery + 80
-  y1 = y + 6
+  y = centery + 120
+  y1 = y + 20
   y2 = y + 36
-  measure(x,y1)
+  --wings(x,y1)
   date02_month(x,y2)
   date02_day(x,y)
 end
 function date02_day(x,y)
   local font = "Roboto"
   local day_number = tonumber(day)
+  bgcolor = purple_dark
   indent = 35
   font_size1 = 20
   font_size2 = 24
   date02_day_left_edge = x - indent*3
   date02_day_right_edge = x + indent*3
 
+  cx1 = x - indent*3
+  cy1 = y + (extents.height/2 + extents.y_bearing)
+  radius = 12
+  cairo_arc(cr,cx1,cy1,radius,0,math.pi*2)
+  cairo_set_source_rgba(cr,rgba(bgcolor))
+  cairo_fill(cr)
   text = tostring(correct_date((day_number-3)))
   font_size = font_size1
   text_extents(text,font,font_size)
@@ -417,12 +428,16 @@ function date02_month(x,y)
   x3 = x + indent*1 - (extents.width/2 + extents.x_bearing)
   color = color5
   displaytext(x3,y,text,font,font_size,color)
-
-
 end
-function measure(x,y)
+function wings(x,y)
   local xoffset = -130
   local yoffset = -50
+  local seconds = tonumber(seconds)
+  if seconds ~= 30 then
+    color = color8
+  else
+    color = color5
+  end
   iconsize = 100
   origsize = 324
   iconx = x + xoffset + iconsize*1.35
