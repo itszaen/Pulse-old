@@ -3,32 +3,31 @@ function network()
   up   = upspeed
   speedtest_interval = 600
   font_size = 15
-  spacing = 10.5
+  indent = 10.5
   x = -50
   y = 340
   local color = color6
 
+  display_speed(600,135)
+
   speedtest_timer = (updates % speedtest_interval)
   if ic == 1 then
-    --download speed
-    display_speed("DWN SPD",downspeed,600,135,1.5)
-    display_speed("UPL SPD",upspeed  ,600,255,1.5)
     if speedtest_timer == 0 or conky_start == 1 then
       os.execute("speedtest-cli --simple | sed 's/Ping/PNG/' | sed 's/Download/DWN/' | sed 's/Upload/UPL/' > "..curdir.."/.tmp/speeds &")
-      speedtest_t = {}
-      result = io.open(curdir.."/.tmp/speeds")
-      for line in result:lines() do
-        table.insert(speedtest_t, line)
-      end
-      result:close()
     end
+    result = io.open(curdir.."/.tmp/speeds")
+    speedtest_t = {}
+    for line in result:lines() do
+      table.insert(speedtest_t, line)
+    end
+    result:close()
     if next(speedtest_t) == nil then
       return
     end
     n = 1
     for i, line in ipairs (speedtest_t) do
       text = line
-      x = x + font_size*spacing
+      x = x + font_size*indent
       displaytext(x,y,text,font,font_size,color)
       n = n+1
     end
@@ -41,14 +40,22 @@ function network()
     displaytext(x,y,text,font,font_size,color)
   end
 end
-
-function display_speed(text1,speed,x,y,spacing)
-  text2 = speed_convert_s(speed)
-  font_size = 20
+function display_speed(x,y)
+  spacing = 1.5
+  local font_size = 20
   local color = color1
+  text1 = "DWN SPD"
+  text2 = speed_convert_s(downspeed)
   displaytext(x,y,text1,font,font_size,color)
   y = y + font_size*spacing
   displaytext(x,y,text2,font,font_size,color)
+
+  y = y + 80
+  text3 = "UPL SPD"
+  text4 = speed_convert_s(upspeed)
+  displaytext(x,y,text3,font,font_size,color)
+  y = y + font_size*spacing
+  displaytext(x,y,text4,font,font_size,color)
 end
 
 function speed_convert_s (speed)
