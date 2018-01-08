@@ -83,6 +83,7 @@ function conky_main()
     purple_dark = {0.17,0.18,0.26,0.4}
     font = "Inconsolata"
     -- Objects
+    -- require 'calendar'
     -- require 'clock'
     -- require 'cpu'
     -- require 'device_info'
@@ -94,6 +95,7 @@ function conky_main()
     -- require 'system_log'
     -- require 'system_storage'
     -- require 'weather'
+    dofile(curdir.."/calendar.lua")
     dofile(curdir.."/clock.lua")
     dofile(curdir.."/cpu.lua")
     dofile(curdir.."/device_info.lua")
@@ -105,6 +107,8 @@ function conky_main()
     dofile(curdir.."/system_log.lua")
     dofile(curdir.."/system_storage.lua")
     dofile(curdir.."/weather.lua")
+
+    --calendar(1300,80)
 
     clock()
 
