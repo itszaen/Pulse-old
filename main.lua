@@ -95,6 +95,7 @@ function conky_main()
     -- require 'system_storage'
     -- require 'weather'
     dofile(curdir.."/clock.lua")
+    dofile(curdir.."/cpu.lua")
     dofile(curdir.."/device_info.lua")
     dofile(curdir.."/heading.lua")
     dofile(curdir.."/information.lua")
