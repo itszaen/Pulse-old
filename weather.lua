@@ -7,7 +7,7 @@ function weather(x,y)
   area = "JAXX0085"
 
   if ic == 1 and (timer == 0 or conky_start == 1) then
-    os.execute(curdir .. "/weather.py " .. area)
+    os.execute(curdir .. "/weather.py "..area.." &")
   end
 
   if timer == 0 or conky_start == 1 then
@@ -17,7 +17,6 @@ function weather(x,y)
       table.insert(weather_t,line)
     end
     file:close()
-
   end
 
   if timer == 0 or conky_start == 1 then
@@ -27,6 +26,10 @@ function weather(x,y)
       table.insert(forecast_t,line)
     end
     file:close()
+  end
+
+  if next(weather_t) == nil or next(forecast_t) == nil then
+    return
   end
 
   weather_icon_t = {
@@ -45,7 +48,8 @@ function weather(x,y)
     ['AM Light Rain'] = "showers",
     ['PM Light Rain'] = "showers",
 
-    ['AM Clouds / PM Sun'] = "day-cloudy-high"
+    ['AM Clouds / PM Sun'] = "day-cloudy-high",
+    ['Sunny / Wind'] = "day-windy"
   }
   weather_icon_day_t = {
     ['Fair'] = "day-sunny",

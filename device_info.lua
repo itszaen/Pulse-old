@@ -2,9 +2,9 @@ function cpu_info(x,y)
   font_size = 15
   color = color6
   if conky_start == 1 then
-  text_t = {}
-  local n = 1
     result = io.popen("lscpu | grep 'Model name' | sed 's/Model name://; s/^[ \t]*//; s/(R)/®/g; s/(TM)/™/g; s/@/\\n@/'")
+    local n = 1
+    text_t = {}
     for line in result:lines() do
       text_t[n] = line
       n = n + 1
