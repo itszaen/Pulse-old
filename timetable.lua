@@ -17,7 +17,9 @@ function classinfo()
   end
 end
 function classname()
-  advance = 20
+  local hours = tonumber(hours)
+  local minutes = tonumber(minutes)
+  local advance = 20
   number = classnumber(hours,minutes,advance)
   if conky_start == 1 then
     file = io.open(curdir .. "/timetable.txt")
@@ -116,7 +118,9 @@ function classnumber(hour,minute,advance)
 end
 function within(table1,number)
   for i in ipairs(table1) do
-    if table1[i] <= number and number <= table1[i+1] then
+    if table1[i+1] == nil then
+      break
+    elseif table1[i] <= number and number <= table1[i+1] then
       return i
     end
   end
