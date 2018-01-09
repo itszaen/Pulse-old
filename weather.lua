@@ -54,7 +54,8 @@ function weather(x,y)
     ['PM Light Rain'] = "showers",
 
     ['AM Clouds / PM Sun'] = "day-cloudy-high",
-    ['Sunny / Wind'] = "day-windy"
+    ['Sunny / Wind'] = "day-windy",
+    ['Mostly Cloudy / Windy'] = "cloudy-windy"
   }
   weather_icon_day_t = {
     ['Fair'] = "day-sunny",
@@ -65,7 +66,8 @@ function weather(x,y)
     ['Partly Cloudy'] = "day-cloudy",
     ['Rain'] = "day-rain",
     ['Showers'] = "day-showers",
-    ['Light Rain'] = "day-showers"
+    ['Light Rain'] = "day-showers",
+    ['Mostly Cloudy / Windy'] = "day-cloudy-windy"
   }
 
   weather_icon_night_t = {
@@ -77,7 +79,8 @@ function weather(x,y)
     ['Partly Cloudy'] = "cloud",
     ['Rain'] = "night-rain",
     ['Showers'] = "night-showers",
-    ['Light Rain'] = "night-showers"
+    ['Light Rain'] = "night-showers",
+    ['Mostly Cloudy / Windy'] = "night-cloudy-windy"
   }
 
   temperature      = weather_t[1]
