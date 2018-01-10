@@ -16,6 +16,9 @@ function information(x,y)
     path = curdir .. "/image/Email.svg"
     name = "email"
     store_image(path,name)
+    path = curdir .. "/image/Email_empty.svg"
+    name = "emailempty"
+    store_image(path,name)
   end
 
   indent = 15
@@ -132,16 +135,15 @@ function email_update(x,y)
     iconcolor = color5
     iconx = x - 16
     icony = y - 15
-    iconpath = curdir .. "/image/Email.svg"
     iconname = "email"
-    draw_image(iconx,icony,iconpath,iconname,iconsize,iconorig,iconcolor)
+    draw_image(iconx,icony,iconname,iconsize,iconorig,iconcolor)
     font_size = 16
     indent = 28
     spacing = 9
     color = color2
     x = x + indent
     y = y + spacing
-    text = "Internet not connected."
+    text = "Internet disconnected."
     displaytext(x,y,text,font,font_size,color)
   elseif gmail_info == 0 then
     iconsize = 30
@@ -149,9 +151,8 @@ function email_update(x,y)
     iconcolor = color5
     iconx = x - 16
     icony = y - 15
-    iconpath = curdir .. "/image/Email_empty.svg"
-    iconname = "email"
-    draw_image(iconx,icony,iconpath,iconname,iconsize,iconorig,iconcolor)
+    iconname = "emailempty"
+    draw_image(iconx,icony,iconname,iconsize,iconorig,iconcolor)
     font_size = 16
     indent = 28
     spacing = 9
@@ -166,9 +167,8 @@ function email_update(x,y)
     iconcolor = color5
     iconx = x - 16
     icony = y - 15
-    iconpath = curdir .. "/image/Email.svg"
     iconname = "email"
-    draw_image(iconx,icony,iconpath,iconname,iconsize,iconorig,iconcolor)
+    draw_image(iconx,icony,iconname,iconsize,iconorig,iconcolor)
 
     font_size = 16
     indent = 28
