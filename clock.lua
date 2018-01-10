@@ -1,12 +1,14 @@
 require 'logo'
 
-function clock()
+function clock(x,y)
+  clockx = x
+  clocky = y
   clocksize = center
   inner = 50
   digital_t = 0
   logosize = 60
-  logox = centerx + 0
-  logoy = centery -120
+  logox = clockx + 0
+  logoy = clocky -120
   cairo_set_operator(cr,CAIRO_OPERATOR_SOURCE)
 
   if digital_t == 1 then
@@ -45,8 +47,8 @@ end
 --[[function watch_hand(degree,width,ratio)
   size = clocksize
   local color = color1
-  sx = centerx
-  sy = centery
+  sx = clockx
+  sy = clocky
   fx = sx + ratio*(math.cos(degree*math.pi/180)*(size/2-25))
   fy = sy + ratio*(math.sin(degree*math.pi/180)*(size/2-25))
   cairo_set_line_width (cr,width)
@@ -63,20 +65,20 @@ function watch_hand_pin()
   innerradius = 4
   cairo_set_line_width(cr,1)
   cairo_set_source_rgba(cr,rgba(outercolor))
-  cairo_arc(cr,centerx,centery,outerradius,0,2*math.pi)
+  cairo_arc(cr,clockx,clocky,outerradius,0,2*math.pi)
   cairo_fill(cr)
   cairo_set_source_rgba(cr,rgba(middlecolor))
-  cairo_arc(cr,centerx,centery,outerradius,0,2*math.pi)
+  cairo_arc(cr,clockx,clocky,outerradius,0,2*math.pi)
   cairo_fill(cr)
   cairo_set_source_rgba(cr,rgba(innercolor))
-  cairo_arc(cr,centerx,centery,innerradius,0,2*math.pi)
+  cairo_arc(cr,clockx,clocky,innerradius,0,2*math.pi)
   cairo_fill(cr)
 end
 function watch_hand_hour(degree,scale)
  size = clocksize
   length = size/2-25
-  sx = centerx
-  sy = centery
+  sx = clockx
+  sy = clocky
   offset1 = length/5
   offset2 = length/4
   offset3 = length/1.5
@@ -131,8 +133,8 @@ end
 function watch_hand_minute(degree,scale)
   size = clocksize
   length = size/2-25
-  sx = centerx
-  sy = centery
+  sx = clockx
+  sy = clocky
   offset1 = length/5
   offset2 = length/4
   offset3 = length/1.5
@@ -186,8 +188,8 @@ function watch_hand_minute(degree,scale)
 end
 function watch_hand_second_1(degree,scale)
   size = clocksize
-  sx = centerx
-  sy = centery
+  sx = clockx
+  sy = clocky
   radius = 2.5
   color = color2
   startwidth = 4
@@ -216,10 +218,10 @@ function watch_hand_second_1(degree,scale)
   cairo_fill(cr)
 end
 function watch_hand_second_2(degree,scale)
-  cairo_arc(cr,centerx,centery,2,0,2*math.pi)
+  cairo_arc(cr,clockx,clocky,2,0,2*math.pi)
   cairo_fill(cr)
-  sx = centerx
-  sy = centery
+  sx = clockx
+  sy = clocky
   degree = degree
   offset = 700
   offsetx = offset - 59 + 267 + 36
@@ -260,7 +262,7 @@ function innerline()
   radius = inner
   cairo_set_line_width (cr,width)
   cairo_set_source_rgba(cr,red,green,blue,alpha)
-  cairo_arc (cr,centerx,centery,radius,0,2*math.pi)
+  cairo_arc (cr,clockx,clocky,radius,0,2*math.pi)
   cairo_stroke(cr)
 end
 function watch_dial_line(degree,width,alpha)
@@ -268,10 +270,10 @@ function watch_dial_line(degree,width,alpha)
   hand = clocksize/2 - length
   local color = {0.6,0.6,1,alpha}
 
-  sx = centerx + math.cos(degree*math.pi/180)*hand
-  sy = centery + math.sin(degree*math.pi/180)*hand
-  fx = centerx + math.cos(degree*math.pi/180)*(hand+length)
-  fy = centery + math.sin(degree*math.pi/180)*(hand+length)
+  sx = clockx + math.cos(degree*math.pi/180)*hand
+  sy = clocky + math.sin(degree*math.pi/180)*hand
+  fx = clockx + math.cos(degree*math.pi/180)*(hand+length)
+  fy = clocky + math.sin(degree*math.pi/180)*(hand+length)
 
   cairo_set_line_width (cr,width)
   cairo_set_source_rgba(cr,rgba(color))
@@ -288,12 +290,12 @@ function digital_date()
   text2 = weekdayn .. " " .. day
 
   text_extents(text1,font,font_size)
-  x = centerx - (extents.width/2 + extents.x_bearing)
-  y = centery - font_size*offset - (extents.height/2 + extents.y_bearing)
+  x = clockx - (extents.width/2 + extents.x_bearing)
+  y = clocky - font_size*offset - (extents.height/2 + extents.y_bearing)
   displaytext(x,y,text1,font,font_size,color)
   text_extents(text2,font,font_size)
-  x = centerx - (extents.width/2 + extents.x_bearing)
-  y = centery + font_size*offset - (extents.height/2 + extents.y_bearing)
+  x = clockx - (extents.width/2 + extents.x_bearing)
+  y = clocky + font_size*offset - (extents.height/2 + extents.y_bearing)
   displaytext(x,y,text2,font,font_size,color)
 end
 
@@ -315,8 +317,8 @@ function digital_time()
 ]]
 
   text_extents(text,font,font_size)
-  x = centerx - (extents.width/2 + extents.x_bearing)
-  y = centery - (extents.height/2 + extents.y_bearing)
+  x = clockx - (extents.width/2 + extents.x_bearing)
+  y = clocky - (extents.height/2 + extents.y_bearing)
   displaytext(x,y,font,font_size,color)
 end
 
@@ -327,8 +329,8 @@ function dig_date02()
   font_size = 18
   color = color2
 
-  x = centerx
-  y = centery + 120
+  x = clockx
+  y = clocky + 120
   y1 = y + 12
   y2 = y + 36
   --wings(x,y1)
