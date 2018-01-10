@@ -54,6 +54,7 @@ function classinfo(advance,wintertime)
 end
 function classname(classname_t,classtime_t,curtime,advance)
   class = classname_t[number]
+  classtime_weekday_t = classtime_t[weekday_number]
 
   classtime_in_seconds_t = {}
   for i in ipairs(classtime_weekday_t) do
@@ -102,11 +103,11 @@ function isVacation()
   end
 end
 function isSchoolFinished(timetable_t,curtime,starttime)
-  classtime_weekday_t = classtime_t[weekday_number]
-  finishtime = table.remove(classtime_weekday_t)
-  table.insert(classtime_weekday_t,finishtime) -- return the value back to the table
+  timetable_weekday_t = timetable_t[weekday_number]
+  finishtime = table.remove(timetable_weekday_t)
+  table.insert(timetable_weekday_t,finishtime) -- return the value back to the table
   finishtime_in_seconds = finishtime[1]*3600 + finishtime[2]*60 + 0
-  if finishtime_in_seconds <= curtime and curtime >= starttime then
+  if finishtime_in_seconds >= curtime and curtime >= starttime then
     return 0
   else
     return 1
@@ -116,7 +117,6 @@ end
 function classnumber(classtime_t,classtime_in_seconds_t,curtime,advance)
   modtime = curtime + advance
   class_number = within(classtime_in_seconds_t,modtime) -- on its weekday
-
   -- add all the class numbers before the day (not for Monday)
   if weekday_number >= 2 then
     local n = 0
