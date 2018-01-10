@@ -21,10 +21,10 @@ function second2hour_minute_second(time,separator)
     return hms
   end
 end
-function second2Minute_second(time,separator)
+function second2Mmss(time,separator)
   minute = round_float((time/60),0)
   second = minute % 60
-  ms = tostring(minute)..separator..tostring(second)
+  ms = string.format("%02d",minute)..separator..string.format("%02d",second)
   return ms
 end
 function round_float(num, numDecimalPlaces) --string
