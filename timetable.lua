@@ -126,7 +126,7 @@ function classnumber(hour,minute,advance,wintertime)
   if time <= 0 then
     time = "now"
   else
-    time = second2Minute_second(time,":")
+    time = second2Mmss(time,":")
   end
 
   return class_number,time

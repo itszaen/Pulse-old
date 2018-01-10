@@ -262,12 +262,13 @@ function class_update(x,y)
   elseif time == nil then
     displaytext(x,y,text,font,font_size,color)
   else
-    text1 = time .. "until"
+    text1 = time .. " until"
     displaytext(x,y,text1,font,font_size,color)
+    text_extents(text1,font,font_size)
     text2 = text
     local font = "Source Han Sans JP"
     font_size = 13
-    indent = 50
+    indent = 6 + extents.width + extents.x_bearing
     x = x + indent
     displaytext(x,y,text2,font,font_size,color)
   end
