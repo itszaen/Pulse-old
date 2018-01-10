@@ -86,34 +86,43 @@ end
 function classnumber(hour,minute,advance)
   curtime_n = hour*60 + minute
   time_n = curtime_n + advance
+  local weekday_n = tonumber(os.date("%w"))
 
   if conky_start == 1 then
     if wintertime == 0 then
       classtime_t = {
-        {8,10},{9,10},{10,10},{11,10},{12,40},{13,40},
-        {8,10},{9,10},{10,10},{11,10},{12,40},{13,40},
-        {8,10},{9,10},{10,10},{11,5},{11,40},{13,10},{14,10},
-        {8,10},{9,10},{10,10},{11,10},{12,40},{13,40},
-        {8,10},{9,10},{10,10},{11,10},{12,40},{13,40},
-        {8,10},{9,10},{10,10},{11,10}
+        {{8,10},{9,10},{10,10},{11,10},{12,40},{13,40}},
+        {{8,10},{9,10},{10,10},{11,10},{12,40},{13,40}},
+        {{8,10},{9,10},{10,10},{11,5},{11,40},{13,10},{14,10}},
+        {{8,10},{9,10},{10,10},{11,10},{12,40},{13,40}},
+        {{8,10},{9,10},{10,10},{11,10},{12,40},{13,40}},
+        {{8,10},{9,10},{10,10},{11,10}}
       }
     else
       classtime_t = {
-        {8,20},{9,20},{10,20},{11,20},{12,50},{13,50},
-        {8,20},{9,20},{10,20},{11,20},{12,50},{13,50},
-        {8,20},{9,20},{10,20},{11,15},{11,50},{13,20},{14,20},
-        {8,20},{9,20},{10,20},{11,20},{12,50},{13,50},
-        {8,20},{9,20},{10,20},{11,20},{12,50},{13,50},
-        {8,20},{9,20},{10,20},{11,20}
+        {{8,20},{9,20},{10,20},{11,20},{12,50},{13,50}},
+        {{8,20},{9,20},{10,20},{11,20},{12,50},{13,50}},
+        {{8,20},{9,20},{10,20},{11,15},{11,50},{13,20},{14,20}},
+        {{8,20},{9,20},{10,20},{11,20},{12,50},{13,50}},
+        {{8,20},{9,20},{10,20},{11,20},{12,50},{13,50}},
+        {{8,20},{9,20},{10,20},{11,20}}
       }
     end
+    classtime_weekday_t = classtime_t[weekday_n]
     classtime_n_t = {}
-    for i in ipairs(classtime_t) do
-      class_time_n = classtime_t[i][1] * 60 + classtime_t[i][2]
+    for i in ipairs(classtime_weekday_t) do
+      class_time_n = classtime_weekday_t[i][1] * 60 + classtime_weekday_t[i][2]
       table.insert(classtime_n_t,class_time_n)
     end
   end
-  class_number = within(classtime_n_t,time_n)
+  class_number = within(classtime_n_t,time_n) -- on its weekday
+  if weekday >= 2 then
+    local n = 0
+    for i=1,weekday-1 do
+      n = n + length_table(classtime_t[i])
+    end
+    class_number = class_number + n
+  end
   return class_number
 end
 function within(table1,number)
