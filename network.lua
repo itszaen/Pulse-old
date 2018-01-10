@@ -81,8 +81,3 @@ function speed_convert_s (speed)
     s = tostring(speed) .. "GiB"
   end
 end
-
-function round_float(num, numDecimalPlaces) --string
-  rounded = string.format("%." .. (numDecimalPlaces or 0) .. "f", num) -- string
-  return rounded
-end
