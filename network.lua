@@ -8,10 +8,11 @@ function network()
   y = 340
   local color = color6
 
-  display_speed(600,135)
 
   speedtest_timer = (updates % speedtest_interval)
   if ic == 1 then
+    display_speed(600,135)
+
     if speedtest_timer == 0 or conky_start == 1 then
       os.execute("speedtest-cli --simple | sed 's/Ping/PNG/' | sed 's/Download/DWN/' | sed 's/Upload/UPL/' > "..curdir.."/.tmp/speeds &")
     end
