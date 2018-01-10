@@ -109,20 +109,14 @@ function conky_main()
     dofile(curdir.."/weather.lua")
 
     --calendar(1300,80)
-
     clock()
-
     heading1(100,770,"System Log")
     system_log(82,790)
-
     heading1(100,420,"Storage")
     system_storage(82,430)
-
     network()
-
     cpuarc()
     ramarc()
-
     heading3(795 ,835,"CPU")
     heading3(1100,835,"RAM")
     cpuprocess(700,850)
@@ -131,9 +125,7 @@ function conky_main()
     ram_info(1000,990)
     heading1(1290,770,"Info")
     information(1290,800)
-
     weather(1350,440)
-
     ----
     conky_start = nil -- 1st time flag
 

@@ -252,7 +252,7 @@ function class_update(x,y)
     displaytext(x,y,text1,font,font_size,color)
     text_extents(text1,font,font_size)
     text2 = text
-    font = "Source Han Sans JP"
+    local font = "Source Han Sans JP"
     font_size = 13
     indent = 6 + extents.width + extents.x_bearing
     x = x + indent
