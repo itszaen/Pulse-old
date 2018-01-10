@@ -1,26 +1,23 @@
-function classinfo()
-  wintertime = 1
-
+function classinfo(advance,wintertime)
   if isVacation() == 1 then
-    return "Enjoy your summer vacation!",0
+    return "Enjoy your summer vacation!",nil
   elseif isVacation() == 2 then
-    return "Enjoy your winter break!",0
+    return "Enjoy your winter break!",nil
   elseif isVacation() == 3 then
-    return "Enjoy your spring rest!",0
+    return "Enjoy your spring rest!",nil
   elseif isSunday() == 1 then
-    return "It's your day off!",0
+    return "It's your day off!",nil
   elseif isSchoolFinished() == 1 then
-    return "School finished!",0
+    return "School finished!",nil
   else
-    class = classname()
-    return class,1
+    class,time = classname(advance,wintertime)
+    return class,time
   end
 end
-function classname()
+function classname(advance,wintertime)
   local hours = tonumber(hours)
   local minutes = tonumber(minutes)
-  local advance = 20
-  number = classnumber(hours,minutes,advance)
+  number,time = classnumber(hours,minutes,advance,wintertime)
   if conky_start == 1 then
     file = io.open(curdir .. "/timetable.txt")
     class_table = {}
@@ -30,7 +27,7 @@ function classname()
     file:close()
   end
   class = class_table[number]
-  return class
+  return class,time
 end
 
 function isSunday()
@@ -83,10 +80,11 @@ function isSchoolFinished()
   end
 end
 
-function classnumber(hour,minute,advance)
+function classnumber(hour,minute,advance,wintertime)
   curtime_n = hour*60 + minute
   time_n = curtime_n + advance
   local weekday_n = tonumber(os.date("%w"))
+  local seconds_n = tonumber(seconds)
 
   if conky_start == 1 then
     if wintertime == 0 then
@@ -116,6 +114,7 @@ function classnumber(hour,minute,advance)
     end
   end
   class_number = within(classtime_n_t,time_n) -- on its weekday
+  now_class_time_n = classtime_weekday_t[class_number][1]*60+classtime_weekday_t[class_number][2]
   if weekday >= 2 then
     local n = 0
     for i=1,weekday-1 do
@@ -123,7 +122,14 @@ function classnumber(hour,minute,advance)
     end
     class_number = class_number + n
   end
-  return class_number
+  time = now_class_time_n*60 - (curtime_n*60 + seconds_n) -- seconds
+  if time <= 0 then
+    time = "now"
+  else
+    time = second2Minute_second(time,":")
+  end
+
+  return class_number,time
 end
 function within(table1,number)
   for i in ipairs(table1) do

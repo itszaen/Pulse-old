@@ -229,7 +229,7 @@ function getGmailCredit()
   return address,password
 end
 function class_update(x,y)
-  interval = 60
+  --interval = 60
   iconsize = 30
   iconorig = 512
   iconcolor = color5
@@ -238,7 +238,7 @@ function class_update(x,y)
   iconname = "class"
   draw_image(iconx,icony,iconname,iconsize,iconorig,iconcolor)
 
-  timer = (updates % interval)
+  --timer = (updates % interval)
 
   font_size = 16
   color = color2
@@ -246,9 +246,11 @@ function class_update(x,y)
   spacing = 13
   x = x + indent
   y = y + spacing
-  text,flag = classinfo()
-  if flag == 1 then
-    text1 = "Next class is "
+  advance = 10
+  wintertime = 1
+  text,time = classinfo(advance,wintertime)
+  if time == "now" then
+    text1 = "The class is "
     displaytext(x,y,text1,font,font_size,color)
     text_extents(text1,font,font_size)
     text2 = text
@@ -257,8 +259,17 @@ function class_update(x,y)
     indent = 6 + extents.width + extents.x_bearing
     x = x + indent
     displaytext(x,y,text2,font,font_size,color)
-  else
+  elseif time == nil then
     displaytext(x,y,text,font,font_size,color)
+  else
+    text1 = time .. "until"
+    displaytext(x,y,text1,font,font_size,color)
+    text2 = text
+    local font = "Source Han Sans JP"
+    font_size = 13
+    indent = 50
+    x = x + indent
+    displaytext(x,y,text2,font,font_size,color)
   end
 end
 function software_info(x,y)
