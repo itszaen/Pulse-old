@@ -1,25 +1,27 @@
+#!/usr/bin/env python3
+
 from __future__ import print_function
 import httplib2
 import os
- 
+
 from apiclient import discovery
 from oauth2client import client
 from oauth2client import tools
 from oauth2client.file import Storage
  
 import datetime
- 
-try:
-    import argparse
-    flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
-except ImportError:
-    flags = None
- 
+import dateutil.tz
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('calendar', default='primary', nargs='?')
+args = parser.parse_args()
+
 # If modifying these scopes, delete your previously saved credentials
 # at ~/.config/conky/.credential/
 SCOPES = 'https://www.googleapis.com/auth/calendar.readonly'
 CLIENT_SECRET_FILE = 'client_secret.json'
-APPLICATION_NAME = 'conky-calendar' # I'm not sure what this is
+APPLICATION_NAME = 'conky-calendar'
  
  
 def get_credentials():
@@ -31,8 +33,8 @@ def get_credentials():
     Returns:
         Credentials, the obtained credential.
     """
-    home_dir = os.path.expanduser('~/.config/conky/')
-    credential_dir = os.path.join(home_dir, '.credentials')
+    curdir = os.path.expanduser('~/.config/conky/')
+    credential_dir = os.path.join(curdir, '.credentials')
     if not os.path.exists(credential_dir):
         os.makedirs(credential_dir)
     credential_path = os.path.join(credential_dir,
@@ -43,34 +45,43 @@ def get_credentials():
     if not credentials or credentials.invalid:
         flow = client.flow_from_clientsecrets(CLIENT_SECRET_FILE, SCOPES)
         flow.user_agent = APPLICATION_NAME
-        if flags:
-            credentials = tools.run_flow(flow, store, flags)
-        else: # Needed only for compatibility with Python 2.6
-            credentials = tools.run(flow, store)
+        credentials = tools.run(flow, store)
         print('Storing credentials to ' + credential_path)
     return credentials
- 
-def main():
+
+
+def get_calendar():
+    curdir = os.path.expanduser('~/.config/conky/')
+    path = curdir + "/.tmp/events"
     credentials = get_credentials()
     http = credentials.authorize(httplib2.Http())
     service = discovery.build('calendar', 'v3', http=http)
  
-    numEvents = 10 # the number of events to get
-    now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
-    print('Getting the upcoming 10 events')
-    eventsResult = service.events().list(
-        calendarId='primary', timeMin=now, maxResults=numEvents, singleEvents=True,
+    now = datetime.datetime.now(dateutil.tz.tzlocal())
+    min_date = datetime.datetime(now.year, now.month, 1).isoformat('T') + "Z"
+    max_date = datetime.datetime(now.year, now.month+1, 1).isoformat('T') + "Z"
+
+    events_result = service.events().list(
+        calendarId=args.calendar, timeMin=min_date, timeMax=max_date, singleEvents=True,
         orderBy='startTime').execute()
-    events = eventsResult.get('items', [])
-    # Uncomment to see the raw data
-    # print(events)
- 
+    events = events_result.get('items', [])
+
+    file = open(path, 'w+')
+
     if not events:
         print('No upcoming events found.')
     for event in events:
-        print(event['start']['dateTime'], event['summary'])
- 
- 
- 
+        day, time_start, time_end = "", "", ""
+        for i in [8, 9]:
+            day += event['start']['dateTime'][i]
+        for i in list(range(11, 16)):
+            time_start += event['start']['dateTime'][i]
+            time_end += event['end']['dateTime'][i]
+        line = day + ' ' + time_start + ' ' + time_end + ' ' + event['summary']+"\n"
+        file.write(line)
+
+
 if __name__ == '__main__':
-    main()
+    get_calendar()
+
+
