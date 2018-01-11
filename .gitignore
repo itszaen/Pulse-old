@@ -2,3 +2,5 @@
 TODOS.org
 .tmp/
 .gmail
+__pycache__
+.idea
