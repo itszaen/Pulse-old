@@ -226,6 +226,7 @@ function getGmailCredit()
     password = line
     break
   end
+  address_f:close()
   return address,password
 end
 function class_update(x,y)
