@@ -48,12 +48,12 @@ function classinfo(advance,wintertime)
   elseif isSchoolFinished(classtime_t,curtime,starttime) == 1 then
     return "School finished!",nil
   else
-    class,countdown = classname(classname_t,classtime_t,curtime,advance)
-    return class,countdown
+    class,timeinfo = classname(classname_t,classtime_t,curtime,advance)
+    return class,timeinfo
   end
 end
 function classname(classname_t,classtime_t,curtime,advance)
-  class = classname_t[number]
+  local class = classname_t[number]
   classtime_weekday_t = classtime_t[weekday_number]
 
   classtime_in_seconds_t = {}
@@ -65,9 +65,18 @@ function classname(classname_t,classtime_t,curtime,advance)
   classtime_weekday_t = classtime_t[weekday_number]
 
   number = classnumber(classtime_t,classtime_in_seconds_t,curtime,advance)
-  now_classtime_in_second = classtime_weekday_t[class_number][1]*3600+classtime_weekday_t[class_number][2]*60 + 0
-  countdown = countdown(now_classtime_in_second)
-  return class,countdown
+  now_classtime_in_second = classtime_weekday_t[number][1]*3600+classtime_weekday_t[number][2]*60 + 0
+  local timeinfo = countdown(now_classtime_in_second)
+  -- add all the class numbers before the day (not for Monday)
+  if weekday_number >= 2 then
+    local n = 0
+    for i=1,weekday_number-1 do
+      n = n + length_table(classtime_t[i])
+    end
+    number = number + n
+  end
+
+  return class,timeinfo
 end
 
 function isSunday()
@@ -107,6 +116,8 @@ function isSchoolFinished(timetable_t,curtime,starttime)
   finishtime = table.remove(timetable_weekday_t)
   table.insert(timetable_weekday_t,finishtime) -- return the value back to the table
   finishtime_in_seconds = finishtime[1]*3600 + finishtime[2]*60 + 0
+  print(finishtime_in_seconds)
+  print(curtime)
   if finishtime_in_seconds >= curtime and curtime >= starttime then
     return 0
   else
@@ -117,23 +128,16 @@ end
 function classnumber(classtime_t,classtime_in_seconds_t,curtime,advance)
   modtime = curtime + advance
   class_number = within(classtime_in_seconds_t,modtime) -- on its weekday
-  -- add all the class numbers before the day (not for Monday)
-  if weekday_number >= 2 then
-    local n = 0
-    for i=1,weekday_number-1 do
-      n = n + length_table(classtime_t[i])
-    end
-    class_number = class_number + n
-  end
   return class_number
 end
 function countdown(time)
-  countdown = time - curtime -- seconds
+  local countdown = time - curtime -- seconds
   if countdown <= 0 then
     countdown = "now"
   else
     countdown = second2Mmss(time,":")
   end
+  return countdown
 end
 function within(T,number)
   for i in ipairs(T) do
