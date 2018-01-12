@@ -111,7 +111,9 @@ Awesome weather widget via pywapi. Uses Roboto font.
 Only on Arch Linux & Ubuntu
 ##### Next Class
 WOW who wants this except for me.
-##### Unread email (gmail)
+##### Unread email
+Supported: Gmail
+###### Gmail
 Uses curl to read gmail's atom API feed.
 You have to setup python keyring to give conky the necessary credentials.
 
@@ -134,9 +136,28 @@ And to give conky an idea what kind of password it needs, pass your email addres
 echo  [Email Address] > ~/.config/conky/.gmail
 ```
 
+#### Calendar
+Supported: Google Calendar
+Uses google's calendar API.
+STAB
+
+
 Everything is set! Run conky in terminal! or somewhere else!
 
 
 ## Screenshot
 not updated regularly.
-![Screenshot](https://raw.githubusercontent.com/zaen323/conky/master/Screenshot.png)
+![Screenshot](Screenshot.png)
+
+## License
+[APACHE](LICENSE)
+
+## Special thanks to
+* [davidrlunu]( https://github.com/davidrlunu)
+Idea, design philosophy
+* My father
+Maths
+* [akrinke](https://github.com/akrinke)
+svg2cairo
+* [houranos](https://github.com/houranos)
+Google Calendar API
