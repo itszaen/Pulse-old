@@ -138,8 +138,16 @@ echo  [Email Address] > ~/.config/conky/.gmail
 
 #### Calendar
 Supported: Google Calendar
-Uses google's calendar API.
-STAB
+Uses google's calendar API with python.
+
+*Arch
+```
+sudo pacman -S python-google-api-python-client
+```
+*Others
+```
+(sudo) pip install httplib2 apiclient oauth2client
+```
 
 
 Everything is set! Run conky in terminal! or somewhere else!
@@ -153,7 +161,7 @@ not updated regularly.
 [APACHE](LICENSE)
 
 ## Special thanks to
-* [davidrlunu]( https://github.com/davidrlunu)
+* [davidrlunu](https://github.com/davidrlunu)
 Idea, design philosophy
 * My father
 Maths
