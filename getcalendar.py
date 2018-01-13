@@ -12,9 +12,10 @@ from oauth2client.client import OAuth2WebServerFlow
 import datetime
 import dateutil.tz
 import argparse
+import array
 
 parser = argparse.ArgumentParser()
-parser.add_argument('calendar', default='primary', nargs='?')
+parser.add_argument('calendar', default='primary', nargs='*')
 args = parser.parse_args()
 
 # If modifying these scopes, delete your previously saved credentials
@@ -35,7 +36,7 @@ def get_credentials():
     store = Storage(credential_path)
     credentials = store.get()
     if not credentials or credentials.invalid:
-        credentials = run_flow(OAuth2WebServerFlow(API_CLIENT_ID,API_CLIENT_SECRET,SCOPES,APPLICATION_NAME),store)
+        credentials = run_flow(OAuth2WebServerFlow(API_CLIENT_ID, API_CLIENT_SECRET, SCOPES, APPLICATION_NAME), store)
         print('Storing credentials to ' + credential_path)
     return credentials
 
@@ -47,28 +48,40 @@ def get_calendar():
     http = credentials.authorize(httplib2.Http())
     service = discovery.build('calendar', 'v3', http=http)
 
+    calendar_list = service.calendarList().list().execute()
+    calendar_id_list = [item['id'] for item in calendar_list['items']]
+
     now = datetime.datetime.now(dateutil.tz.tzlocal())
     min_date = datetime.datetime(now.year, now.month, 1).isoformat('T') + "Z"
     max_date = datetime.datetime(now.year, now.month+1, 1).isoformat('T') + "Z"
 
-    events_result = service.events().list(
-        calendarId=args.calendar, timeMin=min_date, timeMax=max_date, singleEvents=True,
-        orderBy='startTime').execute()
-    events = events_result.get('items', [])
+    events_list = [[] for i in range(0, 31)]
 
-    file = open(path, 'w+')
+    for calendar_id in calendar_id_list:
+        print(calendar_id)
+        events_result = service.events().list(
+            calendarId=calendar_id, timeMin=min_date, timeMax=max_date, singleEvents=True,
+            orderBy='startTime').execute()
+        events = events_result.get('items', [])
 
-    if not events:
-        print('No upcoming events found.')
-    for event in events:
-        day, time_start, time_end = "", "", ""
-        for i in [8, 9]:
-            day += event['start']['dateTime'][i]
-        for i in list(range(11, 16)):
-            time_start += event['start']['dateTime'][i]
-            time_end += event['end']['dateTime'][i]
-        line = day + ' ' + time_start + ' ' + time_end + ' ' + event['summary']+"\n"
-        file.write(line)
+        if not events:
+            print('No upcoming events found.')
+        else:
+            for event in events:
+                day, time_start, time_end = "", "", ""
+                for i in [8, 9]:
+                    print(event['start'])
+                    day += event['start']['dateTime'][i]
+                for i in list(range(11, 16)):
+                    time_start += event['start']['dateTime'][i]
+                    time_end += event['end']['dateTime'][i]
+                # line = day + ' ' + time_start + ' ' + time_end + ' ' + event['summary']+"\n"
+                # file.write(line)
+                events_list[int(day)-1].append(day + ' ' + time_start + ' ' + time_end + ' ' + event['summary']+"\n")
+
+    for i in events_list:
+        with open(path, 'w+') as file:
+            file.write(i)
 
 
 if __name__ == '__main__':
