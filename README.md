@@ -142,11 +142,12 @@ Uses google's calendar API with python.
 
 *Arch
 ```
-sudo pacman -S python-google-api-python-client
+sudo pacman -S python-google-api-python-client python-dateutil
 ```
+
 *Others
 ```
-(sudo) pip install httplib2 apiclient oauth2client
+(sudo) pip install google-api-python-client python-dateutil
 ```
 
 
