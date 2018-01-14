@@ -116,8 +116,6 @@ function isSchoolFinished(timetable_t,curtime,starttime)
   finishtime = table.remove(timetable_weekday_t)
   table.insert(timetable_weekday_t,finishtime) -- return the value back to the table
   finishtime_in_seconds = finishtime[1]*3600 + finishtime[2]*60 + 0
-  print(finishtime_in_seconds)
-  print(curtime)
   if finishtime_in_seconds >= curtime and curtime >= starttime then
     return 0
   else
