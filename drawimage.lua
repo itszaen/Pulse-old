@@ -88,7 +88,3 @@ function draw_image_polar(x,y,degree,offsetx,offsety,name,size,original,color)
   end
   cairo_fill(cr)
 end
-
-function trim(s)
-  return (s:gsub("^%s*(.-)%s*$", "%1"))
-end

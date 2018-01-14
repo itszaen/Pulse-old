@@ -54,9 +54,11 @@ function conky_main()
 
     year    = os.date("%Y")
     month   = os.date("%m")
-    monthn  = os.date("%B")
+    month_name  = os.date("%B")
+    month_name_ab = os.date("%b")
     day     = os.date("%d")
     weekdayn= os.date("%A")
+    weekday_name_ab = os.date("%a")
     weekday_number = tonumber(os.date("%w"))
     hours   = os.date("%H")
     hours12 = os.date("%I")
@@ -110,7 +112,7 @@ function conky_main()
     dofile(curdir.."/system_storage.lua")
     dofile(curdir.."/weather.lua")
 
-    --calendar(1300,80)
+    calendar(1270,80)
     clock(centerx,centery)
     heading1(100,770,"System Log")
     system_log(82,790)
@@ -139,43 +141,6 @@ end -- conky_main()
 
 -- Functions
 --- converts color in hexa to decimal
-function rgb_to_r_g_b(colour, alpha)
-  return ((colour / 0x10000) % 0x100) / 255., ((colour / 0x100) % 0x100) / 255., (colour % 0x100) / 255., alpha
-end
-function displaytext(x,y,text,font,font_size,color)
-  font_slant  = CAIRO_FONT_SLANT_NORMAL
-  font_weight = CAIRO_FONT_WEIGHT_NORMAL
-  cairo_select_font_face(cr,font,font_slant,font_face)
-  cairo_set_font_size(cr,font_size)
-  cairo_set_source_rgba (cr,rgba(color))
-  cairo_move_to(cr,x,y)
-  cairo_show_text(cr,text)
-  cairo_stroke(cr)
-end
-function text_extents(text,font,font_size)
-  font_slant  = CAIRO_FONT_SLANT_NORMAL
-  font_weight = CAIRO_FONT_WEIGHT_NORMAL
-  cairo_select_font_face(cr,font,font_slant,font_face)
-  cairo_set_font_size(cr,font_size)
-  extents = cairo_text_extents_t:create()
-  tolua.takeownership(extents)
-  cairo_text_extents(cr,text,extents)
-  -- Usage
-  -- x = extents.width  + extents.x_bearing
-  -- y = extents.height + extents.y_bearing
-end
-function rgba(color)
-  r = color[1]
-  g = color[2]
-  b = color[3]
-  a = color[4]
-  return r,g,b,a
-end
-function draw_line(startx,starty,finishx,finishy)
-  cairo_move_to (cr, startx , starty)
-  cairo_line_to (cr, finishx, finishy)
-  cairo_close_path(cr)
-end
 function os_detection()
   if package.config:sub(1,1) == "\\" then
     osname = "Windows"

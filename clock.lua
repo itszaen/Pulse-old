@@ -286,7 +286,7 @@ function digital_date()
   offset = 1.8
   local color = color1
 
-  text1 = monthn .. " " .. year
+  text1 = month_name .. " " .. year
   text2 = weekdayn .. " " .. day
 
   text_extents(text1,font,font_size)
@@ -514,21 +514,4 @@ function correct_date(date)
     date = date - days
   end
   return date
-end
-function get_days_in_month(month, year)
-  local days_in_month = {31,28,31,30,31,30,31,31,30,31,30,31}
-  local d = days_in_month[month]
-  -- check for leap year
-  if (month == 2) then
-    if (math.mod(year,4) == 0) then
-      if (math.mod(year,100) == 0)then
-        if (math.mod(year,400) == 0) then
-          d = 29
-        end
-      else
-        d = 29
-      end
-    end
-  end
-  return d
 end
