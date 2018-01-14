@@ -11,12 +11,8 @@ from oauth2client.client import OAuth2WebServerFlow
 
 import datetime
 import dateutil.tz
-import argparse
 import array
 
-parser = argparse.ArgumentParser()
-parser.add_argument('calendar', default='primary', nargs='*')
-args = parser.parse_args()
 
 # If modifying these scopes, delete your previously saved credentials
 # at ~/.config/conky/.credential/
@@ -43,7 +39,7 @@ def get_credentials():
 
 def get_calendar():
     curdir = os.path.expanduser('~/.config/conky/')
-    path = curdir + "/.tmp/events_" + args.calendar
+    path = curdir + "/.tmp/events"
     credentials = get_credentials()
     http = credentials.authorize(httplib2.Http())
     service = discovery.build('calendar', 'v3', http=http)
@@ -58,30 +54,34 @@ def get_calendar():
     events_list = [[] for i in range(0, 31)]
 
     for calendar_id in calendar_id_list:
-        print(calendar_id)
         events_result = service.events().list(
             calendarId=calendar_id, timeMin=min_date, timeMax=max_date, singleEvents=True,
             orderBy='startTime').execute()
         events = events_result.get('items', [])
 
-        if not events:
-            print('No upcoming events found.')
-        else:
+        if events:
             for event in events:
-                day, time_start, time_end = "", "", ""
-                for i in [8, 9]:
-                    print(event['start'])
-                    day += event['start']['dateTime'][i]
-                for i in list(range(11, 16)):
-                    time_start += event['start']['dateTime'][i]
-                    time_end += event['end']['dateTime'][i]
-                # line = day + ' ' + time_start + ' ' + time_end + ' ' + event['summary']+"\n"
-                # file.write(line)
-                events_list[int(day)-1].append(day + ' ' + time_start + ' ' + time_end + ' ' + event['summary']+"\n")
+                if 'dateTime' in event['start']:
+                    day, time_start, time_end = "", "", ""
+                    for i in [8, 9]:
+                        print(event['start'])
+                        day += event['start']['dateTime'][i]
+                        for i in list(range(11, 16)):
+                            time_start += event['start']['dateTime'][i]
+                            time_end += event['end']['dateTime'][i]
+                    events_list[int(day)-1].append(day + ' ' + time_start + ' ' + time_end + ' ' + event['summary']+"\n")
+                else:
+                    day = ""
+                    for i in [8,9]:
+                        day += event['start']['date'][i]
+                    events_list[int(day)-1].append(day+' '+event['summary']+"\n")
+    events_list_final = ""
+    for day in events_list:
+        for i in day:
+            events_list_final += i
 
-    for i in events_list:
-        with open(path, 'w+') as file:
-            file.write(i)
+    file = open(path, 'w+')
+    file.write(events_list_final)
 
 
 if __name__ == '__main__':
