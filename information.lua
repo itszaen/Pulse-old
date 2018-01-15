@@ -1,6 +1,5 @@
 require 'drawimage'
 require 'timetable'
-
 function information(x,y)
   -- store images
   if conky_start == 1 then
