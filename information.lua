@@ -221,7 +221,7 @@ function getGmailCredit()
     address = line
     break
   end
-  password_f = io.popen("python -c \"import keyring; print(keyring.get_password('gmail','"..address.."'))\"")
+  password_f = io.popen("python -c \"import keyring; print(keyring.get_password('gmail','"..address.."\'))\"")
   for line in password_f:lines() do
     password = line
     break
