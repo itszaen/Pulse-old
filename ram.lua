@@ -29,7 +29,7 @@ function ramarc()
 end
 -- Functions
 function ram_arc_background(offset,radius)
-  range  = (math.asin((height/2.0) / radius))*180.0/math.pi
+  local range  = (math.asin((height/2.0) / radius))*180.0/math.pi
   top    = 360.0 - range
   bottom = 360.0 + range
   local color = {1.0,1.0,1.0,1.0}
@@ -44,7 +44,7 @@ function ram_arc_background(offset,radius)
   cairo_arc(cr, center_xpos, center_ypos, radius, start_angle, finish_angle)
 end
 function ram_arc_background_n(offset,radius)
-  range  = (math.asin((height/2.0) / radius))*180.0/math.pi
+  local range  = (math.asin((height/2.0) / radius))*180.0/math.pi
   top    = 360.0 - range
   bottom = 360.0 + range
   local color = {1.0,1.0,1.0,1.0}
@@ -72,7 +72,7 @@ function ram_arc_background_lines()
 end
 
 function draw_ram_arc(offset,radius)
-  range  = (math.asin((height/2.0) / radius))*180.0/math.pi
+  local range  = (math.asin((height/2.0) / radius))*180.0/math.pi
   top    = 360.0 - range
   bottom = 360 - (90 - math.acos((height/2.0 - ram_height)/radius)*180.0/math.pi)
   color = {1.0,1.0,1.0,1.0}
@@ -87,7 +87,7 @@ function draw_ram_arc(offset,radius)
   cairo_arc(cr, center_xpos, center_ypos, radius, start_angle, finish_angle)
 end
 function draw_ram_arc_n(offset,radius)
-  range  = (math.asin((height/2.0) / radius))*180.0/math.pi
+  local range  = (math.asin((height/2.0) / radius))*180.0/math.pi
   top    = 360.0 - range
   bottom = 360.0 - (90.0 - math.acos((height/2.0 - ram_height)/radius)*180.0/math.pi)
   color = {1.0,1.0,1.0,1.0}

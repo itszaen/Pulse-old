@@ -30,7 +30,7 @@ end
 
 --Functions
 function cpu_arc_background(offset,radius)
-  range  = (math.asin((height/2.0) / radius))*180.0/math.pi --91.1693 when radius is 350.0
+  local range  = (math.asin((height/2.0) / radius))*180.0/math.pi --91.1693 when radius is 350.0
   bottom = 180.0 - range                                            -- 134.4153 when radius is 350.0
   top    = 180.0 + range
   local color = {1.0,1.0,1.0,1.0}
@@ -45,7 +45,7 @@ function cpu_arc_background(offset,radius)
   cairo_arc (cr, center_xpos, center_ypos, radius, start_angle, finish_angle)
 end
 function cpu_arc_background_n (offset,radius)
-  range  = (math.asin((height/2.0) / radius))*180/math.pi
+  local range  = (math.asin((height/2.0) / radius))*180/math.pi
   bottom = 180.0 - range
   top    = 180.0 + range
   local color = {1.0,1.0,1.0,1.0}
@@ -75,7 +75,7 @@ function cpu_arc_background_lines()
 end
 
 function draw_cpu_arc(offset,radius)
-  range  = (math.asin((height/2.0) / radius))*180.0/math.pi
+  local range  = (math.asin((height/2.0) / radius))*180.0/math.pi
   bottom = 180.0 - range
   top    = 180.0 - (90.0 - math.acos((height/2.0 - cpu_height)/radius)*180.0/math.pi)
   local color = {1.0,1.0,1.0,1.0}
@@ -90,7 +90,7 @@ function draw_cpu_arc(offset,radius)
   cairo_arc (cr, center_xpos, center_ypos, radius, start_angle, finish_angle)
 end
 function draw_cpu_arc_n(offset,radius)
-  range  = (math.asin((height/2.0) / radius))*180.0/math.pi
+  local range  = (math.asin((height/2.0) / radius))*180.0/math.pi
   bottom = 180.0 - range
   top    = 180.0 - (90.0 - math.acos((height/2.0 - cpu_height)/radius)*180.0/math.pi)
   local color = {1.0,1.0,1.0,1.0}
