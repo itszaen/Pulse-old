@@ -133,7 +133,7 @@ function countdown(time)
   if countdown <= 0 then
     countdown = "now"
   else
-    countdown = second2Mmss(time,":")
+    countdown = second2Mmss(countdown,":")
   end
   return countdown
 end
@@ -142,7 +142,7 @@ function within(T,number)
     if number <= T[1] then
       return 1
     elseif T[i+1] == nil then
-      break
+      return i
     elseif T[i] <= number and number <= T[i+1] then
       return i
     end

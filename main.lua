@@ -103,6 +103,7 @@ function conky_main()
     dofile(curdir.."/clock.lua")
     dofile(curdir.."/cpu.lua")
     dofile(curdir.."/device_info.lua")
+    dofile(curdir.."/dictionary.lua")
     dofile(curdir.."/heading.lua")
     dofile(curdir.."/information.lua")
     dofile(curdir.."/network.lua")
@@ -130,6 +131,9 @@ function conky_main()
     heading1(1290,770,"Info")
     information(1290,800)
     weather(1350,440)
+    heading1(1600,770,"Word of the Day")
+    word_of_the_day(1600,800)
+
     ----
     conky_start = nil -- 1st time flag
 

@@ -64,10 +64,11 @@ function length_table(T)
   return n
 end
 function second2hour_minute_second(time,separator)
-  hour = round_float((time/3600),0)
+  hour = math.floor(time/3600)
   minute = time % 3600
-  minute = round_float((minute/60),0)
-  second = minute % 60
+  time = time % 3600
+  minute = math.floor(minute/60)
+  second = time % 60
   if hour == 0 then
     ms = tostring(minute)..separator..tostring(second)
     return ms
@@ -80,8 +81,8 @@ function second2hour_minute_second(time,separator)
   end
 end
 function second2Mmss(time,separator)
-  minute = round_float((time/60),0)
-  second = minute % 60
+  minute = math.floor(time/60)
+  second = time % 60
   ms = string.format("%02d",minute)..separator..string.format("%02d",second)
   return ms
 end
@@ -135,4 +136,10 @@ function range(from, to, step)
       return nextvalue
     end
   end, nil, from - step
+end
+function number2literal_ordinal_number(n)
+  conversion_t = {
+    "first","second","third","fourth","fifth","sixth","seventh","eighth","ninth","tenth","eleventh","twelfth","thirteenth","fourteenth","fifteenth","sixteenth","seventeenth","eighteenth","nineteenth","twentieth","twenty-first","twenty-second","twenty-third","twenty-fourth","twenty-fifth"
+  }
+  return conversion_t[n]
 end
