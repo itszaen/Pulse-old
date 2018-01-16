@@ -136,3 +136,9 @@ function range(from, to, step)
     end
   end, nil, from - step
 end
+function number2literal_ordinal_number(n)
+  conversion_t = {
+    "first","second","third","fourth","fifth","sixth","seventh","eighth","ninth","tenth","eleventh","twelfth","thirteenth","fourteenth","fifteenth","sixteenth","seventeenth","eighteenth","nineteenth","twentieth","twenty-first","twenty-second","twenty-third","twenty-fourth","twenty-fifth"
+  }
+  return conversion_t[n]
+end
