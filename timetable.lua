@@ -133,7 +133,7 @@ function countdown(time)
   if countdown <= 0 then
     countdown = "now"
   else
-    countdown = second2Mmss(time,":")
+    countdown = second2Mmss(countdown,":")
   end
   return countdown
 end

@@ -230,48 +230,55 @@ function getGmailCredit()
   return address,password
 end
 function class_update(x,y)
-  --interval = 60
-  iconsize = 30
-  iconorig = 512
-  iconcolor = color5
-  iconx = x - 17
-  icony = y - 10
-  iconname = "class"
-  draw_image(iconx,icony,iconname,iconsize,iconorig,iconcolor)
+  local interval = 1
 
-  --timer = (updates % interval)
+  local timer = (updates % interval)
 
-  font_size = 16
-  color = color2
-  indent = 30
-  spacing = 13
-  x = x + indent
-  y = y + spacing
-  advance = 10
-  wintertime = 1
-  text,time = classinfo(advance,wintertime)
-  if time == "now" then
-    text1 = "The class is "
-    displaytext(x,y,text1,font,font_size,color)
-    text_extents(text1,font,font_size)
-    text2 = text
-    local font = "Source Han Sans JP"
-    font_size = 13
-    indent = 6 + extents.width + extents.x_bearing
+  do
+    local iconsize = 30
+    local iconorig = 512
+    local iconcolor = color5
+    local iconx = x - 17
+    local icony = y - 10
+    local iconname = "class"
+    draw_image(iconx,icony,iconname,iconsize,iconorig,iconcolor)
+  end
+
+  do
+    font_size = 16
+    color = color2
+    indent = 30
+    spacing = 13
     x = x + indent
-    displaytext(x,y,text2,font,font_size,color)
-  elseif time == nil then
-    displaytext(x,y,text,font,font_size,color)
-  else
-    text1 = time .. " until"
-    displaytext(x,y,text1,font,font_size,color)
-    text_extents(text1,font,font_size)
-    text2 = text
-    local font = "Source Han Sans JP"
-    font_size = 13
-    indent = 6 + extents.width + extents.x_bearing
-    x = x + indent
-    displaytext(x,y,text2,font,font_size,color)
+    y = y + spacing
+    advance = 10
+    wintertime = 1
+    if timer == 0 then
+      text,time = classinfo(advance,wintertime)
+    end
+    if time == "now" then
+      text1 = "The class is "
+      displaytext(x,y,text1,font,font_size,color)
+      text_extents(text1,font,font_size)
+      text2 = text
+      local font = "Source Han Sans JP"
+      font_size = 13
+      indent = 6 + extents.width + extents.x_bearing
+      x = x + indent
+      displaytext(x,y,text2,font,font_size,color)
+    elseif time == nil then
+      displaytext(x,y,text,font,font_size,color)
+    else
+      text1 = time .. " until"
+      displaytext(x,y,text1,font,font_size,color)
+      text_extents(text1,font,font_size)
+      text2 = text
+      local font = "Source Han Sans JP"
+      font_size = 13
+      indent = 6 + extents.width + extents.x_bearing
+      x = x + indent
+      displaytext(x,y,text2,font,font_size,color)
+    end
   end
 end
 function software_info(x,y)
