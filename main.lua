@@ -1,9 +1,42 @@
 package.path = os.getenv("HOME") ..  "/.config/conky/?.lua;" .. package.path
 require 'cairo'
+require 'lfs'
 
 conky_start = 1
-home = os.getenv("HOME")
-curdir = home .. "/.config/conky"
+curdir = lfs.currentdir() --home .. "/.config/conky"
+tmpdir = curdir.."/.tmp"
+
+-- require 'calendar'
+-- require 'clock'
+-- require 'cpu'
+-- require 'device_info'
+-- require 'heading'
+-- require 'information'
+-- require 'network'
+-- require 'process'
+-- require 'ram'
+-- require 'system_log'
+-- require 'system_storage'
+-- require 'weather'
+dofile(curdir.."/common.lua")
+dofile(curdir.."/calendar.lua")
+dofile(curdir.."/clock.lua")
+dofile(curdir.."/cpu.lua")
+dofile(curdir.."/device_info.lua")
+dofile(curdir.."/dictionary.lua")
+dofile(curdir.."/heading.lua")
+dofile(curdir.."/information.lua")
+dofile(curdir.."/network.lua")
+dofile(curdir.."/process.lua")
+dofile(curdir.."/ram.lua")
+dofile(curdir.."/system_log.lua")
+dofile(curdir.."/system_storage.lua")
+dofile(curdir.."/weather.lua")
+
+if not is_directory(tmpdir) then
+  lfs.mkdir(tmpdir)
+end
+osname = os_detection()
 
 function conky_main()
   if conky_window == nil then return end
@@ -11,8 +44,9 @@ function conky_main()
     conky_window.display,
     conky_window.drawable,
     conky_window.visual,
-    conky_window.width,
-    conky_window.height
+    1920,1080
+    --conky_window.width,
+    --conky_window.height
   )
   cr = cairo_create(cs)
 
@@ -20,17 +54,8 @@ function conky_main()
   if updates>1 then
 
   -- Parsing
-    -- OS detection
-    osname = os_detection()
-
-    cpu       = tonumber(conky_parse("${cpu}"))
-    if cpu > 100 then
-      cpu = 100
-    elseif cpu < 0 then
-      cpu = 0
-    end
-    memory    = tonumber(conky_parse("${memperc}"))
-
+    cpu    = tonumber(conky_parse("${cpu}"))
+    memory = tonumber(conky_parse("${memperc}"))
     wlp2s0 = tonumber(conky_parse("${if_existing /sys/class/net/wlp2s0/operstate up}1${else}0${endif}"))
     enp4s0 = tonumber(conky_parse("${if_existing /sys/class/net/enp4s0/operstate up}1${else}0${endif}"))
     wlp4s0 = tonumber(conky_parse("${if_existing /sys/class/net/wlp4s0/operstate up}1${else}0${endif}"))
@@ -86,33 +111,6 @@ function conky_main()
     purple_dark = {0.17,0.18,0.26,0.4}
     font = "Inconsolata"
     -- Objects
-    -- require 'calendar'
-    -- require 'clock'
-    -- require 'cpu'
-    -- require 'device_info'
-    -- require 'heading'
-    -- require 'information'
-    -- require 'network'
-    -- require 'process'
-    -- require 'ram'
-    -- require 'system_log'
-    -- require 'system_storage'
-    -- require 'weather'
-    dofile(curdir.."/common.lua")
-    dofile(curdir.."/calendar.lua")
-    dofile(curdir.."/clock.lua")
-    dofile(curdir.."/cpu.lua")
-    dofile(curdir.."/device_info.lua")
-    dofile(curdir.."/dictionary.lua")
-    dofile(curdir.."/heading.lua")
-    dofile(curdir.."/information.lua")
-    dofile(curdir.."/network.lua")
-    dofile(curdir.."/process.lua")
-    dofile(curdir.."/ram.lua")
-    dofile(curdir.."/system_log.lua")
-    dofile(curdir.."/system_storage.lua")
-    dofile(curdir.."/weather.lua")
-
     calendar(1270,80)
     clock(centerx,centery)
     heading1(100,770,"System Log")
@@ -142,22 +140,3 @@ function conky_main()
   cairo_surface_destroy(cs)
   cr = nil
 end -- conky_main()
-
--- Functions
---- converts color in hexa to decimal
-function os_detection()
-  if package.config:sub(1,1) == "\\" then
-    osname = "Windows"
-  else
-    temp = assert(io.popen("cat /etc/issue"))
-    for line in temp:lines() do
-      for word in line:gmatch("%S+") do
-        osname = word
-        break
-      end
-      break
-    end
-    temp:close()
-    return osname
-  end
-end

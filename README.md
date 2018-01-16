@@ -15,6 +15,18 @@ Some to note
 I am using ArchLinux (with KDE, not sure if that matters) , and that's all. So I am not sure how some implemention on other distros would vary. (the location of the conky folder and whatnot)
 If you're using arch too, then lucky you!
 * Oh and tested on ubuntu, works too! I'll test this on more distros (on virtual machine anyway)
+### Lua
+Conky (not my script, the system this is based on) actually uses lua 5.1 still! WOW!
+* Arch
+```
+sudo pacman -S lua
+```
+#### Lua file system
+* Arch
+```
+sudo pacman -S lua51-filesystem
+```
+
 ### Conky
 To display svg natively in conky (to change colors and whatnot), it uses part of the svg2cairo converter : https://github.com/akrinke/svg2cairo
 BUTT! for some reason, the regular cairo packages in most of the distros' repos wouldn't support svg to xml conversion. So you have to manually build it.

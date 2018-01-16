@@ -1,3 +1,37 @@
+-- OS
+function os_detection()
+  if package.config:sub(1,1) == "\\" then
+    osname = "Windows"
+  else
+    temp = assert(io.popen("cat /etc/issue"))
+    for line in temp:lines() do
+      for word in line:gmatch("%S+") do
+        osname = word
+        break
+      end
+      break
+    end
+    temp:close()
+    return osname
+  end
+end
+
+-- File System
+function exists(file)
+  local ok, error, code = os.rename(file, file)
+  if not ok then
+    if code == 13 then
+      -- Permission denied, but it exists
+      return true
+    end
+  end
+  return ok, error
+end
+function is_directory(path)
+  return exists(path.."/")
+end
+
+
 function rgb_to_r_g_b(colour, alpha)
   return ((colour / 0x10000) % 0x100) / 255., ((colour / 0x100) % 0x100) / 255., (colour % 0x100) / 255., alpha
 end
