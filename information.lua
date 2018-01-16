@@ -1,10 +1,6 @@
 require 'drawimage'
-<<<<<<< HEAD
-require 'timetable'
-=======
 dofile(curdir.."/timetable.lua")
 
->>>>>>> 6a7dccd... -> dofile
 function information(x,y)
   -- store images
   if conky_start == 1 then
