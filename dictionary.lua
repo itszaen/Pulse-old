@@ -37,7 +37,7 @@ function word_of_the_day(x,y)
   end
   do
     spacing = 1.1
-    definitionx = x - 5
+    definitionx = x - 10
     definitiony = y + 55
     for i in range(1,amount,1) do
       for _,line in ipairs(_G["definition_"..i.."_t"])do
@@ -75,6 +75,6 @@ end
 function get_word_of_the_day(amount)
   os.execute("curl -s http://www.dictionary.com/wordoftheday/ | sed -n 's:.*<strong>\\(.*\\)<\\/strong>.*:\\1:p' | uniq > "..curdir.."/.tmp/word_of_the_day")
   for number in range(1,amount,1) do
-    os.execute("curl -s http://www.dictionary.com/wordoftheday/ | sed -n 's:.*<li class=\""..number2literal_ordinal_number(number).."\"><span>\\(.*\\)<\\/span>.*:\\1:p' | fold -w 30 -s > "..curdir.."/.tmp/word_of_the_day_definition_"..tostring(number))
+    os.execute("curl -s http://www.dictionary.com/wordoftheday/ | sed -n 's/.*<li class=\""..number2literal_ordinal_number(number).."\"><span>\\(.*\\)<\\/span>.*/\\1/p;' | sed 's/<em>/\n/g; s/<\\/em>//g' | fold -w 29 -s > "..curdir.."/.tmp/word_of_the_day_definition_"..tostring(number))
   end
 end
