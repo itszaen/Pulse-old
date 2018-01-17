@@ -45,6 +45,7 @@ function weather(x,y)
     ['Mostly Cloudy'] = "cloudy",
     ['Partly Cloudy'] = "cloud",
     ['Rain'] = "rain",
+    ['Rain Shower'] = "rain",
     ['AM Rain'] = "rain",
     ['PM Rain'] = "rain",
     ['Showers'] = "showers",
@@ -65,6 +66,7 @@ function weather(x,y)
     ['Mostly Cloudy'] = "day-cloudy",
     ['Partly Cloudy'] = "day-cloudy",
     ['Rain'] = "day-rain",
+    ['Rain Shower'] = "day-rain",
     ['Showers'] = "day-showers",
     ['Light Rain'] = "day-showers",
     ['Mostly Cloudy / Windy'] = "day-cloudy-windy"
@@ -78,6 +80,7 @@ function weather(x,y)
     ['Mostly Cloudy'] = "cloudy",
     ['Partly Cloudy'] = "cloud",
     ['Rain'] = "night-rain",
+    ['Rain Shower'] = "night-rain",
     ['Showers'] = "night-showers",
     ['Light Rain'] = "night-showers",
     ['Mostly Cloudy / Windy'] = "night-cloudy-windy"
@@ -301,7 +304,6 @@ function weather(x,y)
   x = x15 + 15
   y = y15 + 50
   forecasts(x,y)
-
 end
 function moonphase(x,y)
   local font = "Roboto"
@@ -565,7 +567,9 @@ function forecast_icon_name(weather)
   return weather_icon_t[weather]
 end
 function weather_icon_name(weather)
-  if 5 < tonumber(hours) and tonumber(hours) < 18  then
+  local hour_r, minute_r = sunrise:match('^(%d+):(%d+)')
+  local hour_s, minute_s = sunset:match('^(%d+):(%d+)')
+  if os.time({year=tonumber(year),month=tonumber(month),day=tonumber(day),hour=tonumber(hour_r),minute=tonumber(minute_r)}) < os.time() and os.time() < os.time({year=tonumber(year),month=tonumber(month),day=tonumber(day),hour=tonumber(hour_s),minute=tonumber(minute_s)})  then
     return weather_icon_day_t[weather]
   else
     return weather_icon_night_t[weather]
