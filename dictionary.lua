@@ -6,10 +6,12 @@ function word_of_the_day(x,y)
     name = "dictionarydotcom"
     store_image(path,name)
   end
-  if io.open(curdir.."/.tmp/word_of_the_day") == nil then
+
+  if ic == 1 and io.open(curdir.."/.tmp/word_of_the_day") == nil then
     get_word_of_the_day(amount)
   end
   if conky_start == 1 then
+    if io.open(curdir.."/.tmp/word_of_the_day")==nil then return end
     file = io.open(curdir.."/.tmp/word_of_the_day")
     word_t = {}
     for line in file:lines() do
