@@ -175,10 +175,17 @@ not updated regularly.
 
 ## Special thanks to
 * [davidrlunu](https://github.com/davidrlunu)
+
 Idea, design philosophy
+
 * My father
+
 Maths
+
 * [akrinke](https://github.com/akrinke)
+
 svg2cairo
+
 * [houranos](https://github.com/houranos)
+
 Google Calendar API
