@@ -3,8 +3,6 @@ require 'cairo'
 require 'lfs'
 
 conky_start = 1
-curdir = lfs.currentdir() --home .. "/.config/conky"
-tmpdir = curdir.."/.tmp"
 
 -- require 'calendar'
 -- require 'clock'
@@ -18,20 +16,19 @@ tmpdir = curdir.."/.tmp"
 -- require 'system_log'
 -- require 'system_storage'
 -- require 'weather'
+
+curdir = lfs.currentdir() --home .. "/.config/conky"
+tmpdir = curdir.."/.tmp"
+
 dofile(curdir.."/common.lua")
-dofile(curdir.."/calendar.lua")
-dofile(curdir.."/clock.lua")
-dofile(curdir.."/cpu.lua")
-dofile(curdir.."/device_info.lua")
-dofile(curdir.."/dictionary.lua")
-dofile(curdir.."/heading.lua")
-dofile(curdir.."/information.lua")
-dofile(curdir.."/network.lua")
-dofile(curdir.."/process.lua")
-dofile(curdir.."/ram.lua")
-dofile(curdir.."/system_log.lua")
-dofile(curdir.."/system_storage.lua")
-dofile(curdir.."/weather.lua")
+
+SCREENX,SCREENY = 1920,1080 -- the resolution this program is written for
+
+screen_x = 1920
+screen_y = 1080
+
+scalex = screen_x/SCREENX
+scaley = screen_y/SCREENY
 
 if not is_directory(tmpdir) then
   lfs.mkdir(tmpdir)
@@ -39,14 +36,28 @@ end
 osname = os_detection()
 
 function conky_main()
+  dofile(curdir.."/common.lua")
+  dofile(curdir.."/calendar.lua")
+  dofile(curdir.."/clock.lua")
+  dofile(curdir.."/cpu.lua")
+  dofile(curdir.."/device_info.lua")
+  dofile(curdir.."/dictionary.lua")
+  dofile(curdir.."/heading.lua")
+  dofile(curdir.."/information.lua")
+  dofile(curdir.."/network.lua")
+  dofile(curdir.."/process.lua")
+  dofile(curdir.."/ram.lua")
+  dofile(curdir.."/system_log.lua")
+  dofile(curdir.."/system_storage.lua")
+  dofile(curdir.."/weather.lua")
+
   if conky_window == nil then return end
   local cs = cairo_xlib_surface_create(
     conky_window.display,
     conky_window.drawable,
     conky_window.visual,
-    1920,1080
-    --conky_window.width,
-    --conky_window.height
+    screen_x,
+    screen_y
   )
   cr = cairo_create(cs)
 
@@ -91,9 +102,6 @@ function conky_main()
     minutes = os.date("%M")
     seconds = os.date("%S")
 
-
-    screen_x = 1920
-    screen_y = 1080
 
     centerx = screen_x/2
     centery = screen_y/2
