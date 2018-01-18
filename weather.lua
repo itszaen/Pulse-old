@@ -156,7 +156,6 @@ function weather(x,y)
     start4x = 260
     start4y = -30
     spacing4 = 25
-
     do -- temp [Temperature]
       local font = "Roboto"
       font_size = 80
@@ -172,29 +171,34 @@ function weather(x,y)
       iconorig = 30
       draw_image(iconx,icony,iconname,iconsize,iconorig,color6)
     end
-
-    do -- highlowtemp [Highest/Lowest temperature]
-      font_size = 17
-      iconsize = 25
+    do -- weathericon [Today's weather in an icon]
+      iconx = x + 165
+      icony = y - 60
+      iconname = "weather"
+      iconsize = 81
       iconorig = 30
-      iconx = x + indent1
-      icony = y + start1y - 18
-      iconname = "thermometer"
       draw_image(iconx,icony,iconname,iconsize,iconorig,color6)
-      text = temperature_high .. "/" .. temperature_low
-      x2 = x + indent1 + text_indent - 15
-      y2 = y + start1y
-      displaytext(x2,y2,text,font,font_size,color)
     end
-
+    do -- highlowtemp [Highest/Lowest temperature]
+        font_size = 17
+        iconsize = 25
+        iconorig = 30
+        iconx = x + indent1
+        icony = y + start1y - 18
+        iconname = "thermometer"
+        draw_image(iconx,icony,iconname,iconsize,iconorig,color6)
+        text = temperature_high .. "/" .. temperature_low
+        x2 = x + indent1 + text_indent - 15
+        y2 = y + start1y
+        displaytext(x2,y2,text,font,font_size,color)
+    end
     do -- summary [Today's weather in one phrase]
-      font_size = 18
-      text = summary
-      x3 = x + 10
-      y3 = y2
-      displaytext(x3,y3,text,font,font_size,color)
+        font_size = 18
+        text = summary
+        x3 = x + 10
+        y3 = y2
+        displaytext(x3,y3,text,font,font_size,color)
     end
-
     do -- stats [Statistics]
       font_size = 14
       do -- statsc1 [Statistics 1st column]
@@ -209,14 +213,14 @@ function weather(x,y)
           displaytext(x4,y4,text,font,font_size,color)
         end
         do -- precip [Precipitaion chance]
-          iconx = iconx
-          icony = icony + spacing2
-          iconname = "umbrella"
-          draw_image(iconx,icony,iconname,40,30,color6)
-          text = precip_chance
-          x5 = x4
-          y5 = y4 + spacing2
-          displaytext(x5,y5,text,font,font_size,color)
+            iconx = iconx
+            icony = icony + spacing2
+            iconname = "umbrella"
+            draw_image(iconx,icony,iconname,40,30,color6)
+            text = precip_chance
+            x5 = x4
+            y5 = y4 + spacing2
+            displaytext(x5,y5,text,font,font_size,color)
         end
         do -- wind [Wind speed]
           iconx = iconx
@@ -227,7 +231,7 @@ function weather(x,y)
           x6 = x5
           y6 = y5 + spacing2
           displaytext(x6,y6,text,font,font_size,color)
-        end
+          end
         do -- airpressure [Air pressure]
           iconx = iconx
           icony = icony + spacing2
@@ -252,7 +256,7 @@ function weather(x,y)
       end
       do -- statsc2 [Statistics 2nd column]
         do -- visibility [Visibility]
-          iconx = iconx + start3x
+        iconx = iconx + start3x
           icony = start2y - 25
           iconname = "visibility"
           draw_image(iconx,icony,iconname,40,30,color6)
@@ -282,14 +286,14 @@ function weather(x,y)
           displaytext(x11,y11,text,font,font_size,color)
         end
         do -- sunset [Sun set time]
-        iconx = iconx
-        icony = icony + spacing2
-        iconname = "sunset"
-        draw_image(iconx,icony,iconname,40,30,color6)
-        text = sunset
-        x12 = x11
-        y12 = y11 + spacing3
-        displaytext(x12,y12,text,font,font_size,color)
+          iconx = iconx
+          icony = icony + spacing2
+          iconname = "sunset"
+          draw_image(iconx,icony,iconname,40,30,color6)
+          text = sunset
+          x12 = x11
+          y12 = y11 + spacing3
+          displaytext(x12,y12,text,font,font_size,color)
         end
         do -- moonphase [Moon phase]
           moonx = iconx
@@ -298,30 +302,25 @@ function weather(x,y)
         end
       end
     end
-  -- element4 (location,update)
-  font_size = 18
-  text = "Location: " .. location
-  x14 = x + start4x
-  y14 = y + start4y
-  displaytext(x14,y14,text,font,font_size,color)
+    do -- info [Location, last update]
+      -- element4 (location,update)
+      font_size = 18
+      text = "Location: " .. location
+      x14 = x + start4x
+      y14 = y + start4y
+      displaytext(x14,y14,text,font,font_size,color)
 
-  font_size = 13.5
-  text = "Last Update: " .. last_update
-  x15 = x14
-  y15 = y14 + spacing4
-  displaytext(x15,y15,text,font,font_size,color)
-
-  -- weather icon
-  iconx = x + 165
-  icony = y - 60
-  iconname = "weather"
-  iconsize = 81
-  iconorig = 30
-  draw_image(iconx,icony,iconname,iconsize,iconorig,color6)
-
-  x = x15 + 15
-  y = y15 + 50
-  forecasts(x,y)
+      font_size = 13.5
+      text = "Last Update: " .. last_update
+      x15 = x14
+      y15 = y14 + spacing4
+      displaytext(x15,y15,text,font,font_size,color)
+    end
+    do -- forecast [3 day forecasts]
+      x = x15 + 15
+      y = y15 + 50
+      forecasts(x,y)
+    end
   end
 end
 function moonphase(x,y)
