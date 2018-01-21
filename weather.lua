@@ -37,55 +37,6 @@ function weather(x,y)
     return
   end
 
-  weather_icon_t = {
-    ['Fair']  = "day-sunny",
-    ['Clear'] = "day-sunny",
-    ['Sunny'] = "day-sunny",
-    ['Mostly Sunny'] = "day-sunny-overcast",
-    ['Mostly Cloudy'] = "cloudy",
-    ['Partly Cloudy'] = "cloud",
-    ['Rain'] = "rain",
-    ['Rain Shower'] = "rain",
-    ['AM Rain'] = "rain",
-    ['PM Rain'] = "rain",
-    ['Showers'] = "showers",
-    ['AM Showers'] = "showers",
-    ['PM Showers'] = "showers",
-    ['AM Light Rain'] = "showers",
-    ['PM Light Rain'] = "showers",
-
-    ['AM Clouds / PM Sun'] = "day-cloudy-high",
-    ['Sunny / Wind'] = "day-windy",
-    ['Mostly Cloudy / Windy'] = "cloudy-windy"
-  }
-  weather_icon_day_t = {
-    ['Fair'] = "day-sunny",
-    ['Clear'] = "day-sunny",
-    ['Fair / Windy'] = "day-windy",
-    ['Mostly Sunny'] = "day-haze",
-    ['Mostly Cloudy'] = "day-cloudy",
-    ['Partly Cloudy'] = "day-cloudy",
-    ['Rain'] = "day-rain",
-    ['Rain Shower'] = "day-rain",
-    ['Showers'] = "day-showers",
-    ['Light Rain'] = "day-showers",
-    ['Mostly Cloudy / Windy'] = "day-cloudy-windy"
-  }
-
-  weather_icon_night_t = {
-    ['Fair'] = "night-clear",
-    ['Clear'] = "night-clear",
-    ['Fair / Windy'] = "windy",
-    ['Mostly Sunny'] = "night-clear",
-    ['Mostly Cloudy'] = "cloudy",
-    ['Partly Cloudy'] = "cloud",
-    ['Rain'] = "night-rain",
-    ['Rain Shower'] = "night-rain",
-    ['Showers'] = "night-showers",
-    ['Light Rain'] = "night-showers",
-    ['Mostly Cloudy / Windy'] = "night-cloudy-windy"
-  }
-
   temperature      = weather_t[1]
   temperature_high = weather_t[2]
   temperature_low  = weather_t[3]
@@ -200,7 +151,8 @@ function weather(x,y)
         displaytext(x3,y3,text,font,font_size,color)
     end
     do -- stats [Statistics]
-      font_size = 14
+      local font_size = 14
+      local font = "Roboto"
       do -- statsc1 [Statistics 1st column]
         do -- humidity [Humidity]
           iconx = start2x
@@ -582,11 +534,62 @@ function store_weather_condition_icons()
   store_image(path,name)
 end
 function forecast_icon_name(weather)
+  weather_icon_t = {
+    ['Fair']  = "day-sunny",
+    ['Clear'] = "day-sunny",
+    ['Sunny'] = "day-sunny",
+    ['Mostly Sunny'] = "day-sunny-overcast",
+    ['Mostly Cloudy'] = "cloudy",
+    ['Partly Cloudy'] = "cloud",
+    ['Rain'] = "rain",
+    ['Rain Shower'] = "rain",
+    ['AM Rain'] = "rain",
+    ['PM Rain'] = "rain",
+    ['Showers'] = "showers",
+    ['AM Showers'] = "showers",
+    ['PM Showers'] = "showers",
+    ['AM Light Rain'] = "showers",
+    ['PM Light Rain'] = "showers",
+
+    ['AM Clouds / PM Sun'] = "day-cloudy-high",
+    ['Sunny / Wind'] = "day-windy",
+    ['Mostly Cloudy / Windy'] = "cloudy-windy",
+    ['Mostly Sunny / Wind'] = "day-windy",
+    ['Rain / Snow'] = "rain-mix"
+  }
   return weather_icon_t[weather]
 end
 function weather_icon_name(weather)
+  weather_icon_day_t = {
+    ['Fair'] = "day-sunny",
+    ['Clear'] = "day-sunny",
+    ['Fair / Windy'] = "day-windy",
+    ['Mostly Sunny'] = "day-haze",
+    ['Mostly Cloudy'] = "day-cloudy",
+    ['Partly Cloudy'] = "day-cloudy",
+    ['Rain'] = "day-rain",
+    ['Rain Shower'] = "day-rain",
+    ['Showers'] = "day-showers",
+    ['Light Rain'] = "day-showers",
+    ['Mostly Cloudy / Windy'] = "day-cloudy-windy"
+  }
+
+  weather_icon_night_t = {
+    ['Fair'] = "night-clear",
+    ['Clear'] = "night-clear",
+    ['Fair / Windy'] = "windy",
+    ['Mostly Sunny'] = "night-clear",
+    ['Mostly Cloudy'] = "cloudy",
+    ['Partly Cloudy'] = "cloud",
+    ['Rain'] = "night-rain",
+    ['Rain Shower'] = "night-rain",
+    ['Showers'] = "night-showers",
+    ['Light Rain'] = "night-showers",
+    ['Mostly Cloudy / Windy'] = "night-cloudy-windy"
+  }
   local hour_r, minute_r = sunrise:match('^(%d+):(%d+)')
   local hour_s, minute_s = sunset:match('^(%d+):(%d+)')
+  local hour_s = hour_s + 12
   if os.time({year=tonumber(year),month=tonumber(month),day=tonumber(day),hour=tonumber(hour_r),minute=tonumber(minute_r)}) < os.time() and os.time() < os.time({year=tonumber(year),month=tonumber(month),day=tonumber(day),hour=tonumber(hour_s),minute=tonumber(minute_s)})  then
     return weather_icon_day_t[weather]
   else
