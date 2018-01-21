@@ -39,3 +39,24 @@ function heading3(x,y,text)
   color = color1
   displaytext(x,y,text,font,font_size,color)
 end
+function heading4(x,y,text,font,font_size,text_color,length,space,width,bar_color)
+  text_extents(text,font,font_size)
+  local sx1 = x
+  local sy1 = y + (extents.height/2 + extents.y_bearing)
+  local fx1 = sx1 + length
+  local fy1 = sy1
+  cairo_set_source_rgba(cr,rgba(bar_color))
+  cairo_set_line_width(cr,width)
+  draw_line(sx1,sy1,fx1,fy1)
+  cairo_stroke(cr)
+  local x = fx1 + space
+  displaytext(x,y,text,font,font_size,color)
+  local sx2 = x + (extents.width + extents.x_bearing) + space
+  local sy2 = sy1
+  local fx2 = sx2 + length
+  local fy2 = sy2
+  cairo_set_source_rgba(cr,rgba(color))
+  cairo_set_line_width(cr,width)
+  draw_line(sx2,sy2,fx2,fy2)
+  cairo_stroke(cr)
+end
