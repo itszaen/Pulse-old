@@ -1,5 +1,5 @@
 function svg2luacairo(filepath,name)
-  file = assert(io.popen(curdir.."/src/svg2cairoxml ".. filepath))
+  file = assert(io.popen(curdir.."/lib/svg2cairoxml ".. filepath))
   data = ""
   for line in file:lines() do
     s1,f1 = line:find("<path>")
