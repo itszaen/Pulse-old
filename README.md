@@ -134,9 +134,14 @@ Awesome weather widget via pywapi. Uses Roboto font.
 ```
 * Since I couldn't find anywhere that has weather.com's weather condition list, I am still trying to match every weather condition to a weather icon.
 
-So please, if you have time, and ever encounter a missing icon (now it's just the whole thing glitches and shows error in the terminal), file a issue or better off a pull request to help me match the icons.
+So please, if you have time, and ever encounter a missing icon (now it's just the whole thing glitches and shows error in the terminal)
 
-The matching table is at src/weather.lua's weather_icon_name() and forecast_icon_name().
+1. uncomment the line "--print(summary,second_summary,third_summary,fourth_summary)" by removing the leading 2 hyphens.
+2. restart conky.
+3. copy the outcome.
+4. file a issue or better off a pull request (if you know what to do).
+> The matching table is at src/weather.lua's weather_icon_name() and forecast_icon_name().
+
 
 #### Info
 ##### Package needing update
