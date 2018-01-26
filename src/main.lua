@@ -37,6 +37,7 @@ end
 osname = os_detection()
 
 function conky_main()
+  dofile(curdir.."/config.lua")
   dofile(curdir.."/src/common.lua")
   dofile(curdir.."/src/calendar.lua")
   dofile(curdir.."/src/clock.lua")
@@ -51,6 +52,7 @@ function conky_main()
   dofile(curdir.."/src/system_log.lua")
   dofile(curdir.."/src/system_storage.lua")
   dofile(curdir.."/src/weather.lua")
+  print(config.gmail.address)
 
   if conky_window == nil then return end
   local cs = cairo_xlib_surface_create(

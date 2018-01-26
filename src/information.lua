@@ -216,18 +216,9 @@ function getGmail()
   return unread_mail
 end
 function getGmailCredit()
-  address_f = io.open(curdir.."/.gmail")
-  for line in address_f:lines() do
-    address = line
-    break
-  end
-  password_f = io.popen("python -c \"import keyring; print(keyring.get_password('gmail','"..address.."\'))\"")
-  for line in password_f:lines() do
-    password = line
-    break
-  end
-  address_f:close()
-  return address,password
+  local address = config.gmail.address
+  local passphrase = config.gmail.passphrase
+  return address,passphrase
 end
 function class_update(x,y)
   local interval = 1

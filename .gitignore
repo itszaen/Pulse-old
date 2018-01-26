@@ -5,3 +5,4 @@ TODOS.org
 __pycache__
 .idea
 .credentials/
+config.lua
