@@ -3,6 +3,12 @@ function calendar(x,y,calendar_size_x,calendar_size_y)
   local year = tonumber(year)
   local month = tonumber(month)
   local day = tonumber(day)
+  local luaday = 24*60*60
+
+  dates = 14
+  column = 2
+  row = 7
+
 
   days_in_month = get_days_in_month(month,year)
   weeks_in_month = get_weeks_in_month(month,year)
@@ -26,35 +32,38 @@ function calendar(x,y,calendar_size_x,calendar_size_y)
   if timer == init then
     -- make calendar
     calendar_t = {}
-    for i in range(1,weeks_in_month,1) do
+    for i in range(1,column,1) do
       calendar_t[i] = {}
-      for j in range(1,7,1) do
+      for j in range(1,row,1) do
         calendar_t[i][j] = {}
       end
     end
-    for i in range(1,days_in_month,1) do
-      local modday = i + (firstday_weekday-1)
-      local week = math.floor(modday/7) + 1
-      local th = modday % 7
-      if th == 0 then
-        week = week - 1
-        th = 7
+    for i in range(1,dates,1) do
+      local column = math.floor((i-1)/row)+1
+      local row = i%row
+      if row == 0 then
+        row = 7
       end
-      table.insert(calendar_t[week][th],tostring(i))
+      local date = os.date("%d",os.time()+i*luaday)
+      table.insert(calendar_t[column][row],date)
     end
     -- open file
     local result = io.open(curdir.."/.tmp/events")
     if result ~= nil then
       for line in result:lines() do
-        local day = tonumber(line:match("%d+"))
-        local modday = day + firstday_weekday-1
-        local week = math.floor(modday/7)+1
-        local th = modday % 7
-        if th == 0 then
-          th = 7
+        local event_year,event_month,event_day,event = line:match("(%d+)-(%d+)-(%d+)%s(.*)")
+        local dist = (os.time({year=event_year,month=event_month,day=event_day}) - os.time({year=year,month=month,day=day}))/luaday
+        if dist == 0 then
+          today_event = event
+          break
         end
-        local event = trim(line:match("%s.*"))
-        table.insert(calendar_t[week][th],event)
+        local column = math.floor((dist-1)/row)+1
+        local row = dist%row
+        if row == 0 then
+          row = 7
+        end
+        print(event)
+        table.insert(calendar_t[column][row],event)
       end
       result:close()
     else
@@ -67,20 +76,18 @@ function calendar(x,y,calendar_size_x,calendar_size_y)
     weeks_t[weeks] = {}
   end
 
-  sizex = calendar_size_x or 570
-  sizey = calendar_size_y or 280
+  sizex = calendar_size_x or 520
+  sizey = calendar_size_y or 250
   dayviewx = 120
   dayviewy = sizey
   datesx = sizex - dayviewx
   datesy = sizey
   yearmonthx = datesx
   yearmonthy = 35
-  weekdaysviewx = datesx
-  weekdaysviewy = 20
   datesviewx = datesx
-  datesviewy = datesy - yearmonthy - weekdaysviewy
-  dategridx = datesviewx / 7
-  dategridy = datesviewy / weeks_in_month
+  datesviewy = datesy - yearmonthy
+  dategridx = datesviewx / column
+  dategridy = datesviewy / row
 
   lines_to_draw = {
     {x,y,sizex,0},
@@ -88,15 +95,14 @@ function calendar(x,y,calendar_size_x,calendar_size_y)
     {x,y+sizey,sizex,0},
     {x+sizex,y,0,sizey},
     {x+dayviewx,y,0,dayviewy},
-    {x+dayviewx,y+yearmonthy+weekdaysviewy,weekdaysviewx,0},
     {x+dayviewx,y+yearmonthy,yearmonthx,0}
   }
   draw_rel_lines(lines_to_draw)
-  for i in range(1,weeks_in_month-1,1) do
-    draw_rel_line(x+dayviewx,y+yearmonthy+weekdaysviewy+dategridy*i,datesx,0)
+  for i in range(1,row-1,1) do
+    draw_rel_line(x+dayviewx,y+yearmonthy+dategridy*i,datesviewx,0)
   end
-  for i in range(1,7-1,1) do
-    draw_rel_line(x+dayviewx+dategridx*i,y+yearmonthy,0,weekdaysviewy+datesviewy)
+  for i in range(1,column-1,1) do
+    draw_rel_line(x+dayviewx+dategridx*i,y+yearmonthy,0,datesviewy)
   end
   color = color8
   width = 0.5
@@ -104,7 +110,7 @@ function calendar(x,y,calendar_size_x,calendar_size_y)
   cairo_set_source_rgba(cr,rgba(color))
   cairo_stroke(cr)
 
-  do
+  do -- yearmonthview [Month Year]
     local text = month_name.."   "..tostring(year)
     local font = "Roboto"
     local font_size = 15
@@ -115,104 +121,101 @@ function calendar(x,y,calendar_size_x,calendar_size_y)
     displaytext(x,y,text,font,font_size,color)
   end
 
-  local n = 0
-  for _,weekname in ipairs(weekname_t) do
-    local text = weekname
-    local font = "Roboto"
-    local font_size = 12
-    local color = color5
-    text_extents(text,font,font_size)
-    local x = x + dayviewx + dategridx/2 + n - (extents.width/2 + extents.x_bearing)
-    local y = y + yearmonthy + weekdaysviewy/2 - (extents.height/2 + extents.y_bearing)
-    displaytext(x,y,text,font,font_size,color)
-    n = n + dategridx
-  end
-  do
-    local text = tostring(day)
-    local font = "Roboto"
-    local font_size = 60
-    text_extents(text,font,font_size)
-    local x = x + dayviewx/2 - (extents.width/2 + extents.x_bearing)
-    local y = y + dayviewy/4.5 - (extents.height/2 + extents.y_bearing)
-    local color = color5
-    displaytext(x,y,text,font,font_size,color)
-  end
-  do
-    local font = "Roboto"
-    local text = month_name_ab
-    local font_size = 15
-    text_extents(text,font,font_size)
-    local x = x + dayviewx/2 - (extents.width/2 + extents.x_bearing) - 20
-    local y = y + dayviewy/13 - (extents.height/2 + extents.y_bearing)
-    local color = color5
-    displaytext(x,y,text,font,font_size,color)
-  end
-  do
-    local font = "Roboto"
-    local text = weekday_name_ab
-    local font_size = 15
-    text_extents(text,font,font_size)
-    local x = x + dayviewx/2 - (extents.width/2 + extents.x_bearing) +20
-    local y = y + dayviewy/2.8 - (extents.height/2 + extents.y_bearing)
-    local color = color5
-    displaytext(x,y,text,font,font_size,color)
+
+  do -- dayview
+    do -- dayview_date
+      local text = tostring(day)
+      local font = "Roboto"
+      local font_size = 60
+      text_extents(text,font,font_size)
+      local x = x + dayviewx/2 - (extents.width/2 + extents.x_bearing)
+      local y = y + dayviewy/4.5 - (extents.height/2 + extents.y_bearing)
+      local color = color5
+      displaytext(x,y,text,font,font_size,color)
+    end
+    do -- dayview_month
+      local font = "Roboto"
+      local text = month_name_ab
+      local font_size = 15
+      text_extents(text,font,font_size)
+      local x = x + dayviewx/2 - (extents.width/2 + extents.x_bearing) - 20
+      local y = y + dayviewy/13 - (extents.height/2 + extents.y_bearing)
+      local color = color5
+      displaytext(x,y,text,font,font_size,color)
+    end
+    do -- dayview_weekday
+      local font = "Roboto"
+      local text = weekday_name_ab
+      local font_size = 15
+      text_extents(text,font,font_size)
+      local x = x + dayviewx/2 - (extents.width/2 + extents.x_bearing) +20
+      local y = y + dayviewy/2.8 - (extents.height/2 + extents.y_bearing)
+      local color = color5
+      displaytext(x,y,text,font,font_size,color)
+    end
   end
 
-  if weeks_in_month == 4 then
-  elseif weeks_in_month == 5 then
-    date_numberx = x + dayviewx + dategridx/2
-    date_numbery = y + yearmonthy + weekdaysviewy + dategridy/2
-    for i in ipairs(calendar_t) do
-      date_number_weeky = date_numbery + dategridy*(i-1)
-      for j,k in ipairs(calendar_t[i]) do
-        if k[1] == tostring(day) then
-          cairo_rectangle(cr,x+dayviewx+dategridx*(j-1),y+yearmonthy+weekdaysviewy+dategridy*(i-1),dategridx,dategridy)
-          color = purple_dark
-          cairo_set_source_rgba(cr,rgba(color))
-          cairo_fill(cr)
-
-          local text = k[1]
-          local font = "Roboto"
-          local font_size = 14
-          local color = color7
-          text_extents(text,font,font_size)
-          local x1 = date_numberx + dategridx*(j-1) - (extents.width/2 + extents.x_bearing) + dategridx/3.6
-          local y1 = date_number_weeky - (extents.height/2 + extents.y_bearing) - dategridy/4
-          displaytext(x1,y1,text,font,font_size,color)
-        else
-          do
-            local text = k[1]
-            local font = "Roboto"
-            local font_size = 12
-            local color = color5
-            text_extents(text,font,font_size)
-            local x = date_numberx + dategridx*(j-1) - (extents.width/2 + extents.x_bearing) + dategridx/3.5
-            local y = date_number_weeky - (extents.height/2 + extents.y_bearing) - dategridy/4
-            displaytext(x,y,text,font,font_size,color)
-          end
-          do
-            for l,event in ipairs(k) do
-              -- events start from 2nd element
-              if l == 1 then
-                text = nil
-              else
-                _G["event"..l] = event
-                text1 = event--_G["event"..l]:match("%S+")
-                local font = "Source Han Sans JP"
-                local font_size = 10
-                local color = color5
-                text_extents(text1,font,font_size)
-                local x = date_numberx + dategridx*(j-1) - (extents.width/2 + extents.x_bearing)
-                local y = date_number_weeky - (extents.height/2 + extents.y_bearing) --+ dategridy/8
-                displaytext(x,y,text1,font,font_size,color)
+  do -- datesview [Dates & weekdays & events]
+    do -- dates
+      local x = x + dayviewx
+      local y = y + yearmonthy + dategridy/2
+      for i in range(1,column,1) do
+        local x = x + dategridx*(i-1)
+        for j,k in ipairs(calendar_t[i]) do -- k = calendar_t[column][row]
+          if k[1] == tostring(day) then
+          else -- if not today
+            do -- date
+              local text = k[1]
+              local font = "Roboto"
+              local font_size = 12
+              local color = color5
+              text_extents(text,font,font_size)
+              local x = x - (extents.width/2 + extents.x_bearing) + dategridx/9
+              local y = y + (j-1)*dategridy - dategridy/9 - (extents.height/2 + extents.y_bearing)
+              displaytext(x,y,text,font,font_size,color)
+            end
+            do -- event
+              for l,event in ipairs(k) do
+                -- events start from 2nd element
+                if l == 1 then
+                else
+                  text1 = event
+                  local font = "Source Han Sans JP"
+                  local font_size = 10
+                  local color = color5
+                  text_extents(text1,font,font_size)
+                  local x = x + dategridx/2 - (extents.width/2 + extents.x_bearing)
+                  local y = y + dategridy*(j-1)- (extents.height/2 + extents.y_bearing) --+ dategridy/8
+                  displaytext(x,y,text1,font,font_size,color)
+                end
               end
             end
-          end
-        end -- if k[1] == day
+          end -- if k[1] == day
+        end
       end
     end
-  elseif weeks_in_month == 6 then
-  else
+    do -- weekdays
+      local m = 0
+      local n = 0
+      local o = 0
+      for i in range(1,dates,1) do
+        local text = os.date("%a",os.time()+i*24*60*60) -- add i day
+        local font = "Roboto"
+        local font_size = 8
+        local color = color5
+        text_extents(text,font,font_size)
+        local x = x + dayviewx + dategridx/9 + o - (extents.width/2 + extents.x_bearing)
+        local y = y + yearmonthy + dategridy/1.35 + m - (extents.height/2 + extents.y_bearing)
+        displaytext(x,y,text,font,font_size,color)
+        m = m + dategridy
+        n = n + 1
+        if n % row == 0 then
+          o = o + 1
+          o = o*dategridx
+          m = 0
+        end
+      end
+    end
   end
 
 

@@ -48,8 +48,10 @@ def get_calendar():
     calendar_id_list = [item['id'] for item in calendar_list['items']]
 
     now = datetime.datetime.now(dateutil.tz.tzlocal())
-    min_date = datetime.datetime(now.year, now.month, 1).isoformat('T') + "Z"
-    max_date = datetime.datetime(now.year, now.month+1, 1).isoformat('T') + "Z"
+    min_date = datetime.datetime(now.year, now.month, now.day).isoformat('T') + "Z"
+    end = now + datetime.timedelta(days=14)
+    max_date = datetime.datetime(end.year, end.month, end.day).isoformat('T') + "Z"
+    #datetime.datetime(now.year, now.month+1, 1).isoformat('T') + "Z"
 
     events_list = [[] for i in range(0, 31)]
 
@@ -60,21 +62,21 @@ def get_calendar():
         events = events_result.get('items', [])
 
         if events:
-            for event in events:
+            for h,event in enumerate(events):
+                events_list.append({})
                 if 'dateTime' in event['start']:
-                    day, time_start, time_end = "", "", ""
-                    for i in [8, 9]:
-                        print(event['start'])
-                        day += event['start']['dateTime'][i]
+                    date, time_start, time_end = "", "", ""
+                    for i in list(range(0,10)):
+                        date += event['start']['dateTime'][i]
                         for i in list(range(11, 16)):
                             time_start += event['start']['dateTime'][i]
                             time_end += event['end']['dateTime'][i]
-                    events_list[int(day)-1].append(day + ' ' + time_start + ' ' + time_end + ' ' + event['summary']+"\n")
+                    events_list[h].append(date + ' ' + time_start + ' ' + time_end + ' ' + event['summary']+"\n")
                 else:
-                    day = ""
-                    for i in [8,9]:
-                        day += event['start']['date'][i]
-                    events_list[int(day)-1].append(day+' '+event['summary']+"\n")
+                    date = ""
+                    for i in list(range(0,10)):
+                        date += event['start']['date'][i]
+                    events_list[h].append(date+' '+event['summary']+"\n")
     events_list_final = ""
     for day in events_list:
         for i in day:
