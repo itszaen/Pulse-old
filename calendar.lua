@@ -55,15 +55,15 @@ function calendar(x,y,calendar_size_x,calendar_size_y)
         local dist = (os.time({year=event_year,month=event_month,day=event_day}) - os.time({year=year,month=month,day=day}))/luaday
         if dist == 0 then
           today_event = event
-          break
+        else
+          local column = math.floor((dist-1)/row)+1
+          local row = dist%row
+          if row == 0 then
+            row = 7
+          end
+          print(event)
+          table.insert(calendar_t[column][row],event)
         end
-        local column = math.floor((dist-1)/row)+1
-        local row = dist%row
-        if row == 0 then
-          row = 7
-        end
-        print(event)
-        table.insert(calendar_t[column][row],event)
       end
       result:close()
     else
@@ -149,6 +149,16 @@ function calendar(x,y,calendar_size_x,calendar_size_y)
       text_extents(text,font,font_size)
       local x = x + dayviewx/2 - (extents.width/2 + extents.x_bearing) +20
       local y = y + dayviewy/2.8 - (extents.height/2 + extents.y_bearing)
+      local color = color5
+      displaytext(x,y,text,font,font_size,color)
+    end
+    do -- dayview_event
+      local font = "Roboto"
+      local text = event_today
+      local font_size = 15
+      text_extents(text,font,font_size)
+      local x = x + dayviewx/2 - (extents.width/2 + extents.x_bearing)
+      local y = y + dayviewy/2.0 - (extents.height/2 + extents.y_bearing)
       local color = color5
       displaytext(x,y,text,font,font_size,color)
     end
