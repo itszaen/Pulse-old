@@ -128,10 +128,16 @@ sudo pacman -S speedtest-cli
 sudo apt-get install speedtest-cli
 ```
 #### Weather
-Awesome weather widget via pywapi. Uses Roboto font.
+Uses pywapi.
+
 ```
 (sudo) pip install pywapi
 ```
+
+Change the areacode in config.lua if you don't live in Tokyo. (99.88% of the chance)
+
+You can find the code for your area with https://weather.codes/
+
 * Since I couldn't find anywhere that has weather.com's weather condition list, I am still trying to match every weather condition to a weather icon.
 
 So please, if you have time, and ever encounter a missing icon (now it's just the whole thing glitches and shows error in the terminal)
