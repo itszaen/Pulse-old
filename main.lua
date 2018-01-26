@@ -120,7 +120,7 @@ function conky_main()
     purple_dark = {0.17,0.18,0.26,0.4}
     font = "Inconsolata"
     -- Objects
-    calendar(1270,80)
+    calendar(1320,80)
     clock(centerx,centery)
     heading1(100,770,"System Log")
     system_log(82,790)

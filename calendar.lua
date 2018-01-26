@@ -70,7 +70,6 @@ function calendar(x,y,calendar_size_x,calendar_size_y)
       result:close()
     end
   end
-  weekname_t = {"SUN","MON","TUE","WED","THU",'FRI',"SAT"}
   weeks_t = {}
   for weeks in range(1,weeks_in_month,1) do
     weeks_t[weeks] = {}
@@ -184,7 +183,7 @@ function calendar(x,y,calendar_size_x,calendar_size_y)
                   local font_size = 10
                   local color = color5
                   text_extents(text1,font,font_size)
-                  local x = x + dategridx/2 - (extents.width/2 + extents.x_bearing)
+                  local x = x + dategridx/2.5 - (extents.width/2 + extents.x_bearing)
                   local y = y + dategridy*(j-1)- (extents.height/2 + extents.y_bearing) --+ dategridy/8
                   displaytext(x,y,text1,font,font_size,color)
                 end
