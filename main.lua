@@ -17,7 +17,8 @@ conky_start = 1
 -- require 'system_storage'
 -- require 'weather'
 
-curdir = lfs.currentdir() --home .. "/.config/conky"
+home = os.getenv("HOME")
+curdir = home .. "/.config/conky"
 tmpdir = curdir.."/.tmp"
 
 dofile(curdir.."/common.lua")
