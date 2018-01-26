@@ -10,6 +10,7 @@ function classinfo(advance,wintertime)
   if conky_start == 1 then
     file = io.open(curdir .. "/timetable.txt")
     classname_t = {}
+    classtime_t = {}
     for line in file:lines() do
       table.insert(classname_t,line)
     end
@@ -56,15 +57,15 @@ function classname(classname_t,classtime_t,curtime,advance)
   local class = classname_t[number]
   classtime_weekday_t = classtime_t[weekday_number]
 
-  classtime_in_seconds_t = {}
+  classtime_is_t = {}
   for i in ipairs(classtime_weekday_t) do
-    classtime_in_seconds = classtime_weekday_t[i][1]*3600 + classtime_weekday_t[i][2]* 60 + 0
-    table.insert(classtime_in_seconds_t,classtime_in_seconds)
+    classtime_is = classtime_weekday_t[i][1]*3600 + classtime_weekday_t[i][2]* 60 + 0
+    table.insert(classtime_is_t,classtime_is)
   end
 
   classtime_weekday_t = classtime_t[weekday_number]
 
-  number = classnumber(classtime_t,classtime_in_seconds_t,curtime,advance)
+  number = classnumber(classtime_t,classtime_is_t,curtime,advance)
   now_classtime_in_second = classtime_weekday_t[number][1]*3600+classtime_weekday_t[number][2]*60 + 0
   local timeinfo = countdown(now_classtime_in_second)
   -- add all the class numbers before the day (not for Monday)
@@ -115,17 +116,17 @@ function isSchoolFinished(timetable_t,curtime,starttime)
   timetable_weekday_t = timetable_t[weekday_number]
   finishtime = table.remove(timetable_weekday_t)
   table.insert(timetable_weekday_t,finishtime) -- return the value back to the table
-  finishtime_in_seconds = finishtime[1]*3600 + finishtime[2]*60 + 0
-  if finishtime_in_seconds >= curtime and curtime >= starttime then
+  finishtime_is = finishtime[1]*3600 + finishtime[2]*60 + 0
+  if finishtime_is >= curtime and curtime >= starttime then
     return 0
   else
     return 1
   end
 end
 
-function classnumber(classtime_t,classtime_in_seconds_t,curtime,advance)
+function classnumber(classtime_t,classtime_is_t,curtime,advance)
   modtime = curtime + advance
-  class_number = within(classtime_in_seconds_t,modtime) -- on its weekday
+  class_number = within(classtime_is_t,modtime) -- on its weekday
   return class_number
 end
 function countdown(time)
