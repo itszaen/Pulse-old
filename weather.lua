@@ -235,8 +235,6 @@ function weather(x,y)
         end
         do -- sunrise [Sun rise time]
           y = y + spacing
-          iconx = iconx
-          icony = icony + spacing2
           iconname = "sunrise"
           draw_image(x,y,iconname,40,30,color6)
           text = sunrise
@@ -246,8 +244,6 @@ function weather(x,y)
         end
         do -- sunset [Sun set time]
           y = y + spacing
-          iconx = iconx
-          icony = icony + spacing2
           iconname = "sunset"
           draw_image(x,y,iconname,40,30,color6)
           text = sunset
@@ -494,6 +490,7 @@ function store_weather_icons()
   store_image(path,name)
 end
 function store_weather_condition_icons()
+  --print(summary,second_summary,third_summary,fourth_summary)
   path = curdir .. "/image/weather_icons/" .. weather_icon_name(summary) ..".svg"
   name = "weather"
   store_image(path,name)
@@ -524,6 +521,7 @@ function forecast_icon_name(weather)
     ['PM Showers'] = "showers",
     ['AM Light Rain'] = "showers",
     ['PM Light Rain'] = "showers",
+    ['Snow'] = "snow",
 
     ['AM Clouds / PM Sun'] = "day-cloudy-high",
     ['Sunny / Wind'] = "day-windy",
@@ -545,6 +543,8 @@ function weather_icon_name(weather)
     ['Rain Shower'] = "day-rain",
     ['Showers'] = "day-showers",
     ['Light Rain'] = "day-showers",
+    ['Snow'] = "day-snow",
+    ['Snow / Windy'] = "day-snow-wind",
     ['Mostly Cloudy / Windy'] = "day-cloudy-windy"
   }
 
@@ -558,6 +558,8 @@ function weather_icon_name(weather)
     ['Rain'] = "night-rain",
     ['Rain Shower'] = "night-rain",
     ['Showers'] = "night-showers",
+    ['Snow'] = "night-snow",
+    ['Snow / Windy'] = "night-snow-wind",
     ['Light Rain'] = "night-showers",
     ['Mostly Cloudy / Windy'] = "night-cloudy-windy"
   }
