@@ -68,9 +68,9 @@ def get_calendar():
                     date, time_start, time_end = "", "", ""
                     for i in list(range(0,10)):
                         date += event['start']['dateTime'][i]
-                        for i in list(range(11, 16)):
-                            time_start += event['start']['dateTime'][i]
-                            time_end += event['end']['dateTime'][i]
+                    for i in list(range(11, 16)):
+                        time_start += event['start']['dateTime'][i]
+                        time_end += event['end']['dateTime'][i]
                     events_list[h].append(date + ' ' + time_start + ' ' + time_end + ' ' + event['summary']+"\n")
                 else:
                     date = ""
