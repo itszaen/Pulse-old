@@ -1,4 +1,4 @@
-require 'logo'
+dofile(curdir.."/src/logo.lua")
 
 function clock(x,y)
   clockx = x

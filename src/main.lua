@@ -21,7 +21,7 @@ home = os.getenv("HOME")
 curdir = home .. "/.config/conky"
 tmpdir = curdir.."/.tmp"
 
-dofile(curdir.."/common.lua")
+dofile(curdir.."/src/common.lua")
 
 SCREENX,SCREENY = 1920,1080 -- the resolution this program is written for
 
@@ -37,20 +37,20 @@ end
 osname = os_detection()
 
 function conky_main()
-  dofile(curdir.."/common.lua")
-  dofile(curdir.."/calendar.lua")
-  dofile(curdir.."/clock.lua")
-  dofile(curdir.."/cpu.lua")
-  dofile(curdir.."/device_info.lua")
-  dofile(curdir.."/dictionary.lua")
-  dofile(curdir.."/heading.lua")
-  dofile(curdir.."/information.lua")
-  dofile(curdir.."/network.lua")
-  dofile(curdir.."/process.lua")
-  dofile(curdir.."/ram.lua")
-  dofile(curdir.."/system_log.lua")
-  dofile(curdir.."/system_storage.lua")
-  dofile(curdir.."/weather.lua")
+  dofile(curdir.."/src/common.lua")
+  dofile(curdir.."/src/calendar.lua")
+  dofile(curdir.."/src/clock.lua")
+  dofile(curdir.."/src/cpu.lua")
+  dofile(curdir.."/src/device_info.lua")
+  dofile(curdir.."/src/dictionary.lua")
+  dofile(curdir.."/src/heading.lua")
+  dofile(curdir.."/src/information.lua")
+  dofile(curdir.."/src/network.lua")
+  dofile(curdir.."/src/process.lua")
+  dofile(curdir.."/src/ram.lua")
+  dofile(curdir.."/src/system_log.lua")
+  dofile(curdir.."/src/system_storage.lua")
+  dofile(curdir.."/src/weather.lua")
 
   if conky_window == nil then return end
   local cs = cairo_xlib_surface_create(

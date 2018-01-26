@@ -26,7 +26,7 @@ function calendar(x,y,calendar_size_x,calendar_size_y)
 
 
   if ic == 1 and (timer == 0 or conky_start) then
-    os.execute(curdir.."/getcalendar.py &")
+    os.execute(curdir.."/src/get_calendar.py &")
   end
 
   if timer == init then

@@ -1,4 +1,4 @@
-require 'drawimage'
+dofile(curdir.."/src/drawimage.lua")
 
 function archlogo(x,y,size)
   spacing = size - 15

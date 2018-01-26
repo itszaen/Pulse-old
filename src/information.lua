@@ -1,5 +1,5 @@
-require 'drawimage'
-dofile(curdir.."/timetable.lua")
+dofile(curdir.."/src/drawimage.lua")
+dofile(curdir.."/src/timetable.lua")
 
 function information(x,y)
   -- store images

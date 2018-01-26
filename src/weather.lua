@@ -1,4 +1,4 @@
-require 'drawimage'
+dofile(curdir.."/src/drawimage.lua")
 
 function weather(x,y)
 
@@ -7,7 +7,7 @@ function weather(x,y)
   area = "JAXX0085"
 
   if ic == 1 and (timer == 0 or conky_start == 1) then
-    os.execute(curdir .. "/weather.py "..area.." &")
+    os.execute(curdir .. "/src/get_weather.py "..area.." &")
   end
 
   if timer == 0 or conky_start == 1 then
