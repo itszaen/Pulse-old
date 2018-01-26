@@ -61,7 +61,6 @@ function calendar(x,y,calendar_size_x,calendar_size_y)
           if row == 0 then
             row = 7
           end
-          print(event)
           table.insert(calendar_t[column][row],event)
         end
       end
