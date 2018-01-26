@@ -178,6 +178,8 @@ sudo pacman -S python-google-api-python-client python-dateutil
 (sudo) pip install google-api-python-client python-dateutil
 ```
 
+#### Word of the day (Powered by Dictionary.com)
+what is "decathect"? (the first one I got)
 
 Everything is set! Run conky in terminal! or somewhere else!
 
