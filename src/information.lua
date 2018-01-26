@@ -21,22 +21,28 @@ function information(x,y)
     store_image(path,name)
   end
 
-  indent = 15
-  pux = x + indent
-  puy = y
-  package_update(pux,puy)
+  if config.info.package_update.enabled then
+    indent = 15
+    pux = x + indent
+    puy = y
+    package_update(pux,puy)
+  end
 
-  indent = 15
-  spacing = 60
-  cux = x + indent
-  cuy = y + spacing
-  class_update(cux,cuy)
+  if config.info.class_update.enabled then
+    indent = 15
+    spacing = 60
+    cux = x + indent
+    cuy = y + spacing
+    class_update(cux,cuy)
+  end
 
-  indent = 15
-  spacing = 120
-  eux = x + indent
-  euy = y + spacing
-  email_update(eux,euy)
+  if config.info.gmail.enabled then
+    indent = 15
+    spacing = 120
+    eux = x + indent
+    euy = y + spacing
+    email_update(eux,euy)
+  end
 
   six = x + 100
   siy = y
@@ -216,8 +222,8 @@ function getGmail()
   return unread_mail
 end
 function getGmailCredit()
-  local address = config.gmail.address
-  local passphrase = config.gmail.passphrase
+  local address = config.info.gmail.address
+  local passphrase = config.info.gmail.passphrase
   return address,passphrase
 end
 function class_update(x,y)

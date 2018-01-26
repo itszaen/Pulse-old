@@ -4,7 +4,7 @@ function weather(x,y)
 
   interval = 600
   timer = (updates % interval)
-  area = "JAXX0085"
+  area = config.weather.area
 
   if ic == 1 and (timer == 0 or conky_start == 1) then
     os.execute(curdir .. "/src/get_weather.py "..area.." &")
@@ -490,7 +490,7 @@ function store_weather_icons()
   store_image(path,name)
 end
 function store_weather_condition_icons()
-  --print(summary,second_summary,third_summary,fourth_summary)
+  ---print(summary,second_summary,third_summary,fourth_summary)
   path = curdir .. "/image/weather_icons/" .. weather_icon_name(summary) ..".svg"
   name = "weather"
   store_image(path,name)
@@ -510,6 +510,7 @@ function forecast_icon_name(weather)
     ['Clear'] = "day-sunny",
     ['Sunny'] = "day-sunny",
     ['Mostly Sunny'] = "day-sunny-overcast",
+    ['Cloudy'] = "cloudy",
     ['Mostly Cloudy'] = "cloudy",
     ['Partly Cloudy'] = "cloud",
     ['Rain'] = "rain",
@@ -525,6 +526,7 @@ function forecast_icon_name(weather)
 
     ['AM Clouds / PM Sun'] = "day-cloudy-high",
     ['Sunny / Wind'] = "day-windy",
+    ['Fair / Windy'] = "day-windy",
     ['Mostly Cloudy / Windy'] = "cloudy-windy",
     ['Mostly Sunny / Wind'] = "day-windy",
     ['Rain / Snow'] = "rain-mix"
@@ -537,6 +539,7 @@ function weather_icon_name(weather)
     ['Clear'] = "day-sunny",
     ['Fair / Windy'] = "day-windy",
     ['Mostly Sunny'] = "day-haze",
+    ['Cloudy'] = "day-cloudy",
     ['Mostly Cloudy'] = "day-cloudy",
     ['Partly Cloudy'] = "day-cloudy",
     ['Rain'] = "day-rain",
@@ -553,6 +556,7 @@ function weather_icon_name(weather)
     ['Clear'] = "night-clear",
     ['Fair / Windy'] = "windy",
     ['Mostly Sunny'] = "night-clear",
+    ['Cloudy'] = "cloudy",
     ['Mostly Cloudy'] = "cloudy",
     ['Partly Cloudy'] = "cloud",
     ['Rain'] = "night-rain",

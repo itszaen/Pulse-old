@@ -5,9 +5,9 @@ function calendar(x,y,calendar_size_x,calendar_size_y)
   local day = tonumber(day)
   local luaday = 24*60*60
 
-  dates = 14
-  column = 2
-  row = 7
+  dates = config.calendar.layout.dates
+  column = config.calendar.layout.column
+  row = config.calendar.layout.row
 
 
   days_in_month = get_days_in_month(month,year)

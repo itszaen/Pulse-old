@@ -52,7 +52,6 @@ function conky_main()
   dofile(curdir.."/src/system_log.lua")
   dofile(curdir.."/src/system_storage.lua")
   dofile(curdir.."/src/weather.lua")
-  print(config.gmail.address)
 
   if conky_window == nil then return end
   local cs = cairo_xlib_surface_create(
@@ -122,13 +121,23 @@ function conky_main()
     purple_dark = {0.17,0.18,0.26,0.4}
     font = "Inconsolata"
     -- Objects
-    calendar(1320,80)
-    clock(centerx,centery)
-    heading1(100,770,"System Log")
-    system_log(82,790)
-    heading1(100,420,"Storage")
-    system_storage(82,430)
-    network()
+    if config.calendar.enabled then
+      calendar(1320,80)
+    end
+    if config.clock.enabled then
+      clock(centerx,centery)
+    end
+    if config.log.enabled then
+      heading1(100,770,"System Log")
+      system_log(82,790)
+    end
+    if config.storage.enabled then
+      heading1(100,420,"Storage")
+      system_storage(82,430)
+    end
+    if config.network.enabled then
+      network(82,80)
+    end
     cpuarc()
     ramarc()
     heading3(795 ,835,"CPU")
@@ -137,11 +146,17 @@ function conky_main()
     cpu_info(700,982)
     ramprocess(1000,850)
     ram_info(1000,990)
-    heading1(1290,770,"Info")
-    information(1290,800)
-    weather(1350,440)
-    heading1(1600,770,"Word of the Day")
-    word_of_the_day(1600,800)
+    if config.info.enabled then
+      heading1(1290,770,"Info")
+      information(1290,800)
+    end
+    if config.weather.enabled then
+      weather(1350,440)
+    end
+    if config.word_of_the_day.enabled then
+      heading1(1600,770,"Word of the Day")
+      word_of_the_day(1600,800)
+    end
 
     ----
     conky_start = nil -- 1st time flag

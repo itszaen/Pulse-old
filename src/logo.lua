@@ -30,8 +30,10 @@ function archname(x,y,size)
 end
 
 function ubuntulogo(x,y,size)
-  spacing = size - 15
-  ubuntuicon(x,y,size)
+  local iconoffsetx = -8 -- it's a bit off for some reason
+  local iconoffsety = -5
+  local spacing = size + 30
+  ubuntuicon(x+iconoffsetx,y+iconoffsety,size)
   ubuntuname(x,y+spacing,size)
 end
 function ubuntuicon(x,y,size)
@@ -44,7 +46,7 @@ function ubuntuicon(x,y,size)
   original = 2000
   x = x - size/2
   y = y - size/2
-  draw_image(x,y,path,name,size,original,color)
+  draw_image(x,y,name,size,original,color)
 end
 function ubuntuname(x,y,size)
   local font = "Ubuntu"

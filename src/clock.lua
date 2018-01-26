@@ -19,7 +19,12 @@ function clock(x,y)
 
   watch_dial()
   dig_date02()
-  archlogo(logox,logoy,logosize)
+  if config.clock.logo == 1 then
+    archlogo(logox,logoy,logosize)
+  elseif config.clock.logo == 2 then
+    ubuntulogo(logox,logoy,logosize)
+  else
+  end
   analog_time()
 end
 
