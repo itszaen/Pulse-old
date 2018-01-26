@@ -101,9 +101,24 @@ sudo apt-get install fonts-inconsolata gs-fonts font-roboto
 ```
 
 ### Features
+The feature requires active internet connection will tell you that it's not working when disconnected from the internet.
+
+##### Configuration
+Before you run conky, **you have to rename default_conky.lua -> conky.lua**
+
+You can turn on or off any feature with config.lua now. Just set the "enabled" value to true or false. (with no quotation marks)
+Like here: 
+``` lua
+...
+gmail = {
+  enabled = true,-- set to false to disable unread email counts.
+  address = "xxx"
+  ...
+}
+...
+```
 #### Speedtest
-For some reasons, conky will hangs for some time everytime it does the speedtest.
-Remove the feature then, wouldn't you say? NOOBIE POWER! YOU CAN'T! (soon you can!)
+It's a bit heavy to be honest. (So if you would like to, turn it off)
 * Arch
 ```
 sudo pacman -S speedtest-cli
@@ -113,10 +128,26 @@ sudo pacman -S speedtest-cli
 sudo apt-get install speedtest-cli
 ```
 #### Weather
-Awesome weather widget via pywapi. Uses Roboto font.
+Uses pywapi.
+
 ```
 (sudo) pip install pywapi
 ```
+
+Change the areacode in config.lua if you don't live in Tokyo. (99.88% of the chance)
+
+You can find the code for your area with https://weather.codes/
+
+* Since I couldn't find anywhere that has weather.com's weather condition list, I am still trying to match every weather condition to a weather icon.
+
+So please, if you have time, and ever encounter a missing icon (now it's just the whole thing glitches and shows error in the terminal)
+
+1. uncomment the line "--print(summary,second_summary,third_summary,fourth_summary)" by removing the leading 2 hyphens.
+2. restart conky.
+3. copy the outcome.
+4. file a issue or better off a pull request (if you know what to do).
+> The matching table is at src/weather.lua's weather_icon_name() and forecast_icon_name().
+
 
 #### Info
 ##### Package needing update
@@ -127,26 +158,11 @@ WOW who wants this except for me.
 Supported: Gmail
 ###### Gmail
 Uses curl to read gmail's atom API feed.
-You have to setup python keyring to give conky the necessary credentials.
 
-(Could I have just made it to read plain text passwords? Yes! But that's too asshole-ish, even for me, you know)
+Don't forget to replace the address & password placeholder with your own in the configuration file.
 
-```
-(sudo) pip install keyring
-```
-Then, run it!
-```
-python -c "import keyring; keyring.set_password('gmail','[Email Address]','[Password]')"
-```
 * **If you are using 2-factor authentication method, the password must be the one you generate at :https://myaccount.google.com/apppasswords**
 * **If not, go here:https://myaccount.google.com/lesssecureapps and enable less secure apps. (It's okay.)**
-* Ignore "[" and "]"
-* Yep, the arguments passed to keyring.set_password can be anything, but for this particular conky script, please do it this way.
-
-And to give conky an idea what kind of password it needs, pass your email address into ~/.config/conky/.gmail . (don't forget the **.** !)
-```
-echo  [Email Address] > ~/.config/conky/.gmail
-```
 
 #### Calendar
 Supported: Google Calendar
@@ -162,6 +178,8 @@ sudo pacman -S python-google-api-python-client python-dateutil
 (sudo) pip install google-api-python-client python-dateutil
 ```
 
+#### Word of the day (Powered by Dictionary.com)
+what is "decathect"? (the first one I got)
 
 Everything is set! Run conky in terminal! or somewhere else!
 
