@@ -6,7 +6,7 @@ function system_log(x,y)
 
   timer = (updates % interval)
   if timer == 0 or conky_start == 1 then
-    result = io.popen("journalctl -n 14 | sed 1d | awk '{$1=$2=$4=\"\"; print $0}' | sed 's/  //' | sed 's/  / /' | cut -c1-80")
+    result = io.popen("journalctl -n 14 | sed 1d | awk '{$1=$2=$4=\"\"; print $0}' | sed 's/  //' | sed 's/  / /' | fold -w 80 -s")
     sl_t = {}
     for line in result:lines() do
       table.insert(sl_t,line)
@@ -16,11 +16,14 @@ function system_log(x,y)
   if next(sl_t) == nil then
     return
   end
-  n = 1
+  local n = 1
   for i, line in ipairs (sl_t) do
-    text = line
     y = y + font_size*spacing
-    displaytext(x,y,text,font,font_size,color)
-    n = n+1
+    if y >= 1030 then
+    else
+      local text = line
+      displaytext(x,y,text,font,font_size,color)
+      n = n+1
+    end
   end
 end
