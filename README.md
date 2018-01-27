@@ -152,10 +152,18 @@ So please, if you have time, and ever encounter a missing icon (now it's just th
 #### Info
 ##### Package needing update
 Only on Arch Linux & Ubuntu
-##### Next Class
-WOW who wants this except for me.
+##### Timetable
+Tells you what the next class is, and how much time is left till that.
+** It's off default, change it in the config file**
+
+There's a timetable_example.txt file, write your schedules into it, rename it to timetable.txt (or whatever name you prefer, place it whereever you want, but do not forget to tell conky in the configurtion file) .
+
+* Do not delete or modify the weekday line ("MONDAY","TUESDAY", ...)
+* Go look into the config file before you start
+
 ##### Unread email
 Supported: Gmail
+
 ###### Gmail
 Uses curl to read gmail's atom API feed.
 
