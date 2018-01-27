@@ -16,7 +16,7 @@ function word_of_the_day(x,y)
       date = line
     end
     file:close( )
-    if date == os.date("%x") then
+    if date ~= os.date("%x") then
       get_word_of_the_day(amount)
     end
   end
