@@ -248,10 +248,13 @@ function class_update(x,y)
     spacing = 13
     x = x + indent
     y = y + spacing
-    advance = 10
-    wintertime = 1
+
+    local advance = config.info.class_update.advance
+    local wintertime = config.info.class_update.advance
+    local starttime = config.info.class_update.starttime
+
     if timer == 0 then
-      text,time = classinfo(advance,wintertime)
+      text,time = classinfo(advance,wintertime,starttime)
     end
     if time == "now" then
       text1 = "The class is "

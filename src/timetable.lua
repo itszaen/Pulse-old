@@ -1,86 +1,91 @@
-function classinfo(advance,wintertime)
+function classinfo(advance,wintertime,starttime)
   local hours = tonumber(hours)
   local minutes = tonumber(minutes)
   local seconds = tonumber(seconds)
+  -- in seconds
+  local curtime = hours*3600 + minutes*60 + seconds
+  local advance = advance*60
+  local starttime = starttime*60
 
-  curtime = hours*3600 + minutes*60 + seconds -- in seconds
-  advance = advance*60 -- in seconds
-  starttime = 6 * 3600 + 0 * 60 + 0
+  local timetable_file = config.info.class_update.file
 
   if conky_start == 1 then
-    file = io.open(curdir .. "/timetable.txt")
-    classname_t = {}
-    classtime_t = {}
+    timetable_t = {{},{},{},{},{},{},{}}
+    file = io.open(timetable_file)
+    local weekday_n = 0 -- weekday
     for line in file:lines() do
-      table.insert(classname_t,line)
+      if line == "MONDAY" then
+        weekday_n = 1
+      elseif line == "TUESDAY" then
+        weekday_n = 2
+      elseif line == "WEDNESDAY" then
+        weekday_n = 3
+      elseif line == "THURSDAY" then
+        weekday_n = 4
+      elseif line == "FRIDAY" then
+        weekday_n = 5
+      elseif line == "SATURDAY" then
+        weekday_n = 6
+      elseif line == "SUNDAY" then
+        weekday_n = 7
+      else
+        local st_h,st_m,et_h,et_m,classname = line:match("(%d+):(%d+)%s(%d+):(%d+)%s(.*)")
+        local st_h,st_m,et_h,et_m = tonumber(st_h),tonumber(st_m),tonumber(et_h),tonumber(et_m)
+        table.insert(timetable_t[weekday_n],{st_h,st_m,et_h,et_m,classname})
+      end
     end
     file:close()
   end
-  if conky_start == 1 then
-    if wintertime == 0 then
-      classtime_t = {
-        {{8,10},{9,10},{10,10},{11,10},{12,40},{13,40}},
-        {{8,10},{9,10},{10,10},{11,10},{12,40},{13,40}},
-        {{8,10},{9,10},{10,10},{11,5},{11,40},{13,10},{14,10}},
-        {{8,10},{9,10},{10,10},{11,10},{12,40},{13,40}},
-        {{8,10},{9,10},{10,10},{11,10},{12,40},{13,40}},
-        {{8,10},{9,10},{10,10},{11,10}}
-      }
-    else
-      classtime_t = {
-        {{8,20},{9,20},{10,20},{11,20},{12,50},{13,50}},
-        {{8,20},{9,20},{10,20},{11,20},{12,50},{13,50}},
-        {{8,20},{9,20},{10,20},{11,15},{11,50},{13,20},{14,20}},
-        {{8,20},{9,20},{10,20},{11,20},{12,50},{13,50}},
-        {{8,20},{9,20},{10,20},{11,20},{12,50},{13,50}},
-        {{8,20},{9,20},{10,20},{11,20}}
-      }
+
+  if config.info.class_update.vacation.enabled then
+    if is_vacation() == 1 then
+      return "Enjoy your summer vacation!",nil
+    elseif is_vacation() == 2 then
+      return "Enjoy your winter break!",nil
+    elseif is_vacation() == 3 then
+      return "Enjoy your spring rest!",nil
     end
   end
-
-  if isVacation() == 1 then
-    return "Enjoy your summer vacation!",nil
-  elseif isVacation() == 2 then
-    return "Enjoy your winter break!",nil
-  elseif isVacation() == 3 then
-    return "Enjoy your spring rest!",nil
-  elseif isSunday() == 1 then
+  if is_sunday() == 1 then
     return "It's your day off!",nil
-  elseif isSchoolFinished(classtime_t,curtime,starttime) == 1 then
+  elseif is_school_finished(timetable_t,curtime,starttime) == 1 then
     return "School finished!",nil
   else
-    class,timeinfo = classname(classname_t,classtime_t,curtime,advance)
+    class,timeinfo = get_classname(timetable_t,curtime,advance)
     return class,timeinfo
   end
 end
-function classname(classname_t,classtime_t,curtime,advance)
-  local class = classname_t[number]
-  classtime_weekday_t = classtime_t[weekday_number]
+function get_classname(timetable_t,curtime,advance)
+  timetable_today_t = timetable_t[weekday_number]
 
-  classtime_is_t = {}
-  for i in ipairs(classtime_weekday_t) do
-    classtime_is = classtime_weekday_t[i][1]*3600 + classtime_weekday_t[i][2]* 60 + 0
-    table.insert(classtime_is_t,classtime_is)
+  classtime_ins_t = {}
+  classtime_start_ins_t = {}
+  for i in ipairs(timetable_today_t) do
+    classtime_start_ins = timetable_today_t[i][1]*3600 + timetable_today_t[i][2]* 60 + 0
+    classtime_end_ins = timetable_today_t[i][3]*3600 + timetable_today_t[i][4]*60 + 0
+    table.insert(classtime_ins_t,classtime_start_ins)
+    table.insert(classtime_ins_t,classtime_end_ins)
+    table.insert(classtime_start_ins_t,classtime_start_ins)
   end
+  number = classnumber(classtime_start_ins_t,curtime,advance)
+  now_classtime_ins = timetable_today_t[number][1]*3600+timetable_today_t[number][2]*60 + 0
+  local timeinfo = countdown(now_classtime_ins,curtime)
 
-  classtime_weekday_t = classtime_t[weekday_number]
+  -- -- add all the class numbers before the day (not for Monday)
+  -- if weekday_number >= 2 then
+  --   local n = 0
+  --   for i=1,weekday_number-1 do
+  --     n = n + length_table(classtime_t[i])
+  --   end
+  --   number = number + n
+  -- end
 
-  number = classnumber(classtime_t,classtime_is_t,curtime,advance)
-  now_classtime_in_second = classtime_weekday_t[number][1]*3600+classtime_weekday_t[number][2]*60 + 0
-  local timeinfo = countdown(now_classtime_in_second)
-  -- add all the class numbers before the day (not for Monday)
-  if weekday_number >= 2 then
-    local n = 0
-    for i=1,weekday_number-1 do
-      n = n + length_table(classtime_t[i])
-    end
-    number = number + n
-  end
+  class = timetable_today_t[number][5]
 
   return class,timeinfo
 end
 
-function isSunday()
+function is_sunday()
   weekday = tonumber(os.date("%w"))
   if weekday == 0 then
     return 1
@@ -88,35 +93,47 @@ function isSunday()
     return 0
   end
 end
-function isVacation()
-  summer_vacation_t = {
-    start  = {year=2017,month=7,day=13},
-    finish = {year=2017,month=9,day=6}
-  }
-  winter_vacation_t = {
-    start  = {year=2017,month=12,day=15},
-    finish = {year=2018,month=1,day=9}
-  }
-  spring_vacation_t = {
-    start  = {year=2018,month=3,day=10},
-    finish = {year=2018,month=4,day=5}
-  }
-
-  if os.time(summer_vacation_t["start"]) < os.time() and os.time() < os.time(summer_vacation_t["finish"]) then
-    return 1
-  elseif os.time(winter_vacation_t["start"]) < os.time() and os.time() < os.time(winter_vacation_t["finish"]) then
+function is_vacation()
+  local vacation = config.info.class_update.vacation
+  if vacation.summer.enabled then
+    local date = vacation.summer
+    summer_vacation_t = {
+      start  = {year=date.start[1],month=date.start[2],day=date.start[3]},
+      finish = {year=date.finish[1],month=date.finish[2],day=date.finish[3]}
+    }
+    if os.time(summer_vacation_t["start"]) < os.time() and os.time() < os.time(summer_vacation_t["finish"]) then
+      return 1
+    end
+  end
+  if vacation.winter.enabled then
+    local date = vacation.winter
+    winter_vacation_t = {
+      start  = {year=date.start[1],month=date.start[2],day=date.start[3]},
+      finish = {year=date.finish[1],month=date.finish[2],day=date.finish[3]}
+    }
+    if os.time(winter_vacation_t["start"]) < os.time() and os.time() < os.time(winter_vacation_t["finish"]) then
     return 2
-  elseif os.time(spring_vacation_t["start"]) < os.time() and os.time() < os.time(spring_vacation_t["finish"]) then
-    return 3
-  else
-    return 0
+    end
+  end
+  if vacation.spring.enabled then
+    local date = vacation.spring
+    spring_vacation_t = {
+      start  = {year=date.start[1],month=date.start[2],day=date.start[3]},
+      finish = {year=date.finish[1],month=date.finish[2],day=date.finish[3]}
+    }
+
+    if os.time(spring_vacation_t["start"]) < os.time() and os.time() < os.time(spring_vacation_t["finish"]) then
+      return 3
+    else
+      return 0
+    end
   end
 end
-function isSchoolFinished(timetable_t,curtime,starttime)
-  timetable_weekday_t = timetable_t[weekday_number]
-  finishtime = table.remove(timetable_weekday_t)
-  table.insert(timetable_weekday_t,finishtime) -- return the value back to the table
-  finishtime_is = finishtime[1]*3600 + finishtime[2]*60 + 0
+function is_school_finished(timetable_t,curtime,starttime)
+  timetable_today_t = timetable_t[weekday_number]
+  finishtime = table.remove(timetable_today_t)
+  table.insert(timetable_today_t,finishtime) -- return the value back to the table
+  finishtime_is = finishtime[3]*3600 + finishtime[4]*60 + 0
   if finishtime_is >= curtime and curtime >= starttime then
     return 0
   else
@@ -124,12 +141,12 @@ function isSchoolFinished(timetable_t,curtime,starttime)
   end
 end
 
-function classnumber(classtime_t,classtime_is_t,curtime,advance)
+function classnumber(classtime_is_t,curtime,advance)
   modtime = curtime + advance
   class_number = within(classtime_is_t,modtime) -- on its weekday
   return class_number
 end
-function countdown(time)
+function countdown(time,curtime)
   local countdown = time - curtime -- seconds
   if countdown <= 0 then
     countdown = "now"

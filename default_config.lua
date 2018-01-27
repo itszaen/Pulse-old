@@ -18,7 +18,28 @@ config = {
     },
     class_update = {
       enabled = false,
-      file = "timetable.txt"
+      file = home.."/timetable.txt",  -- home = ~, curdir = ~/.config/conky, concatenate paths with ..
+      advance = 10, -- minutes. How early it will inform you of the next class. set to 0 to disable
+      starttime = nil, -- if you wish to start the countdown before "first class - advance", specify a time in minutes (6:10 -> 370 (6*60+10*1)), set to nil to disable
+      wintertime = 0, -- minutes. To move all the scheduled time in your timetable by a certain amount of time.
+      vacation = { -- {year,month,day}
+        enabled = true,
+        summer = {
+          enabled = true,
+          start = {2017,7,13},
+          finish = {2017,9,6}
+        },
+        winter = {
+          enabled = true,
+          start = {2017,12,15},
+          finish = {2018,1,9}
+        },
+        spring = {
+          enabled = true,
+          start = {2018,3,10},
+          finish = {2018,4,5}
+        }
+      }
     }
   },
   weather = {
