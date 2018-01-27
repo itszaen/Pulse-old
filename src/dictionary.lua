@@ -7,8 +7,18 @@ function word_of_the_day(x,y)
     store_image(path,name)
   end
 
-  if ic == 1 and io.open(curdir.."/.tmp/word_of_the_day") == nil then
-    get_word_of_the_day(amount)
+  if ic == 1 then
+    if io.open(curdir.."/.tmp/word_of_the_day") == nil then
+      get_word_of_the_day(amount)
+    end
+    local file = io.open(curdir.."/.tmp/word_of_the_day_count")
+    for line in file:lines() do
+      date = line
+    end
+    file:close( )
+    if date == os.date("%x") then
+      get_word_of_the_day(amount)
+    end
   end
   if conky_start == 1 then
     if io.open(curdir.."/.tmp/word_of_the_day")==nil then return end
@@ -75,8 +85,12 @@ function word_of_the_day(x,y)
   end
 end
 function get_word_of_the_day(amount)
+  --os.execute("curl -s http://www.dictionary.com/wordoftheday/ > /.tmp/word_of_the_day")
   os.execute("curl -s http://www.dictionary.com/wordoftheday/ | sed -n 's:.*<strong>\\(.*\\)<\\/strong>.*:\\1:p' | uniq > "..curdir.."/.tmp/word_of_the_day")
   for number in range(1,amount,1) do
-    os.execute("curl -s http://www.dictionary.com/wordoftheday/ | sed -n 's/.*<li class=\""..number2literal_ordinal_number(number).."\"><span>\\(.*\\)<\\/span>.*/\\1/p;' | sed 's/<em>/\n/g; s/<\\/em>//g' | fold -w 29 -s > "..curdir.."/.tmp/word_of_the_day_definition_"..tostring(number))
+    os.execute("curl -s http://www.dictionary.com/wordoftheday/ | sed -n 's/.*<li class=\""..number2literal_ordinal_number(number).."\"><span>\\(.*\\)<\\/span>.*/\\1/p;' | sed 's/<em>/\\n/g; s/<\\/em>//g' | fold -w 29 -s > "..curdir.."/.tmp/word_of_the_day_definition_"..tostring(number))
   end
+  local file = io.open(curdir.."/.tmp/word_of_the_day_count","w")
+  file:write(os.date("%x"))
+  file:close()
 end
