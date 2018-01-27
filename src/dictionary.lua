@@ -15,12 +15,13 @@ function word_of_the_day(x,y)
     for line in file:lines() do
       date = line
     end
-    file:close( )
+    file:close()
     if date ~= os.date("%x") then
       get_word_of_the_day(amount)
+      wotd_changed = 1
     end
   end
-  if conky_start == 1 then
+  if conky_start == 1 or wotd_changed == 1 then
     if io.open(curdir.."/.tmp/word_of_the_day")==nil then return end
     file = io.open(curdir.."/.tmp/word_of_the_day")
     word_t = {}
@@ -36,6 +37,7 @@ function word_of_the_day(x,y)
       end
     end
     file:close()
+    wotd_changed = 0
   end
 
   do
