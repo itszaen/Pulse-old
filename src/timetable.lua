@@ -2,6 +2,7 @@ function classinfo(advance,wintertime,starttime)
   local hours = tonumber(hours)
   local minutes = tonumber(minutes)
   local seconds = tonumber(seconds)
+  local wintertime = wintertime
   -- in seconds
   local curtime = hours*3600 + minutes*60 + seconds
   local advance = advance*60
@@ -51,18 +52,18 @@ function classinfo(advance,wintertime,starttime)
   elseif is_school_finished(timetable_t,curtime,starttime) == 1 then
     return "School finished!",nil
   else
-    class,timeinfo = get_classname(timetable_t,curtime,advance)
+    class,timeinfo = get_classname(timetable_t,curtime,advance,wintertime)
     return class,timeinfo
   end
 end
-function get_classname(timetable_t,curtime,advance)
+function get_classname(timetable_t,curtime,advance,wintertime)
   timetable_today_t = timetable_t[weekday_number]
 
   classtime_ins_t = {}
   classtime_start_ins_t = {}
   for i in ipairs(timetable_today_t) do
-    classtime_start_ins = timetable_today_t[i][1]*3600 + timetable_today_t[i][2]* 60 + 0
-    classtime_end_ins = timetable_today_t[i][3]*3600 + timetable_today_t[i][4]*60 + 0
+    classtime_start_ins = timetable_today_t[i][1]*3600 + timetable_today_t[i][2]* 60 + 0 - wintertime*60
+    classtime_end_ins = timetable_today_t[i][3]*3600 + timetable_today_t[i][4]*60 + 0 - wintertime*60
     table.insert(classtime_ins_t,classtime_start_ins)
     table.insert(classtime_ins_t,classtime_end_ins)
     table.insert(classtime_start_ins_t,classtime_start_ins)
