@@ -155,7 +155,7 @@ function email_update(x,y)
     iconsize = 30
     iconorig = 225
     iconcolor = color5
-    iconx = x - 16
+    iconx = x - 18
     icony = y - 15
     iconname = "emailempty"
     draw_image(iconx,icony,iconname,iconsize,iconorig,iconcolor)
