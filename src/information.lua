@@ -151,7 +151,7 @@ function email_update(x,y)
     y = y + spacing
     text = "Internet disconnected."
     displaytext(x,y,text,font,font_size,color)
-  elseif gmail_info == 0 then
+  elseif gmail_info == "0" then
     iconsize = 30
     iconorig = 225
     iconcolor = color5
@@ -212,6 +212,7 @@ function getGmail()
   end
   result = assert(io.popen("curl -s -u "..gmail_address..":"..gmail_password..[[ https://mail.google.com/mail/feed/atom | sed -n 's:.*<fullcount>\(.*\)</fullcount>.*:\1:p']]))
   for line in result:lines() do
+    print(line)
     for number in line:gmatch("%d+") do
       unread_mail = number
       break
