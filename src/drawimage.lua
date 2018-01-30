@@ -27,11 +27,13 @@ function svg2luacairo(filepath,name)
   end
   _G[name.."item_t"] = item_t
 end
-function store_image(filepath,name)
+function store_image(filepath,name,origsize)
   svg2luacairo(filepath,name)
+  _G[name.."_icon_origsize"] = origsize
 end
-function draw_image(x,y,name,size,original,color)
+function draw_image(x,y,name,size,color)
   cairo_t = _G[name.."item_t"]
+  original = _G[name.."_icon_origsize"]
   scale = size/original
   pattern = cairo_pattern_create_rgba(rgba(color))
   cairo_set_source(cr,pattern)
@@ -55,8 +57,9 @@ function draw_image(x,y,name,size,original,color)
   end
   cairo_fill(cr)
 end
-function draw_image_polar(x,y,degree,offsetx,offsety,name,size,original,color)
+function draw_image_polar(x,y,degree,offsetx,offsety,name,size,color)
   cairo_t = _G[name.."item_t"]
+  original = _G[name.."_icon_origsize"]
   scale = size/original
   pattern = cairo_pattern_create_rgba(rgba(color))
   cairo_set_source(cr,pattern)

@@ -9,13 +9,12 @@ function archicon(x,y,size,color)
   if conky_start == 1 then
     path = curdir .. "/image/Archlinux.svg"
     name = "archicon"
-    store_image(path,name)
+    store_image(path,name,166)
   end
   name = "archicon"
-  original = 166
   x = x - size/2
   y = y - size/2
-  draw_image(x,y,name,size,original,color)
+  draw_image(x,y,name,size,color)
 end
 
 function archname(x,y,size)
@@ -40,13 +39,12 @@ function ubuntuicon(x,y,size)
   if conky_start == 1 then
     path = curdir .. "/image/Ubuntu.svg"
     name = "ubuntuicon"
-    store_image(path,name)
+    store_image(path,name,2000)
   end
   name = "ubuntuicon"
-  original = 2000
   x = x - size/2
   y = y - size/2
-  draw_image(x,y,name,size,original,color)
+  draw_image(x,y,name,size,color)
 end
 function ubuntuname(x,y,size)
   local font = "Ubuntu"

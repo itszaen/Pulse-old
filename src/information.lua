@@ -6,19 +6,19 @@ function information(x,y)
   if conky_start == 1 then
     path = curdir .. "/image/Update.svg"
     name = "update"
-    store_image(path,name)
+    store_image(path,name,225)
     path = curdir .. "/image/Up_to_date.svg"
     name = "uptodate"
-    store_image(path,name)
+    store_image(path,name,225)
     path = curdir .. "/image/Class.svg"
     name = "class"
-    store_image(path,name)
+    store_image(path,name,512)
     path = curdir .. "/image/Email.svg"
     name = "email"
-    store_image(path,name)
+    store_image(path,name,225)
     path = curdir .. "/image/Email_empty.svg"
     name = "emailempty"
-    store_image(path,name)
+    store_image(path,name,225)
   end
 
   if config.info.package_update.enabled then
@@ -58,12 +58,11 @@ function package_update(x,y)
 
   if update_number == "0" then
     iconsize = 30
-    iconorig = 225
     color = color5
     iconx = x - 17
     icony = y - 6
     iconname = "uptodate"
-    draw_image(iconx,icony,iconname,iconsize,iconorig,color)
+    draw_image(iconx,icony,iconname,iconsize,color)
     font_size = 16
     indent = 30
     spacing = 18
@@ -74,12 +73,11 @@ function package_update(x,y)
     displaytext(x,y,text,font,font_size,color)
   elseif update_number == nil then
     iconsize = 30
-    iconorig = 225
     color = color5
     iconx = x - 17
     icony = y - 6
     iconname = "update"
-    draw_image(iconx,icony,iconname,iconsize,iconorig,color)
+    draw_image(iconx,icony,iconname,iconsize,color)
     font_size = 16
     indent = 30
     spacing = 18
@@ -90,12 +88,11 @@ function package_update(x,y)
     displaytext(x,y,text,font,font_size,color)
   else
     iconsize = 30
-    iconorig = 225
     color = color5
     iconx = x - 17
     icony = y - 6
     iconname = "update"
-    draw_image(iconx,icony,iconname,iconsize,iconorig,color)
+    draw_image(iconx,icony,iconname,iconsize,color)
     font_size = 16
     indent = 30
     spacing = 18
@@ -137,12 +134,11 @@ function email_update(x,y)
   end
   if ic ~= 1 then
     iconsize = 30
-    iconorig = 225
     iconcolor = color5
     iconx = x - 16
     icony = y - 15
     iconname = "email"
-    draw_image(iconx,icony,iconname,iconsize,iconorig,iconcolor)
+    draw_image(iconx,icony,iconname,iconsize,iconcolor)
     font_size = 16
     indent = 28
     spacing = 9
@@ -153,12 +149,11 @@ function email_update(x,y)
     displaytext(x,y,text,font,font_size,color)
   elseif gmail_info == "0" then
     iconsize = 30
-    iconorig = 225
     iconcolor = color5
     iconx = x - 18
     icony = y - 15
     iconname = "emailempty"
-    draw_image(iconx,icony,iconname,iconsize,iconorig,iconcolor)
+    draw_image(iconx,icony,iconname,iconsize,iconcolor)
     font_size = 16
     indent = 28
     spacing = 9
@@ -169,12 +164,11 @@ function email_update(x,y)
     displaytext(x,y,text,font,font_size,color)
   elseif gmail_info == nil or gmail_info == "error" then
     iconsize = 30
-    iconorig = 225
     iconcolor = color5
     iconx = x - 16
     icony = y - 15
     iconname = "email"
-    draw_image(iconx,icony,iconname,iconsize,iconorig,iconcolor)
+    draw_image(iconx,icony,iconname,iconsize,iconcolor)
 
     font_size = 16
     indent = 28
@@ -187,12 +181,11 @@ function email_update(x,y)
     displaytext(x,y,text,font,font_size,color)
   else
     iconsize = 30
-    iconorig = 225
     iconcolor = color5
     iconx = x - 16
     icony = y - 15
     iconname = "email"
-    draw_image(iconx,icony,iconname,iconsize,iconorig,iconcolor)
+    draw_image(iconx,icony,iconname,iconsize,iconcolor)
 
     font_size = 16
     indent = 30
@@ -233,12 +226,11 @@ function class_update(x,y)
 
   do
     local iconsize = 30
-    local iconorig = 512
     local iconcolor = color5
     local iconx = x - 17
     local icony = y - 10
     local iconname = "class"
-    draw_image(iconx,icony,iconname,iconsize,iconorig,iconcolor)
+    draw_image(iconx,icony,iconname,iconsize,iconcolor)
   end
 
   do

@@ -1,12 +1,6 @@
 function word_of_the_day(x,y)
   amount = 3
 
-  if conky_start == 1 then
-    path = curdir.."/image/dictionarydotcom.svg"
-    name = "dictionarydotcom"
-    store_image(path,name)
-  end
-
   if ic == 1 then
     if io.open(curdir.."/.tmp/word_of_the_day") == nil then
       get_word_of_the_day(amount)
@@ -68,22 +62,6 @@ function word_of_the_day(x,y)
         definitiony = y + font_size*spacing
       end
     end
-  end
-  do
-    local text = "Powered by"
-    local x = x + 180
-    local y = y + 195
-    local font_size = 9
-    local color = color5
-    displaytext(x,y,text,font,font_size,color)
-  end
-  do
-    local x = x + 170
-    local y = y + 200
-    local size = 50
-    local orig = 2048
-    local color = color5
-    draw_image(x,y,"dictionarydotcom",size,orig,color)
   end
 end
 function get_word_of_the_day(amount)

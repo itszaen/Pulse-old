@@ -30,10 +30,6 @@ end
 
 
 function analog_time()
-  if conky_start == 1 then
-    store_image(curdir.."/image/Sword.svg","sword")
-  end
-
   hour_degree = hours12*360/12 + minutes*360/720 + seconds*360/43200 -90
   minute_degree = minutes*360/60 + seconds*360/3600 -90
   second_degree = seconds*360/60 -90
@@ -42,25 +38,9 @@ function analog_time()
   second_length = 1.0
   watch_hand_hour(hour_degree,hour_length)
   watch_hand_minute(minute_degree,minute_length)
-  --if second_degree ~= 90 then
   watch_hand_second_1(second_degree,second_length)
-  --else
-  --  watch_hand_second_2(second_degree,second_length)
-  --end
   watch_hand_pin()
 end
---[[function watch_hand(degree,width,ratio)
-  size = clocksize
-  local color = color1
-  sx = clockx
-  sy = clocky
-  fx = sx + ratio*(math.cos(degree*math.pi/180)*(size/2-25))
-  fy = sy + ratio*(math.sin(degree*math.pi/180)*(size/2-25))
-  cairo_set_line_width (cr,width)
-  cairo_set_source_rgba (cr,rgba(color))
-  draw_line(sx,sy,fx,fy)
-  cairo_stroke(cr)
-  end]]
 function watch_hand_pin()
   outercolor = color4
   outerradius = 10
@@ -222,24 +202,6 @@ function watch_hand_second_1(degree,scale)
   cairo_close_path(cr)
   cairo_fill(cr)
 end
-function watch_hand_second_2(degree,scale)
-  cairo_arc(cr,clockx,clocky,2,0,2*math.pi)
-  cairo_fill(cr)
-  sx = clockx
-  sy = clocky
-  degree = degree
-  offset = 700
-  offsetx = offset - 59 + 267 + 36
-  offsety = offset - 275
-  --memo
-  -- size 267/267
-  --(640,425) opposite
-  --(944,425) now
-  name = "sword"
-  size = 168
-  original = 267
-  draw_image_polar(sx,sy,degree,offsetx,offsety,name,size,original,color)
-end
 function watch_dial()
   thick = 6
   normal = 3
@@ -328,8 +290,6 @@ function digital_time()
 end
 
 function dig_date02()
-  store_image(curdir.."/image/Wing-right.svg","rightwing")
-  store_image(curdir.."/image/Wing-left.svg","leftwing")
   month_number = tonumber(month:match("0*(%d+)"))
   font_size = 18
   color = color2
@@ -338,7 +298,6 @@ function dig_date02()
   y = clocky + 120
   y1 = y + 12
   y2 = y + 36
-  --wings(x,y1)
   date02_day(x,y)
   date02_weekday(x,y1)
   date02_month(x,y2)
