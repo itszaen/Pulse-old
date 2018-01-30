@@ -554,7 +554,8 @@ function forecast_icon_name(weather)
     ['Fair / Windy'] = "day-windy",
     ['Mostly Cloudy / Windy'] = "cloudy-windy",
     ['Mostly Sunny / Wind'] = "day-windy",
-    ['Rain / Snow'] = "rain-mix"
+    ['Rain / Snow'] = "rain-mix",
+    ['Rain / Snow Showers'] = "rain-mix"
   }
   return weather_icon_t[weather]
 end
