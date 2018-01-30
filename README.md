@@ -107,7 +107,7 @@ The feature requires active internet connection will tell you that it's not work
 Before you run conky, **you have to rename default_conky.lua -> conky.lua**
 
 You can turn on or off any feature with config.lua now. Just set the "enabled" value to true or false. (with no quotation marks)
-Like here: 
+Like here:
 ``` lua
 ...
 gmail = {
@@ -140,12 +140,9 @@ You can find the code for your area with https://weather.codes/
 
 * Since I couldn't find anywhere that has weather.com's weather condition list, I am still trying to match every weather condition to a weather icon.
 
-So please, if you have time, and ever encounter a missing icon (now it's just the whole thing glitches and shows error in the terminal)
+When there is any non-match, there will be a question mark icon, and conky will display what weather is not yet matched. So if you have spare time,
 
-1. uncomment the line "--print(summary,second_summary,third_summary,fourth_summary)" by removing the leading 2 hyphens.
-2. restart conky.
-3. copy the outcome.
-4. file a issue or better off a pull request (if you know what to do).
+please file a issue with that information, or better off a pull request (if you know what to do).
 > The matching table is at src/weather.lua's weather_icon_name() and forecast_icon_name().
 
 
