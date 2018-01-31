@@ -62,8 +62,8 @@ function get_classname(timetable_t,curtime,advance,wintertime)
   classtime_ins_t = {}
   classtime_start_ins_t = {}
   for i in ipairs(timetable_today_t) do
-    classtime_start_ins = timetable_today_t[i][1]*3600 + timetable_today_t[i][2]* 60 + 0 - wintertime*60
-    classtime_end_ins = timetable_today_t[i][3]*3600 + timetable_today_t[i][4]*60 + 0 - wintertime*60
+    classtime_start_ins = timetable_today_t[i][1]*3600 + timetable_today_t[i][2]* 60 + 0 + wintertime*60
+    classtime_end_ins = timetable_today_t[i][3]*3600 + timetable_today_t[i][4]*60 + 0 + wintertime*60
     table.insert(classtime_ins_t,classtime_start_ins)
     table.insert(classtime_ins_t,classtime_end_ins)
     table.insert(classtime_start_ins_t,classtime_start_ins)
