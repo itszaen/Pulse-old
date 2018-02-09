@@ -34,7 +34,7 @@ function word_of_the_day(x,y)
     wotd_changed = 0
   end
 
-  do
+  do -- Word
     text = word_t[1]
     font_size = 25
     text_extents(text,font,font_size)
@@ -43,10 +43,10 @@ function word_of_the_day(x,y)
     local y = y + 15 - (extents.height/2 + extents.y_bearing)
     displaytext(x,y,text,font,font_size,color)
   end
-  do
+  do -- Definition
     spacing = 1.1
-    definitionx = x - 10
-    definitiony = y + 55
+    local x = x - 10
+    local y = y + 50
     for i in range(1,amount,1) do
       for _,line in ipairs(_G["definition_"..i.."_t"])do
         if _ == 1 then
@@ -56,10 +56,11 @@ function word_of_the_day(x,y)
         local font = "Inconsolata"
         local font_size = 15
         local color = color5
-        local x = definitionx
-        local y = definitiony
+        if y > 1020 then
+          break
+        end
         displaytext(x,y,text,font,font_size,color)
-        definitiony = y + font_size*spacing
+        y = y + font_size*spacing
       end
     end
   end
