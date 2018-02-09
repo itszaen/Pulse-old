@@ -312,55 +312,26 @@ function date02_day(x,y)
   date02_day_left_edge = x - indent*3
   date02_day_right_edge = x + indent*3
 
-
-  text = tostring(correct_date((day_number-3)))
-  font_size = font_size1
-  text_extents(text,font,font_size)
-  x1 = x - indent*3 - (extents.width/2 + extents.x_bearing)
-  color = color5
-  displaytext(x1,y,text,font,font_size,color)
-
-  text = tostring(correct_date((day_number-2)))
-  font_size = font_size1
-  text_extents(text,font,font_size)
-  x2 = x - indent*2 - (extents.width/2 + extents.x_bearing)
-  color = color5
-  displaytext(x2,y,text,font,font_size,color)
-
-  text = tostring(correct_date((day_number-1)))
-  font_size = font_size1
-  text_extents(text,font,font_size)
-  x3 = x - indent*1 - (extents.width/2 + extents.x_bearing)
-  color = color5
-  displaytext(x3,y,text,font,font_size,color)
-
-  text = tostring(correct_date(day_number))
-  font_size = font_size2
-  text_extents(text,font,font_size)
-  x4 = x - indent*0 - (extents.width/2 + extents.x_bearing)
-  color = color1
-  displaytext(x4,y,text,font,font_size,color)
-
-  text = tostring(correct_date((day_number+1)))
-  font_size = font_size1
-  text_extents(text,font,font_size)
-  x5 = x + indent*1 - (extents.width/2 + extents.x_bearing)
-  color = color5
-  displaytext(x5,y,text,font,font_size,color)
-
-  text = tostring(correct_date((day_number+2)))
-  font_size = font_size1
-  text_extents(text,font,font_size)
-  x6 = x + indent*2 - (extents.width/2 + extents.x_bearing)
-  color = color5
-  displaytext(x6,y,text,font,font_size,color)
-
-  text = tostring(correct_date((day_number+3)))
-  font_size = font_size1
-  text_extents(text,font,font_size)
-  x7 = x + indent*3 - (extents.width/2 + extents.x_bearing)
-  color = color5
-  displaytext(x7,y,text,font,font_size,color)
+  function display_date(T)
+    for _,date in ipairs(T) do
+      text = tostring(tonumber(os.date("%d",os.time()+date*24*60*60)))
+      if date == 0 then
+        font_size = font_size2
+      else
+        font_size = font_size1
+      end
+      text_extents(text,font,font_size)
+      local x = x + indent*date - (extents.width/2 + extents.x_bearing)
+      if date == 0 then
+        color = color1
+      else
+        color = color5
+      end
+      displaytext(x,y,text,font,font_size,color)
+    end
+  end
+  local t = {-3,-2,-1,0,1,2,3}
+  display_date(t)
 end
 function date02_weekday(x,y)
   local indent = 35
