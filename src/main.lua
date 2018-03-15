@@ -67,11 +67,12 @@ function conky_main()
   if updates>1 then
 
   -- Parsing
-    cpu    = tonumber(conky_parse("${cpu}"))
-    memory = tonumber(conky_parse("${memperc}"))
-    wlp2s0 = tonumber(conky_parse("${if_existing /sys/class/net/wlp2s0/operstate up}1${else}0${endif}"))
-    enp4s0 = tonumber(conky_parse("${if_existing /sys/class/net/enp4s0/operstate up}1${else}0${endif}"))
-    wlp4s0 = tonumber(conky_parse("${if_existing /sys/class/net/wlp4s0/operstate up}1${else}0${endif}"))
+    cpu     = tonumber(conky_parse("${cpu}"))
+    memory  = tonumber(conky_parse("${memperc}"))
+    wlp2s0  = tonumber(conky_parse("${if_existing /sys/class/net/wlp2s0/operstate up}1${else}0${endif}"))
+    enp4s0  = tonumber(conky_parse("${if_existing /sys/class/net/enp4s0/operstate up}1${else}0${endif}"))
+    wlp4s0  = tonumber(conky_parse("${if_existing /sys/class/net/wlp4s0/operstate up}1${else}0${endif}"))
+    wlp58s0 = tonumber(conky_parse("${if_existing /sys/class/net/wlp58s0/operstate up}1${else}0${endif}"))
     if wlp2s0 == 1 then
       downspeed = conky_parse("${downspeedf wlp2s0}")
       upspeed   = conky_parse("${upspeedf wlp2s0}")
@@ -83,6 +84,10 @@ function conky_main()
     elseif enp4s0 == 1 then
       downspeed = conky_parse("${downspeedf enp4s0}")
       upspeed   = conky_parse("${upspeedf enp4s0}")
+      ic = 1
+    elseif wlp58s0 == 1 then
+      downspeed = conky_parse("${downspeedf wlp58s0}")
+      upspeed   = conky_parse("${upspeedf wlp58s0}")
       ic = 1
     else
       downspeed = 0
