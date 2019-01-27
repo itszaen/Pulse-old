@@ -1,4 +1,7 @@
-# Conky (name suggestions are welcome)
+# Pulse (Old)
+
+**Currently being rewritten in c++ and Skia.**
+
 This conky setup is hugely inspired by this great work : https://github.com/davidrlunu/dots-and-dashes
 
 Since some updates on conky changed the syntax (!?) and made his work not working properly, I decided to make a knockoff myself.
